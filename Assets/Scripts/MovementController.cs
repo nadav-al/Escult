@@ -29,10 +29,10 @@ public class MovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        tryMovingRight = false;
-        tryMovingLeft = false;
-        tryMovingUp = false;
-        tryMovingDown = false;
+        // tryMovingRight = false;
+        // tryMovingLeft = false;
+        // tryMovingUp = false;
+        // tryMovingDown = false;
         _rigidbody2D.velocity = Vector2.zero;
         Vector2 newVel = Vector2.zero;
         if (Input.GetKey(upButton))
@@ -40,7 +40,7 @@ public class MovementController : MonoBehaviour
             faceDirection = FaceDirection.Up;
             if (canMoveUp)
             {
-                tryMovingUp = true;
+                // tryMovingUp = true;
                 // transform.position += transform.up * (movementSpeed * Time.deltaTime);
                 newVel += Vector2.up;
             }
@@ -50,7 +50,7 @@ public class MovementController : MonoBehaviour
             faceDirection = FaceDirection.Down;
             if (canMoveDown)
             {
-                tryMovingDown = true;
+                // tryMovingDown = true;
                 // transform.position -= transform.up * (movementSpeed * Time.deltaTime);
                 newVel += Vector2.down;
             }
@@ -61,7 +61,7 @@ public class MovementController : MonoBehaviour
             faceDirection = FaceDirection.Right;
             if (canMoveRight)
             {
-                tryMovingRight = true;
+                // tryMovingRight = true;
                 // transform.position += transform.right * (movementSpeed * Time.deltaTime);
                 newVel += Vector2.right;
             }
@@ -71,7 +71,7 @@ public class MovementController : MonoBehaviour
             faceDirection = FaceDirection.Left;
             if (canMoveLeft)
             {
-                tryMovingLeft = true;
+                // tryMovingLeft = true;
                 // transform.position -= transform.right * (movementSpeed * Time.deltaTime);
                 newVel += Vector2.left;
             }
