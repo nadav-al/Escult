@@ -8,22 +8,6 @@ public class CatPickupController : MonoBehaviour
     [SerializeField] private float throwSpeed = 3;
     [SerializeField] private Rigidbody2D rigidbody;
     private FaceDirection catDirection;
-        
-    private const string CatLayerOnGround = "Ground";
-    private const string CatLayerInAir = "Air";
-    private const string WallTag = "Wall";
-
-
-
-    private void Start()
-    {
-        // rigidbody = gameObject.GetComponent<Rigidbody2D>();
-    }
-
-    private void Update()
-    {
-        Debug.Log("Cat speed: " + rigidbody.velocity);
-    }
 
     public void Pick()
     {
@@ -32,7 +16,8 @@ public class CatPickupController : MonoBehaviour
 
     public void Throw(Vector3 playerLoc, FaceDirection faceDirection)
     {
-        gameObject.layer = LayerMask.NameToLayer(CatLayerInAir);
+        gameObject.SetActive(true);
+        gameObject.layer = Layers.Air;
         catDirection = faceDirection;
         gameObject.transform.position = playerLoc;
         Vector2 throwVelocity = Vector2.zero;
@@ -52,17 +37,15 @@ public class CatPickupController : MonoBehaviour
                 break;
         }
         rigidbody.velocity = throwSpeed * throwVelocity;
-        gameObject.SetActive(true);
     }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.collider.CompareTag(WallTag))
+        if (col.gameObject.layer == Layers.Wall)
         {
-            gameObject.layer = LayerMask.NameToLayer(CatLayerOnGround);
+            gameObject.layer = Layers.Ground;
             rigidbody.velocity = Vector2.zero;
         }
-        
     }
 
 }

@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractController : MonoBehaviour
+public class GirlInteractController : MonoBehaviour
 {
     private const string CatTag = "Cat";
+    private const string DoorTag = "Door";
+    private const string SteppableTag = "Steppable";
 
     [SerializeField] private KeyCode interactButton;
     private MovementController movementController;
@@ -43,21 +45,45 @@ public class InteractController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.collider.CompareTag(Tags.Door))
+        {
+            DoorController door = col.gameObject.GetComponent<DoorController>();
+            if (door.getOpenStatus())
+            {
+                Debug.Log("Stage Cleared");
+                gameObject.SetActive(false);
+                cat.SetActive(false);
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag(CatTag))
+        if (col.CompareTag(Tags.Cat))
         {
             catController = col.gameObject.GetComponent<CatPickupController>();
             catInArea = true;
         }
+        if (col.CompareTag(Tags.Steppable))
+        {
+            col.gameObject.GetComponent<IStepable>().StepOn();
+        }
     }
+
 
     private void OnTriggerExit2D(Collider2D col)
     {
-        if (col.CompareTag(CatTag))
+        if (col.CompareTag(Tags.Cat))
         {
             catInArea = false;
             // catController = null;
+        }
+
+        if (col.CompareTag(Tags.Steppable))
+        {
+            col.gameObject.GetComponent<IStepable>().StepOff();
         }
     }
 }

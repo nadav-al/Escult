@@ -29,6 +29,10 @@ public class MovementController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (gameObject.layer == Layers.Air)
+        {
+            return;
+        }
         // tryMovingRight = false;
         // tryMovingLeft = false;
         // tryMovingUp = false;

@@ -7,6 +7,9 @@ TagManager:
   - Girl
   - Cat
   - Wall
+  - Steppable
+  - Door
+  - Hell
   layers:
   - Default
   - TransparentFX
@@ -16,7 +19,7 @@ TagManager:
   - UI
   - Ground
   - Air
-  - 
+  - Wall
   - 
   - 
   - 
