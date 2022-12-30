@@ -1,8 +1,8 @@
 ﻿public static class Tags
 {
-    public static string Girl = "Girl";
-    public static string Cat = "Cat";
-    public static string Door = "Door";
-    public static string Steppable = "Steppable";
-    public static string Wall = "Wall";
+    public const string Girl = "Girl";
+    public const string Cat = "Cat";
+    public const string Door = "Door";
+    public const string Steppable = "Steppable";
+    public const string Wall = "Wall";
 }

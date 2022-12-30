@@ -17,6 +17,11 @@ public class GirlInteractController : MonoBehaviour
     private CatPickupController catController;
     private bool catInArea;
     private bool holdsCat;
+
+    public void setHoldsCat(bool isHoldingCat)
+    {
+        holdsCat = isHoldingCat;
+    }
     
     // Start is called before the first frame update
     void Start()
