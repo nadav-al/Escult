@@ -11,6 +11,12 @@ public class CatPickupController : MonoBehaviour
     private FaceDirection catDirection;
     [SerializeField] private Tilemap hell;
     [SerializeField] private GameObject girl;
+    private SoulsController soulsController;
+
+    private void Start()
+    {
+        soulsController = GetComponent<SoulsController>();
+    }
 
     public void Pick()
     {
@@ -42,18 +48,23 @@ public class CatPickupController : MonoBehaviour
         rigidbody.velocity = throwSpeed * throwVelocity;
     }
 
+    public void Land()
+    {
+        rigidbody.velocity = Vector2.zero;
+        gameObject.layer = Layers.Ground;
+        Vector3Int catPos = hell.WorldToCell(transform.position);
+        if (hell.HasTile(catPos))
+        {
+            soulsController.DecreaseSoul();
+            gameObject.transform.position = girl.transform.position;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.layer == Layers.Wall)
         {
-            gameObject.layer = Layers.Ground;
-            Vector3Int catPos = hell.WorldToCell(gameObject.transform.position);
-            if (hell.HasTile(catPos))
-            {
-                Debug.Log("Die");
-                gameObject.transform.position = girl.transform.position;
-            }
-            rigidbody.velocity = Vector2.zero;
+            Land();            
         }
     }
 

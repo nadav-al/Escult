@@ -14,10 +14,6 @@ public class MovementController : MonoBehaviour
     private bool canMoveLeft = true;
     private bool canMoveDown = true;
     private bool canMoveUp = true;
-    private bool tryMovingRight = true;
-    private bool tryMovingLeft = true;
-    private bool tryMovingUp = true;
-    private bool tryMovingDown = true;
     private Rigidbody2D _rigidbody2D;
     public FaceDirection faceDirection;
     // Update is called once per frame
@@ -33,10 +29,6 @@ public class MovementController : MonoBehaviour
         {
             return;
         }
-        // tryMovingRight = false;
-        // tryMovingLeft = false;
-        // tryMovingUp = false;
-        // tryMovingDown = false;
         _rigidbody2D.velocity = Vector2.zero;
         Vector2 newVel = Vector2.zero;
         if (Input.GetKey(upButton))
@@ -44,8 +36,6 @@ public class MovementController : MonoBehaviour
             faceDirection = FaceDirection.Up;
             if (canMoveUp)
             {
-                // tryMovingUp = true;
-                // transform.position += transform.up * (movementSpeed * Time.deltaTime);
                 newVel += Vector2.up;
             }
         }
@@ -54,8 +44,6 @@ public class MovementController : MonoBehaviour
             faceDirection = FaceDirection.Down;
             if (canMoveDown)
             {
-                // tryMovingDown = true;
-                // transform.position -= transform.up * (movementSpeed * Time.deltaTime);
                 newVel += Vector2.down;
             }
         }
@@ -65,8 +53,6 @@ public class MovementController : MonoBehaviour
             faceDirection = FaceDirection.Right;
             if (canMoveRight)
             {
-                // tryMovingRight = true;
-                // transform.position += transform.right * (movementSpeed * Time.deltaTime);
                 newVel += Vector2.right;
             }
         }
@@ -75,8 +61,6 @@ public class MovementController : MonoBehaviour
             faceDirection = FaceDirection.Left;
             if (canMoveLeft)
             {
-                // tryMovingLeft = true;
-                // transform.position -= transform.right * (movementSpeed * Time.deltaTime);
                 newVel += Vector2.left;
             }
         }
@@ -105,27 +89,27 @@ public class MovementController : MonoBehaviour
     }
     // This function determines whether the object can move in up down left right direction,
     // according to collision with a given position.
-    private void canMove(Vector3 otherPosition, bool canMove)
-    {
-        if (tryMovingLeft && this.transform.position.x > otherPosition.x)
-        {
-            this.canMoveLeft = canMove;
-        }
-        
-        if (tryMovingRight && this.transform.position.x < otherPosition.x) 
-        {
-            this.canMoveRight = canMove;
-        }
-        
-        if (tryMovingDown && this.transform.position.y > otherPosition.y)
-        {
-            this.canMoveDown = canMove;
-        }
-        
-        if (tryMovingUp && this.transform.position.y < otherPosition.y)
-        {
-            this.canMoveUp = canMove;
-        }    
-    }
+    // private void canMove(Vector3 otherPosition, bool canMove)
+    // {
+    //     if (tryMovingLeft && this.transform.position.x > otherPosition.x)
+    //     {
+    //         this.canMoveLeft = canMove;
+    //     }
+    //     
+    //     if (tryMovingRight && this.transform.position.x < otherPosition.x) 
+    //     {
+    //         this.canMoveRight = canMove;
+    //     }
+    //     
+    //     if (tryMovingDown && this.transform.position.y > otherPosition.y)
+    //     {
+    //         this.canMoveDown = canMove;
+    //     }
+    //     
+    //     if (tryMovingUp && this.transform.position.y < otherPosition.y)
+    //     {
+    //         this.canMoveUp = canMove;
+    //     }    
+    // }
 
 }
