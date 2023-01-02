@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Tilemaps;
+
+public class AlterController : MonoBehaviour
+{
+    [SerializeField] private List<GameObject> connectedObjects;
+    private List<IOpenable> openables;
+    private List<Tilemap> tilemaps;
+
+    private void Start()
+    {
+        openables = new List<IOpenable>();
+        tilemaps = new List<Tilemap>();
+        foreach (var obj in connectedObjects)
+        {
+            openables.Add(obj.GetComponent<IOpenable>());
+            tilemaps.Add(obj.GetComponent<Tilemap>());
+        }
+    }
+
+
+    public void Sacrifice()
+    {
+        foreach (var openable in openables)
+        {
+            openable.SwapOpenState();
+        }
+    }
+
+
+    public bool GirlUnderGates(Vector3 girlPosition)
+    {
+        foreach (var tilemap in tilemaps)
+        {
+            if (tilemap.HasTile(tilemap.WorldToCell(girlPosition)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}

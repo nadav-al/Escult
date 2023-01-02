@@ -11,29 +11,45 @@ public class GirlInteractController : MonoBehaviour
 
     [SerializeField] private KeyCode interactButton;
     private MovementController movementController;
-    [SerializeField] private FaceDirection playerDirection;
+    [SerializeField] private FaceDirection girlDirection;
     private GameObject potentialHeldItem;
     [SerializeField] private GameObject cat;
     private CatPickupController catController;
     private bool catInArea;
     private bool holdsCat;
+    private bool isFocused;
+    [SerializeField] private GameObject gameManagerObj;
+    private GameManager gameManager;
 
-    public void setHoldsCat(bool isHoldingCat)
+    public void SetFocus(bool isFocused)
+    {
+        this.isFocused = isFocused;
+    }
+    public void SetHoldsCat(bool isHoldingCat)
     {
         holdsCat = isHoldingCat;
     }
-    
+    public bool GetHoldsCat()
+    {
+        return holdsCat;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         movementController = GetComponent<MovementController>();
+        gameManager = gameManagerObj.GetComponent<GameManager>();
         // catController = cat.GetComponent<CatPickupController>();;
     }
 
     // Update is called once per frame
     void Update()
     {
-        playerDirection = movementController.faceDirection;
+        if (!isFocused)
+        {
+            return;
+        }
+        girlDirection = movementController.faceDirection;
         if (Input.GetKeyDown(interactButton))
         {
             if (catInArea)
@@ -54,12 +70,13 @@ public class GirlInteractController : MonoBehaviour
     {
         if (col.collider.CompareTag(Tags.Door))
         {
-            DoorController door = col.gameObject.GetComponent<DoorController>();
-            if (door.getOpenStatus())
+            IOpenable door = col.gameObject.GetComponent<DoorController>();
+            if (door.GetOpenStatus())
             {
                 Debug.Log("Stage Cleared");
-                gameObject.SetActive(false);
-                cat.SetActive(false);
+                gameManager.NextLevel();
+                // gameObject.SetActive(false);
+                // cat.SetActive(false);
             }
         }
     }

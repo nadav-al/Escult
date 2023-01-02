@@ -53,8 +53,10 @@ public class CatPickupController : MonoBehaviour
         rigidbody.velocity = Vector2.zero;
         gameObject.layer = Layers.Ground;
         Vector3Int catPos = hell.WorldToCell(transform.position);
+        
         if (hell.HasTile(catPos))
         {
+            Debug.Log("You are in hell");
             soulsController.DecreaseSoul();
             gameObject.transform.position = girl.transform.position;
         }
