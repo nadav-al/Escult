@@ -10,12 +10,18 @@ public class MovementController : MonoBehaviour
     [SerializeField] private KeyCode upButton;
     [SerializeField] private KeyCode downButton;
     // [SerializeField] private KeyCode interactButton;
+    private bool isFocused = true;
     private bool canMoveRight = true;
     private bool canMoveLeft = true;
     private bool canMoveDown = true;
     private bool canMoveUp = true;
     private Rigidbody2D _rigidbody2D;
     public FaceDirection faceDirection;
+
+    public void SetFocus(bool isFocused)
+    {
+        this.isFocused = isFocused;
+    }
     // Update is called once per frame
     // It checks for input from the user and moves/rotates the ship accordingly.
     private void Start()
@@ -29,7 +35,13 @@ public class MovementController : MonoBehaviour
         {
             return;
         }
-        _rigidbody2D.velocity = Vector2.zero;
+        
+        if (!isFocused)
+        {
+            _rigidbody2D.velocity = Vector2.zero;
+            return;
+        }
+
         Vector2 newVel = Vector2.zero;
         if (Input.GetKey(upButton))
         {
@@ -69,10 +81,10 @@ public class MovementController : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Hello Sibling");
-        }
+        // if (other.gameObject.CompareTag(Tags.Cat) || other.gameObject.CompareTag(Tags.Girl))
+        // {
+        //     Debug.Log("Hello Sibling");
+        // }
         // this.canMove(other.gameObject.transform.position, false);
     }
     

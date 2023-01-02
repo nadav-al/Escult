@@ -10,6 +10,8 @@ TagManager:
   - Steppable
   - Door
   - Hell
+  - Alter
+  - Grid
   layers:
   - Default
   - TransparentFX
@@ -52,4 +54,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2222345855
+    locked: 0
+  - name: Gates
+    uniqueID: 1304546049
     locked: 0

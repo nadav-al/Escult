@@ -3,29 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorController : MonoBehaviour
+public class DoorController : MonoBehaviour, IOpenable
 {
     [SerializeField] private GameObject doorClosed;
     [SerializeField] private GameObject doorOpened;
 
-    private bool openStatus;
+    [SerializeField] private bool openStatus;
     
     // Start is called before the first frame update
     void Start()
     {
-        doorClosed.SetActive(true);
-        doorOpened.SetActive(false);
+        doorClosed.SetActive(!openStatus);
+        doorOpened.SetActive(openStatus);
     }
 
-    public void setOpen(bool openStatus)
+    public void SetOpen(bool openStatus)
     {
         this.openStatus = openStatus;
         doorClosed.SetActive(!openStatus);
         doorOpened.SetActive(openStatus);
     }
 
-    public bool getOpenStatus()
+    public bool GetOpenStatus()
     {
         return openStatus;
+    }
+
+    public void SwapOpenState()
+    {
+        openStatus = !openStatus;
+        doorClosed.SetActive(!openStatus);
+        doorOpened.SetActive(openStatus);
     }
 }
