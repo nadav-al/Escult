@@ -15,6 +15,9 @@ GameObject:
   - component: {fileID: 8715704720659737682}
   - component: {fileID: 8715704720659737694}
   - component: {fileID: 8715704720659737689}
+  - component: {fileID: 1922652128}
+  - component: {fileID: 1922652120}
+  - component: {fileID: 1922652121}
   m_Layer: 6
   m_Name: Cat
   m_TagString: Cat
@@ -31,8 +34,8 @@ Transform:
   m_GameObject: {fileID: 8715704720659737683}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.49, y: -0.75, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.64, y: 0.64, z: 0.64}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -96,7 +99,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8715704720659737683}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -113,7 +116,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.5335398}
+  m_Size: {x: 0.95, y: 0.5}
   m_EdgeRadius: 0
 --- !u!61 &8715704720659737688
 BoxCollider2D:
@@ -160,7 +163,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &8715704720659737694
 MonoBehaviour:
@@ -175,10 +178,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
-  leftButton: 276
-  rightButton: 275
-  upButton: 273
-  downButton: 274
+  leftButton: 97
+  rightButton: 100
+  upButton: 119
+  downButton: 115
   faceDirection: 0
 --- !u!114 &8715704720659737689
 MonoBehaviour:
@@ -194,3 +197,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwSpeed: 15
   rigidbody: {fileID: 8715704720659737682}
+  hell: {fileID: 0}
+  girl: {fileID: 0}
+--- !u!58 &1922652128
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8715704720659737683}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.09}
+  serializedVersion: 2
+  m_Radius: 0.3
+--- !u!114 &1922652120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8715704720659737683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bd093547f16d544b6652853d11defc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CAT_INIT_SOULS: 9
+--- !u!114 &1922652121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8715704720659737683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 387b2dd3bc7459b47b03078f23762e2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactButton: 101
+  girl: {fileID: 0}
+  hellMap: {fileID: 0}
+  groundMap: {fileID: 0}
+  bloodTile: {fileID: 11400000, guid: a456250f930d4884eab471d5266c47d9, type: 2}
