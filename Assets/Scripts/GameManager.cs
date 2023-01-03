@@ -35,7 +35,12 @@ public class GameManager : MonoBehaviour
             Debug.Log("Done");
             return;
         }
+        // TODO - SHOW NADAV - Need to reset bridge list between stages 
+        cat.GetComponent<CatInteractController>().ResetBridgeList();
         levels[currLevelInd].gameObject.SetActive(true);
+        levels[currLevelInd].ResetLevel();
+        focusedCharacter = true;
+        ApplyFocusToCharacters();
     }
 
     // Start is called before the first frame update

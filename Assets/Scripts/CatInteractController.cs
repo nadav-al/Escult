@@ -123,4 +123,19 @@ public class CatInteractController : MonoBehaviour
             col.gameObject.GetComponent<IStepable>().StepOff();
         }
     }
+
+    public void setHellmap(Tilemap tilemap)
+    {
+        hellMap = tilemap;
+    }
+    
+    public void setGroundmap(Tilemap tilemap)
+    {
+        groundMap = tilemap;
+    }
+
+    public void ResetBridgeList()
+    {
+        catBridgePositions.Clear();
+    }
 }

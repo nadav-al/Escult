@@ -52,6 +52,7 @@ public class CatPickupController : MonoBehaviour
     {
         rigidbody.velocity = Vector2.zero;
         gameObject.layer = Layers.Ground;
+        Debug.Log(hell.gameObject.name);
         Vector3Int catPos = hell.WorldToCell(transform.position);
         
         if (hell.HasTile(catPos))
@@ -64,10 +65,15 @@ public class CatPickupController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.layer == Layers.Wall)
+        // TODO - only land if on air.
+        if (col.gameObject.layer == Layers.Wall && this.gameObject.layer == Layers.Air)
         {
             Land();            
         }
     }
 
+    public void setHellmap(Tilemap hellMap)
+    {
+        this.hell = hellMap;
+    }
 }

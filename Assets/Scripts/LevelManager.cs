@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Tilemap groundMap;
     [SerializeField] private Tilemap hellMap;
     [SerializeField] private GameObject cat;
+    [SerializeField] private GameObject girl;
     private CatInteractController catInteractController;
     
     
@@ -27,6 +28,22 @@ public class LevelManager : MonoBehaviour
 
     public void ResetLevel()
     {
+        cat.transform.position = catPos;
+        // not using Land because of the ifClause inside the Land function
+        cat.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        gameObject.layer = Layers.Ground;
+        cat.GetComponent<SoulsController>().ResetSouls();
+        catInteractController = cat.GetComponent<CatInteractController>();
+        // TODO - instead of in reset level, maybe make a new method that is called once when switching level
+        // No need to set the maps every time we press R, just need it everytime we swap levels.
+        // Set the maps there.
+        catInteractController.setHellmap(hellMap);
+        catInteractController.setGroundmap(groundMap);
+        cat.GetComponent<CatPickupController>().setHellmap(hellMap);
+        cat.SetActive(true);
+        girl.transform.position = girlPos;
+        girl.SetActive(true);
+        girl.GetComponent<GirlInteractController>().SetHoldsCat(false);
         // children = GetComponentsInChildren<GameObject>();
         foreach (Transform child in transform)
         {
@@ -48,6 +65,7 @@ public class LevelManager : MonoBehaviour
                     doorCtrl.SetOpen(isDoorOpen);
                     break;
                 case Tags.Grid:
+                    // TODO - catInteractController is null after next level so i switched it with getComponent
                     foreach (var cell in catInteractController.GetBridgeList())
                     {
                         hellMap.SetTile(cell, hellTile);
@@ -56,5 +74,27 @@ public class LevelManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void StartNewLevel()
+    {
+        // Set up the cat
+        cat.transform.position = catPos;
+        cat.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        gameObject.layer = Layers.Ground;
+        cat.GetComponent<SoulsController>().ResetSouls();
+        // Set up the cat needed tilemaps
+        catInteractController = cat.GetComponent<CatInteractController>();
+        catInteractController.setGroundmap(groundMap);
+        catInteractController.setHellmap(hellMap);
+        cat.GetComponent<CatPickupController>().setHellmap(hellMap);
+        cat.SetActive(true);
+
+        // Set up the girl
+        girl.transform.position = girlPos;
+        girl.SetActive(true);
+        girl.GetComponent<GirlInteractController>().SetHoldsCat(false);
+        
+        // Set up the gates.
     }
 }
