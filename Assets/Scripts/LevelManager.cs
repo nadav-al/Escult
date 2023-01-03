@@ -11,9 +11,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TileBase hellTile;
     [SerializeField] private Tilemap groundMap;
     [SerializeField] private Tilemap hellMap;
-    [SerializeField] private GameObject cat;
     [SerializeField] private GameObject girl;
+    [SerializeField] private GameObject cat;
     private CatInteractController catInteractController;
+    [SerializeField] private List<GameObject> gates;
     
     
     // Start is called before the first frame update
@@ -44,6 +45,11 @@ public class LevelManager : MonoBehaviour
         girl.transform.position = girlPos;
         girl.SetActive(true);
         girl.GetComponent<GirlInteractController>().SetHoldsCat(false);
+
+        foreach (var gate in gates)
+        {
+            gate.GetComponent<GateContoller>().ResetGate();
+        }
         // children = GetComponentsInChildren<GameObject>();
         foreach (Transform child in transform)
         {

@@ -62,9 +62,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());
-        if (catSouls.IsDead())
+        if (catSouls.IsDead() && cat.activeSelf)
         {
             cat.SetActive(false);
+            focusedCharacter = true;
+            ApplyFocusToCharacters();
         }
         if (Input.GetKeyDown(restartLevelKey))
         {
@@ -72,7 +74,7 @@ public class GameManager : MonoBehaviour
             ApplyFocusToCharacters();
             levels[currLevelInd].ResetLevel();
         }
-        if (!girlInteractCtrl.GetHoldsCat() && Input.GetKeyDown(switchCharactersKey))
+        if (!girlInteractCtrl.GetHoldsCat() && !catSouls.IsDead() && Input.GetKeyDown(switchCharactersKey))
         {
             focusedCharacter = !focusedCharacter;
             ApplyFocusToCharacters();

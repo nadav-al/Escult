@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class GateContoller : MonoBehaviour, IOpenable
 {
-    [SerializeField] private bool gateStatus;
+    [SerializeField] private bool INITIAL_GATE_STATUS; 
+    private bool gateStatus;
 
     // Start is called before the first frame update
     void Start()
     {
-        SetOpen(gateStatus);
+        ResetGate();
     }
     
     public void SetOpen(bool openStatus)
@@ -21,6 +22,11 @@ public class GateContoller : MonoBehaviour, IOpenable
     public bool GetOpenStatus()
     {
         return gateStatus;
+    }
+
+    public void ResetGate()
+    {
+        SetOpen(INITIAL_GATE_STATUS);
     }
 
     public void SwapOpenState()
