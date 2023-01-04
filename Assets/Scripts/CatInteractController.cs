@@ -19,6 +19,9 @@ public class CatInteractController : MonoBehaviour
     [SerializeField] private Tilemap groundMap;
     [SerializeField] private TileBase bloodTile;
     private List<Vector3Int> catBridgePositions;
+    [SerializeField] private GameObject gameManagerObj;
+    private GameManager gameManager;
+    private List<GameObject> gates;
 
     public List<Vector3Int> GetBridgeList()
     {
@@ -28,6 +31,8 @@ public class CatInteractController : MonoBehaviour
 
     private void Start()
     {
+        gates = new List<GameObject>();
+        gameManager = gameManagerObj.GetComponent<GameManager>();
         soulsCtrl = GetComponent<SoulsController>();
         movementCtrl = GetComponent<MovementController>();
         catBridgePositions = new List<Vector3Int>();
@@ -56,7 +61,8 @@ public class CatInteractController : MonoBehaviour
             }
         }
     }
-
+    // This function also adds the gate to the list and as such, we must make sure here that we can build
+    // The gate.
     private bool catFacingPit()
     {
         Vector3Int catCellLookPos = groundMap.WorldToCell(transform.position);
@@ -76,7 +82,7 @@ public class CatInteractController : MonoBehaviour
                 break;
         }
 
-        if (hellMap.HasTile(catCellLookPos))
+        if (hellMap.HasTile(catCellLookPos) && (!gameManager.getLevel().hasGates(catCellLookPos)))
         {
             catBridgePositions.Add(catCellLookPos);
             return true;
@@ -137,5 +143,15 @@ public class CatInteractController : MonoBehaviour
     public void ResetBridgeList()
     {
         catBridgePositions.Clear();
+    }
+
+    public void setGates(List<GameObject> gatesList)
+    {
+        this.gates = gatesList;
+    }
+
+    public void resetGates()
+    {
+        gates.Clear();
     }
 }

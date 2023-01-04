@@ -21,3 +21,4 @@ TODO now:
 10. in levelManager, avoid using cat.
 11. When girl enters door, we swap levels - the girl knows.
 12. SetActive False to the souls of the cat.
+13. Change the level - the grid is not the level - change the script level manager to be on the grid.

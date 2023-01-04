@@ -52,7 +52,6 @@ public class CatPickupController : MonoBehaviour
     {
         rigidbody.velocity = Vector2.zero;
         gameObject.layer = Layers.Ground;
-        Debug.Log(hell.gameObject.name);
         Vector3Int catPos = hell.WorldToCell(transform.position);
         
         if (hell.HasTile(catPos))

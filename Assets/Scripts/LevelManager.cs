@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,6 +41,8 @@ public class LevelManager : MonoBehaviour
         // Set the maps there.
         catInteractController.setHellmap(hellMap);
         catInteractController.setGroundmap(groundMap);
+        catInteractController.setGates(gates);
+
         cat.GetComponent<CatPickupController>().setHellmap(hellMap);
         cat.SetActive(true);
         girl.transform.position = girlPos;
@@ -93,6 +96,7 @@ public class LevelManager : MonoBehaviour
         catInteractController = cat.GetComponent<CatInteractController>();
         catInteractController.setGroundmap(groundMap);
         catInteractController.setHellmap(hellMap);
+        catInteractController.setGates(gates);
         cat.GetComponent<CatPickupController>().setHellmap(hellMap);
         cat.SetActive(true);
 
@@ -102,5 +106,18 @@ public class LevelManager : MonoBehaviour
         girl.GetComponent<GirlInteractController>().SetHoldsCat(false);
         
         // Set up the gates.
+    }
+
+    public bool hasGates(Vector3Int catCellLookPos)
+    {
+        foreach (var gate in gates)
+        {
+            if (gate.activeSelf && gate.GetComponent<Tilemap>().HasTile(catCellLookPos))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
