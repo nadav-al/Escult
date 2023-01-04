@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         levels[currLevelInd].SetActive(true);
+        levels[currLevelInd].ResetLevel();
         girlMovementCtrl = girl.GetComponent<MovementController>();
         girlInteractCtrl = girl.GetComponent<GirlInteractController>();
         catMovementCtrl = cat.GetComponent<MovementController>();
@@ -87,5 +89,10 @@ public class GameManager : MonoBehaviour
         girlInteractCtrl.SetFocus(focusedCharacter);
         catMovementCtrl.SetFocus(!focusedCharacter);
         catInteractCtrl.SetFocus(!focusedCharacter);
+    }
+
+    public LevelManager getLevel()
+    {
+        return levels[currLevelInd];
     }
 }
