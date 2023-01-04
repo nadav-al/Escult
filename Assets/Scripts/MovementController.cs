@@ -17,6 +17,8 @@ public class MovementController : MonoBehaviour
     private bool canMoveUp = true;
     private Rigidbody2D _rigidbody2D;
     public FaceDirection faceDirection;
+    
+    private Animator animator;
 
     public void SetFocus(bool isFocused)
     {
@@ -27,6 +29,7 @@ public class MovementController : MonoBehaviour
     private void Start()
     {
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -48,6 +51,7 @@ public class MovementController : MonoBehaviour
             faceDirection = FaceDirection.Up;
             if (canMoveUp)
             {
+                animator.set
                 newVel += Vector2.up;
             }
         }
