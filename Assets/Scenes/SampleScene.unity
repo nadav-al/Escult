@@ -868,6 +868,7 @@ GameObject:
   m_Component:
   - component: {fileID: 866714895}
   - component: {fileID: 866714894}
+  - component: {fileID: 866714896}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -930,6 +931,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &866714896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866714893}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d96d4870b33ce2f4f8a96b9f879715d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayParam1: 1
 --- !u!1 &872651204 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2451945516459438020, guid: a42fdfe0962eb4b4f93c87e0efcc6dc0, type: 3}
@@ -2163,6 +2177,22 @@ PrefabInstance:
       propertyPath: girl
       value: 
       objectReference: {fileID: 1497816343}
+    - target: {fileID: 8715704720659737694, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
+      propertyPath: upButtonOpt1
+      value: 119
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715704720659737694, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
+      propertyPath: downButtonOpt1
+      value: 115
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715704720659737694, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
+      propertyPath: leftButtonOpt1
+      value: 97
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715704720659737694, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
+      propertyPath: rightButtonOpt1
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8715704720659737695, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2283,6 +2313,26 @@ PrefabInstance:
     - target: {fileID: 2204166186252169082, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204166186252169083, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1497816345}
+    - target: {fileID: 2204166186252169083, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+      propertyPath: upButtonOpt1
+      value: 119
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204166186252169083, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+      propertyPath: downButtonOpt1
+      value: 115
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204166186252169083, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+      propertyPath: leftButtonOpt1
+      value: 97
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204166186252169083, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+      propertyPath: rightButtonOpt1
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
@@ -2938,6 +2988,11 @@ GameObject:
 --- !u!4 &1497816344 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2204166186252169082, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+  m_PrefabInstance: {fileID: 1177778332}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1497816345 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1497816352, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
   m_PrefabInstance: {fileID: 1177778332}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1498664955 stripped
