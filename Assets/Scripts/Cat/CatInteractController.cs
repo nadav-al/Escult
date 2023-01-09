@@ -7,7 +7,8 @@ using UnityEngine.Tilemaps;
 
 public class CatInteractController : MonoBehaviour
 {
-    [SerializeField] private KeyCode interactButton;
+    [SerializeField] private KeyCode interactButtonOpt1 = KeyCode.E;
+    [SerializeField] private KeyCode interactButtonOpt2 = KeyCode.J;
     private bool isFocused = false;
     private bool alterNearby;
     private AlterController alterController;
@@ -46,7 +47,7 @@ public class CatInteractController : MonoBehaviour
         }
         catDirection = movementCtrl.faceDirection;
         //TODO - SHOW NADAV - ADDED CHECK OF LAYER
-        if (this.gameObject.layer != Layers.Air && Input.GetKeyDown(interactButton))
+        if (gameObject.layer != Layers.Air && Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2))
         {
             if (catFacingPit())
             {

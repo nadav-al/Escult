@@ -8,18 +8,27 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textSouls;
     [SerializeField] private KeyCode restartLevelKey = KeyCode.R; 
-    [SerializeField] private KeyCode switchCharactersKey = KeyCode.Tab; 
+    [SerializeField] private KeyCode switchCharactersKeyOpt1 = KeyCode.Tab;
+    [SerializeField] private KeyCode switchCharactersKeyOpt2 = KeyCode.K; 
     private SoulsController catSouls;
 
     [SerializeField] private List<LevelManager> levels;
     private int currLevelInd = 0;
 
+    [SerializeField] private float inactiveOpacityFactor = 0.5f; 
     [SerializeField] private GameObject girl;
     private MovementController girlMovementCtrl;
     private GirlInteractController girlInteractCtrl;
+    private SpriteRenderer girlRenderer;
     [SerializeField] private GameObject cat;
     private MovementController catMovementCtrl;
     private CatInteractController catInteractCtrl;
+    private SpriteRenderer catRenderer;
+
+    private Color girlInactiveColor; 
+    private Color catInactiveColor; 
+    private Color girlActiveColor; 
+    private Color catActiveColor; 
     
     // true = girl, false = cat
     private bool focusedCharacter = true;
@@ -55,6 +64,13 @@ public class GameManager : MonoBehaviour
         catPickupController = cat.GetComponent<CatPickupController>();
         catSouls = cat.GetComponent<SoulsController>();
         // textSouls = cat
+
+        girlRenderer = girl.GetComponent<SpriteRenderer>();
+        catRenderer = cat.GetComponent<SpriteRenderer>();
+        girlActiveColor = girlRenderer.color;
+        girlInactiveColor = girlActiveColor * inactiveOpacityFactor;
+        catActiveColor = catRenderer.color;
+        catInactiveColor = catActiveColor * inactiveOpacityFactor;
         
         ApplyFocusToCharacters();
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());
@@ -76,7 +92,7 @@ public class GameManager : MonoBehaviour
             ApplyFocusToCharacters();
             levels[currLevelInd].ResetLevel();
         }
-        if (!catSouls.IsDead() && Input.GetKeyDown(switchCharactersKey))
+        if (!catSouls.IsDead() && Input.GetKeyDown(switchCharactersKeyOpt1) || Input.GetKeyDown(switchCharactersKeyOpt2))
         {
             if (girlInteractCtrl.GetHoldsCat())
             {
@@ -94,6 +110,16 @@ public class GameManager : MonoBehaviour
         girlInteractCtrl.SetFocus(focusedCharacter);
         catMovementCtrl.SetFocus(!focusedCharacter);
         catInteractCtrl.SetFocus(!focusedCharacter);
+        if (focusedCharacter)
+        {
+            girlRenderer.color = girlActiveColor;
+            catRenderer.color = catInactiveColor;
+        }
+        else
+        {
+            girlRenderer.color = girlInactiveColor;
+            catRenderer.color = catActiveColor;
+        }
     }
 
     public LevelManager getLevel()

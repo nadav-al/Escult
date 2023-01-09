@@ -57,7 +57,7 @@ public class MovementController : MonoBehaviour
             faceDirection = FaceDirection.Up;
             newVel += Vector2.up;
         }
-        if (Input.GetKey(downButtonOpt1) || Input.GetKey(downButtonOpt1))
+        if (Input.GetKey(downButtonOpt1) || Input.GetKey(downButtonOpt2))
         {
             animator.SetBool("WalksDown", true);
             faceDirection = FaceDirection.Down;

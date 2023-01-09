@@ -5,22 +5,16 @@ using UnityEngine;
 
 public class GirlInteractController : MonoBehaviour
 {
-    private const string CatTag = "Cat";
-    private const string DoorTag = "Door";
-    private const string SteppableTag = "Steppable";
-
-    [SerializeField] private KeyCode interactButton;
+    [SerializeField] private KeyCode interactButtonOpt1 = KeyCode.E;
+    [SerializeField] private KeyCode interactButtonOpt2 = KeyCode.J;
     private MovementController movementController;
-    [SerializeField] private FaceDirection girlDirection;
+    private FaceDirection girlDirection;
     private GameObject potentialHeldItem;
-    [SerializeField] private GameObject cat;
     private CatPickupController catController;
     private bool catInArea;
     private bool holdsCat;
     private bool isFocused;
-    [SerializeField] private GameObject gameManagerObj;
-    private GameManager gameManager;
-
+    
     public void SetFocus(bool isFocused)
     {
         this.isFocused = isFocused;
@@ -38,8 +32,6 @@ public class GirlInteractController : MonoBehaviour
     void Start()
     {
         movementController = GetComponentInParent<MovementController>();
-        gameManager = gameManagerObj.GetComponent<GameManager>();
-        // catController = cat.GetComponent<CatPickupController>();;
     }
 
     // Update is called once per frame
@@ -50,7 +42,7 @@ public class GirlInteractController : MonoBehaviour
             return;
         }
         girlDirection = movementController.faceDirection;
-        if (Input.GetKeyDown(interactButton))
+        if (Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2))
         {
             if (catInArea)
             {
@@ -65,36 +57,6 @@ public class GirlInteractController : MonoBehaviour
             }
         }
     }
-
-    // private void OnCollisionEnter2D(Collision2D col)
-    // {
-    //     if (col.collider.CompareTag(Tags.Door))
-    //     {
-    //         IOpenable door = col.gameObject.GetComponent<DoorController>();
-    //         if (door.GetOpenStatus())
-    //         {
-    //             Debug.Log("Stage Cleared");
-    //             gameManager.NextLevel();
-    //             // gameObject.SetActive(false);
-    //             // cat.SetActive(false);
-    //         }
-    //     }
-    // }
-    //
-    // private void OnCollisionStay2D(Collision2D col)
-    // {
-    //     if (col.collider.CompareTag(Tags.Door))
-    //     {
-    //         IOpenable door = col.gameObject.GetComponent<DoorController>();
-    //         if (door.GetOpenStatus())
-    //         {
-    //             Debug.Log("Stage Cleared");
-    //             gameManager.NextLevel();
-    //             // gameObject.SetActive(false);
-    //             // cat.SetActive(false);
-    //         }
-    //     }
-    // }
 
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -116,7 +78,6 @@ public class GirlInteractController : MonoBehaviour
         if (col.CompareTag(Tags.Cat))
         {
             catInArea = false;
-            // catController = null;
         }
 
         if (col.CompareTag(Tags.Steppable))

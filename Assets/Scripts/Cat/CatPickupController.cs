@@ -31,9 +31,10 @@ public class CatPickupController : MonoBehaviour
         gameObject.layer = Layers.Air;
         animator.SetBool("CatInAir",true);
         catDirection = faceDirection;
-        Vector3Int cellPosition = hell.WorldToCell(playerLoc);
-        Vector3 cellCenter = hell.GetCellCenterWorld(cellPosition); 
-        gameObject.transform.position = cellCenter;
+        // Vector3Int cellPosition = hell.WorldToCell(playerLoc);
+        // Vector3 cellCenter = hell.GetCellCenterWorld(cellPosition); 
+        // gameObject.transform.position = cellCenter;
+        gameObject.transform.position = playerLoc;
         Vector2 throwVelocity = Vector2.zero;
         switch (faceDirection)
         {
