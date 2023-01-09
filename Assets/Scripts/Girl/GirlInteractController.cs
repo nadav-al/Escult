@@ -37,7 +37,7 @@ public class GirlInteractController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        movementController = GetComponent<MovementController>();
+        movementController = GetComponentInParent<MovementController>();
         gameManager = gameManagerObj.GetComponent<GameManager>();
         // catController = cat.GetComponent<CatPickupController>();;
     }
@@ -66,35 +66,35 @@ public class GirlInteractController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        if (col.collider.CompareTag(Tags.Door))
-        {
-            IOpenable door = col.gameObject.GetComponent<DoorController>();
-            if (door.GetOpenStatus())
-            {
-                Debug.Log("Stage Cleared");
-                gameManager.NextLevel();
-                // gameObject.SetActive(false);
-                // cat.SetActive(false);
-            }
-        }
-    }
-    
-    private void OnCollisionStay2D(Collision2D col)
-    {
-        if (col.collider.CompareTag(Tags.Door))
-        {
-            IOpenable door = col.gameObject.GetComponent<DoorController>();
-            if (door.GetOpenStatus())
-            {
-                Debug.Log("Stage Cleared");
-                gameManager.NextLevel();
-                // gameObject.SetActive(false);
-                // cat.SetActive(false);
-            }
-        }
-    }
+    // private void OnCollisionEnter2D(Collision2D col)
+    // {
+    //     if (col.collider.CompareTag(Tags.Door))
+    //     {
+    //         IOpenable door = col.gameObject.GetComponent<DoorController>();
+    //         if (door.GetOpenStatus())
+    //         {
+    //             Debug.Log("Stage Cleared");
+    //             gameManager.NextLevel();
+    //             // gameObject.SetActive(false);
+    //             // cat.SetActive(false);
+    //         }
+    //     }
+    // }
+    //
+    // private void OnCollisionStay2D(Collision2D col)
+    // {
+    //     if (col.collider.CompareTag(Tags.Door))
+    //     {
+    //         IOpenable door = col.gameObject.GetComponent<DoorController>();
+    //         if (door.GetOpenStatus())
+    //         {
+    //             Debug.Log("Stage Cleared");
+    //             gameManager.NextLevel();
+    //             // gameObject.SetActive(false);
+    //             // cat.SetActive(false);
+    //         }
+    //     }
+    // }
 
 
     private void OnTriggerEnter2D(Collider2D col)
