@@ -18,7 +18,7 @@ public class MovementController : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     public FaceDirection faceDirection;
     
-    private Animator animator;
+    [SerializeField] private Animator animator;
 
     public void SetFocus(bool isFocused)
     {
@@ -29,11 +29,15 @@ public class MovementController : MonoBehaviour
     private void Start()
     {
         _rigidbody2D = this.GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        // animator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
     {
+        animator.SetBool("WalksRight", false);
+        animator.SetBool("WalksLeft", false);
+        animator.SetBool("WalksUp", false);
+        animator.SetBool("WalksDown", false);
         if (gameObject.layer == Layers.Air)
         {
             return;
@@ -48,15 +52,16 @@ public class MovementController : MonoBehaviour
         Vector2 newVel = Vector2.zero;
         if (Input.GetKey(upButton))
         {
+            animator.SetBool("WalksUp", true);
             faceDirection = FaceDirection.Up;
             if (canMoveUp)
             {
-                animator.set
                 newVel += Vector2.up;
             }
         }
         if (Input.GetKey(downButton))
         {
+            animator.SetBool("WalksDown", true);
             faceDirection = FaceDirection.Down;
             if (canMoveDown)
             {
@@ -66,6 +71,7 @@ public class MovementController : MonoBehaviour
 
         if (Input.GetKey(rightButton))
         {
+            animator.SetBool("WalksRight", true);
             faceDirection = FaceDirection.Right;
             if (canMoveRight)
             {
@@ -74,6 +80,7 @@ public class MovementController : MonoBehaviour
         }
         if (Input.GetKey(leftButton))
         {
+            animator.SetBool("WalksLeft", true);
             faceDirection = FaceDirection.Left;
             if (canMoveLeft)
             {

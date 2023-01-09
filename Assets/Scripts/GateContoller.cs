@@ -10,7 +10,7 @@ public class GateContoller : MonoBehaviour, IOpenable
     // Start is called before the first frame update
     void Start()
     {
-        ResetGate();
+        // ResetGate();
     }
     
     public void SetOpen(bool openStatus)
@@ -31,7 +31,13 @@ public class GateContoller : MonoBehaviour, IOpenable
 
     public void SwapOpenState()
     {
-        gateStatus = !gateStatus;
-        gameObject.SetActive(gateStatus);
+        SetOpen(!gateStatus);
+        // gateStatus = !gateStatus;
+        // gameObject.SetActive(gateStatus);
+    }
+
+    public string getName()
+    {
+        return gameObject.name;
     }
 }

@@ -5,4 +5,6 @@
     public bool GetOpenStatus();
 
     public void SwapOpenState();
+
+    public string getName();
 }

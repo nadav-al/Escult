@@ -35,4 +35,9 @@ public class DoorController : MonoBehaviour, IOpenable
         doorClosed.SetActive(!openStatus);
         doorOpened.SetActive(openStatus);
     }
+
+    public string getName()
+    {
+        return gameObject.name;
+    }
 }

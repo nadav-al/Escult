@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     
     // true = girl, false = cat
     private bool focusedCharacter = true;
-    
+    private CatPickupController catPickupController;
 
 
     public void NextLevel()
@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
         girlInteractCtrl = girl.GetComponent<GirlInteractController>();
         catMovementCtrl = cat.GetComponent<MovementController>();
         catInteractCtrl = cat.GetComponent<CatInteractController>();
+        catPickupController = cat.GetComponent<CatPickupController>();
         catSouls = cat.GetComponent<SoulsController>();
         // textSouls = cat
         
@@ -76,8 +77,14 @@ public class GameManager : MonoBehaviour
             ApplyFocusToCharacters();
             levels[currLevelInd].ResetLevel();
         }
-        if (!girlInteractCtrl.GetHoldsCat() && !catSouls.IsDead() && Input.GetKeyDown(switchCharactersKey))
+        // TODO - SHOW NADAV HERE DROPPING CAT
+        if (!catSouls.IsDead() && Input.GetKeyDown(switchCharactersKey))
         {
+            if (girlInteractCtrl.GetHoldsCat())
+            {
+                girlInteractCtrl.SetHoldsCat(false);
+                catPickupController.dropCat(girl.transform.position);
+            }
             focusedCharacter = !focusedCharacter;
             ApplyFocusToCharacters();
         }

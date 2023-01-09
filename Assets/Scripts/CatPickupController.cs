@@ -12,6 +12,7 @@ public class CatPickupController : MonoBehaviour
     [SerializeField] private Tilemap hell;
     [SerializeField] private GameObject girl;
     private SoulsController soulsController;
+    [SerializeField] private Animator animator;
 
     private void Start()
     {
@@ -27,8 +28,11 @@ public class CatPickupController : MonoBehaviour
     {
         gameObject.SetActive(true);
         gameObject.layer = Layers.Air;
+        animator.SetBool("CatInAir",true);
         catDirection = faceDirection;
-        gameObject.transform.position = playerLoc;
+        Vector3Int cellPosition = hell.WorldToCell(playerLoc);
+        Vector3 cellCenter = hell.GetCellCenterWorld(cellPosition); 
+        gameObject.transform.position = cellCenter;
         Vector2 throwVelocity = Vector2.zero;
         switch (faceDirection)
         {
@@ -52,6 +56,7 @@ public class CatPickupController : MonoBehaviour
     {
         rigidbody.velocity = Vector2.zero;
         gameObject.layer = Layers.Ground;
+        animator.SetBool("CatInAir",false);
         Vector3Int catPos = hell.WorldToCell(transform.position);
         
         if (hell.HasTile(catPos))
@@ -74,5 +79,14 @@ public class CatPickupController : MonoBehaviour
     public void setHellmap(Tilemap hellMap)
     {
         this.hell = hellMap;
+    }
+
+    public void dropCat(Vector3 playerLoc)
+    {
+        animator.SetBool("CatInAir",false);
+        gameObject.transform.position = playerLoc;
+        gameObject.SetActive(true); 
+        rigidbody.velocity = Vector2.zero;
+        gameObject.layer = Layers.Ground;
     }
 }

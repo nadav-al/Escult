@@ -1,0 +1,342 @@
+fileFormatVersion: 2
+guid: bbdef037dac142847bf6ae6330373bfe
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Cat_Revive_25
+      rect:
+        serializedVersion: 2
+        x: 1477
+        y: 0
+        width: 136
+        height: 270
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4314332}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29e5c62de0f69454fb9f5684903600fa
+      internalID: -764186842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Revive_27
+      rect:
+        serializedVersion: 2
+        x: 1134
+        y: 0
+        width: 137
+        height: 270
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4314332}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccdbc113eef1d134a896ac56072a552d
+      internalID: 983653360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Revive_29
+      rect:
+        serializedVersion: 2
+        x: 1281
+        y: 0
+        width: 178
+        height: 270
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4314332}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19095c72479396444adaa9cf2b94c383
+      internalID: -541181489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Revive_33
+      rect:
+        serializedVersion: 2
+        x: 1625
+        y: 0
+        width: 217
+        height: 270
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4314332}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4061e6ccf1b813e4ab7090b1fd774ae2
+      internalID: 654323022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Revive_34
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 0
+        width: 253
+        height: 270
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4314332}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29a86fb71a4f7ea48bc2ba138b6af9fd
+      internalID: -636354509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Revive_36
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 0
+        width: 290
+        height: 270
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4314332}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a78c04d71508bad448be9f2d90f547dd
+      internalID: -1126990162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Revive_37
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 0
+        width: 269
+        height: 270
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4314332}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 203096f40d3345a4588c6efe7566169f
+      internalID: -197585716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Cat_Revive_38
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 0
+        width: 256
+        height: 270
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4314332}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f0116b94ae76c0499bd37ded93ffd09
+      internalID: 2054492690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Cat_Revive_22: 191816126
+      Cat_Revive_20: 2098475759
+      Cat_Revive_6: 1338131991
+      Cat_Revive_5: -429401803
+      Cat_Revive_26: -2118266199
+      Cat_Revive_13: -1820572042
+      Cat_Revive_23: -1625245091
+      Cat_Revive_30: -942688334
+      Cat_Revive_11: -1049112562
+      Cat_Revive_24: -770306626
+      Cat_Revive_32: 166630866
+      Cat_Revive_1: -1267197394
+      Cat_Revive_34: -636354509
+      Cat_Revive_36: -1126990162
+      Cat_Revive_0: 432200710
+      Cat_Revive_35: -1552176089
+      Cat_Revive_21: -1602743690
+      Cat_Revive_33: 654323022
+      Cat_Revive_9: 406031734
+      Cat_Revive_4: -1448308507
+      Cat_Revive_16: -1972310191
+      Cat_Revive_2: -1692198915
+      Cat_Revive_3: -371539569
+      Cat_Revive_27: 983653360
+      Cat_Revive_28: 284461665
+      Cat_Revive_8: 1660341008
+      Cat_Revive_7: 810571911
+      Cat_Revive_15: 356081986
+      Cat_Revive_14: 2033697437
+      Cat_Revive_25: -764186842
+      Cat_Revive_38: 2054492690
+      Cat_Revive_19: -1480280873
+      Cat_Revive_12: -1470930263
+      Cat_Revive_37: -197585716
+      Cat_Revive_31: 643056286
+      Cat_Revive_17: -726623829
+      Cat_Revive_29: -541181489
+      Cat_Revive_10: 1813085749
+      Cat_Revive_18: 766565040
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

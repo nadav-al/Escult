@@ -31,9 +31,13 @@ public class LevelManager : MonoBehaviour
     public void ResetLevel()
     {
         cat.transform.position = catPos;
+        // TODO - MAYBE PROBLEM WITH THE FUNCTION
+        cat.GetComponent<CatPickupController>().dropCat(catPos);
         // not using Land because of the ifClause inside the Land function
-        cat.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        gameObject.layer = Layers.Ground;
+        // cat.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        // gameObject.layer = Layers.Ground;
+        
+        
         cat.GetComponent<SoulsController>().ResetSouls();
         catInteractController = cat.GetComponent<CatInteractController>();
         // TODO - instead of in reset level, maybe make a new method that is called once when switching level
