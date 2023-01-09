@@ -18,7 +18,8 @@ GameObject:
   - component: {fileID: 1922652128}
   - component: {fileID: 1922652120}
   - component: {fileID: 1922652121}
-  m_Layer: 6
+  - component: {fileID: 1922652129}
+  m_Layer: 7
   m_Name: Cat
   m_TagString: Cat
   m_Icon: {fileID: 0}
@@ -81,12 +82,12 @@ SpriteRenderer:
   m_SortingLayerID: -2072621441
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.8490566, g: 0.027233835, b: 0.027233835, a: 1}
+  m_Sprite: {fileID: 437723622, guid: 84227f2534902414bbaa3f1e96d4a984, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.34, y: 1.22}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -109,8 +110,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 1.34, y: 1.22}
+    newSize: {x: 1.34, y: 1.22}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -135,8 +136,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 1.34, y: 1.22}
+    newSize: {x: 1.34, y: 1.22}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -178,11 +179,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
-  leftButton: 97
-  rightButton: 100
-  upButton: 119
-  downButton: 115
+  leftButtonOpt1: 0
+  rightButtonOpt1: 0
+  upButtonOpt1: 0
+  downButtonOpt1: 0
+  leftButtonOpt2: 0
+  rightButtonOpt2: 0
+  upButtonOpt2: 0
+  downButtonOpt2: 0
   faceDirection: 0
+  animator: {fileID: 1922652129}
 --- !u!114 &8715704720659737689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,9 +202,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   throwSpeed: 15
-  rigidbody: {fileID: 8715704720659737682}
   hell: {fileID: 0}
   girl: {fileID: 0}
+  animator: {fileID: 1922652129}
 --- !u!58 &1922652128
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -245,3 +251,24 @@ MonoBehaviour:
   hellMap: {fileID: 0}
   groundMap: {fileID: 0}
   bloodTile: {fileID: 11400000, guid: a456250f930d4884eab471d5266c47d9, type: 2}
+  gameManagerObj: {fileID: 0}
+--- !u!95 &1922652129
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8715704720659737683}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a29a580ba13ede240af077adba9591d2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
