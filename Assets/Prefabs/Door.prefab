@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8355464139036924699}
   - component: {fileID: 8355464139036924700}
   - component: {fileID: 8355464139036924698}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Door
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8355464139857956506}
   - component: {fileID: 8355464139857956507}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: DoorOpened
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8355464140887771076}
   - component: {fileID: 8355464140887771077}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: DoorClosed
   m_TagString: Untagged
   m_Icon: {fileID: 0}

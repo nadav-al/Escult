@@ -19,13 +19,13 @@ TagManager:
   - 
   - Water
   - UI
-  - Ground
-  - Air
+  - GirlTrigger
+  - Cat
+  - GirlCollider
   - Wall
-  - 
-  - 
-  - 
-  - 
+  - Platform
+  - Air
+  - Ground
   - 
   - 
   - 

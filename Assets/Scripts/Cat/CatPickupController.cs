@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 public class CatPickupController : MonoBehaviour
 {
     [SerializeField] private float throwSpeed = 3;
-    [SerializeField] private Rigidbody2D rigidbody;
+    private Rigidbody2D rigidbody;
     private FaceDirection catDirection;
     [SerializeField] private Tilemap hell;
     [SerializeField] private GameObject girl;
@@ -17,6 +17,7 @@ public class CatPickupController : MonoBehaviour
     private void Start()
     {
         soulsController = GetComponent<SoulsController>();
+        rigidbody = GetComponent<Rigidbody2D>();
     }
 
     public void Pick()
@@ -55,7 +56,7 @@ public class CatPickupController : MonoBehaviour
     public void Land()
     {
         rigidbody.velocity = Vector2.zero;
-        gameObject.layer = Layers.Ground;
+        gameObject.layer = Layers.Cat;
         animator.SetBool("CatInAir",false);
         Vector3Int catPos = hell.WorldToCell(transform.position);
         
@@ -87,6 +88,6 @@ public class CatPickupController : MonoBehaviour
         gameObject.transform.position = playerLoc;
         gameObject.SetActive(true); 
         rigidbody.velocity = Vector2.zero;
-        gameObject.layer = Layers.Ground;
+        gameObject.layer = Layers.Cat;
     }
 }

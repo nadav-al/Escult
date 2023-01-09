@@ -30,6 +30,9 @@ public class LevelManager : MonoBehaviour
 
     public void ResetLevel()
     {
+        Debug.Log("Before");
+        Debug.Log(girl.GetComponentInChildren<ColliderGirlInteractController>().gameManager);
+
         cat.transform.position = catPos;
         // TODO - MAYBE PROBLEM WITH THE FUNCTION
         cat.GetComponent<CatPickupController>().dropCat(catPos);
@@ -50,7 +53,7 @@ public class LevelManager : MonoBehaviour
         cat.GetComponent<CatPickupController>().setHellmap(hellMap);
         cat.SetActive(true);
         girl.transform.position = girlPos;
-        girl.SetActive(true);
+        girl.SetActive(true); 
         girl.GetComponent<GirlInteractController>().SetHoldsCat(false);
 
         foreach (var gate in gates)
@@ -87,6 +90,9 @@ public class LevelManager : MonoBehaviour
                     break;
             }
         }
+        Debug.Log("After");
+        Debug.Log(girl.GetComponentInChildren<ColliderGirlInteractController>().gameManager);
+
     }
 
     public void StartNewLevel()
@@ -94,7 +100,7 @@ public class LevelManager : MonoBehaviour
         // Set up the cat
         cat.transform.position = catPos;
         cat.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        gameObject.layer = Layers.Ground;
+        cat.layer = Layers.Cat;
         cat.GetComponent<SoulsController>().ResetSouls();
         // Set up the cat needed tilemaps
         catInteractController = cat.GetComponent<CatInteractController>();
