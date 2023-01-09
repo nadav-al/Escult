@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("Done");
             return;
         }
-        // TODO - SHOW NADAV - Need to reset bridge list between stages 
         cat.GetComponent<CatInteractController>().ResetBridgeList();
         levels[currLevelInd].gameObject.SetActive(true);
         levels[currLevelInd].ResetLevel();
@@ -77,7 +76,6 @@ public class GameManager : MonoBehaviour
             ApplyFocusToCharacters();
             levels[currLevelInd].ResetLevel();
         }
-        // TODO - SHOW NADAV HERE DROPPING CAT
         if (!catSouls.IsDead() && Input.GetKeyDown(switchCharactersKey))
         {
             if (girlInteractCtrl.GetHoldsCat())

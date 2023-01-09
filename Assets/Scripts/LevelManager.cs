@@ -69,7 +69,7 @@ public class LevelManager : MonoBehaviour
                     break;
                 case Tags.Cat:
                     child.position = catPos;
-                    child.GetComponent<CatPickupController>().Land();
+                    child.GetComponent<CatPickupController>().dropCat(catPos);
                     child.GetComponent<SoulsController>().ResetSouls();
                     child.gameObject.SetActive(true);
                     break;
