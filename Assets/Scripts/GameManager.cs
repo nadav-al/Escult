@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        levels[currLevelInd].ResetLevel();
+        // levels[currLevelInd].ResetLevel();
         levels[currLevelInd].gameObject.SetActive(false);
         if (++currLevelInd == levels.Count)
         {
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         }
         cat.GetComponent<CatInteractController>().ResetBridgeList();
         levels[currLevelInd].gameObject.SetActive(true);
-        levels[currLevelInd].ResetLevel();
+        levels[currLevelInd].StartNewLevel();
         focusedCharacter = true;
         ApplyFocusToCharacters();
     }
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         levels[currLevelInd].SetActive(true);
-        levels[currLevelInd].ResetLevel();
+        levels[currLevelInd].StartNewLevel();
         girlMovementCtrl = girl.GetComponent<MovementController>();
         girlInteractCtrl = girl.GetComponent<GirlInteractController>();
         catMovementCtrl = cat.GetComponent<MovementController>();

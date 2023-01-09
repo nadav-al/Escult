@@ -21,8 +21,12 @@ public class ColliderGirlInteractController : MonoBehaviour
             if (door.GetOpenStatus())
             {
                 Debug.Log("Stage Cleared");
+                if (gameManager == null)
+                {
+                    Debug.Log(gameObject + " collided with " + col.gameObject);
+                }
                 gameManager.NextLevel();
-                Debug.Log("AAAAAAAAAAAAAA");
+                
                 Debug.Log(gameManager);
 
             }

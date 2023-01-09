@@ -5,16 +5,17 @@ using UnityEngine;
 public class MovementController : MonoBehaviour
 {
     [SerializeField] private float movementSpeed = 5f;
-    [SerializeField] private KeyCode leftButton;
-    [SerializeField] private KeyCode rightButton;
-    [SerializeField] private KeyCode upButton;
-    [SerializeField] private KeyCode downButton;
-    // [SerializeField] private KeyCode interactButton;
+    
+    [SerializeField] private KeyCode leftButtonOpt1;
+    [SerializeField] private KeyCode rightButtonOpt1;
+    [SerializeField] private KeyCode upButtonOpt1;
+    [SerializeField] private KeyCode downButtonOpt1;
+    [SerializeField] private KeyCode leftButtonOpt2;
+    [SerializeField] private KeyCode rightButtonOpt2;
+    [SerializeField] private KeyCode upButtonOpt2;
+    [SerializeField] private KeyCode downButtonOpt2;
+    
     private bool isFocused = true;
-    private bool canMoveRight = true;
-    private bool canMoveLeft = true;
-    private bool canMoveDown = true;
-    private bool canMoveUp = true;
     private Rigidbody2D _rigidbody2D;
     public FaceDirection faceDirection;
     
@@ -50,89 +51,31 @@ public class MovementController : MonoBehaviour
         }
 
         Vector2 newVel = Vector2.zero;
-        if (Input.GetKey(upButton))
+        if (Input.GetKey(upButtonOpt1) || Input.GetKey(upButtonOpt2))
         {
             animator.SetBool("WalksUp", true);
             faceDirection = FaceDirection.Up;
-            if (canMoveUp)
-            {
-                newVel += Vector2.up;
-            }
+            newVel += Vector2.up;
         }
-        if (Input.GetKey(downButton))
+        if (Input.GetKey(downButtonOpt1) || Input.GetKey(downButtonOpt1))
         {
             animator.SetBool("WalksDown", true);
             faceDirection = FaceDirection.Down;
-            if (canMoveDown)
-            {
-                newVel += Vector2.down;
-            }
+            newVel += Vector2.down;
         }
 
-        if (Input.GetKey(rightButton))
+        if (Input.GetKey(rightButtonOpt1) || Input.GetKey(rightButtonOpt2))
         {
             animator.SetBool("WalksRight", true);
             faceDirection = FaceDirection.Right;
-            if (canMoveRight)
-            {
-                newVel += Vector2.right;
-            }
+            newVel += Vector2.right;
         }
-        if (Input.GetKey(leftButton))
+        if (Input.GetKey(leftButtonOpt1) || Input.GetKey(leftButtonOpt2))
         {
             animator.SetBool("WalksLeft", true);
             faceDirection = FaceDirection.Left;
-            if (canMoveLeft)
-            {
-                newVel += Vector2.left;
-            }
+            newVel += Vector2.left;
         }
         _rigidbody2D.velocity = movementSpeed*(newVel.normalized);
     }
-    
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        // if (other.gameObject.CompareTag(Tags.Cat) || other.gameObject.CompareTag(Tags.Girl))
-        // {
-        //     Debug.Log("Hello Sibling");
-        // }
-        // this.canMove(other.gameObject.transform.position, false);
-    }
-    
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Goodbye Sibling");
-        }
-        // this.canMoveRight = true;
-        // this.canMoveLeft = true;
-        // this.canMoveUp = true;
-        // this.canMoveDown = true;
-    }
-    // This function determines whether the object can move in up down left right direction,
-    // according to collision with a given position.
-    // private void canMove(Vector3 otherPosition, bool canMove)
-    // {
-    //     if (tryMovingLeft && this.transform.position.x > otherPosition.x)
-    //     {
-    //         this.canMoveLeft = canMove;
-    //     }
-    //     
-    //     if (tryMovingRight && this.transform.position.x < otherPosition.x) 
-    //     {
-    //         this.canMoveRight = canMove;
-    //     }
-    //     
-    //     if (tryMovingDown && this.transform.position.y > otherPosition.y)
-    //     {
-    //         this.canMoveDown = canMove;
-    //     }
-    //     
-    //     if (tryMovingUp && this.transform.position.y < otherPosition.y)
-    //     {
-    //         this.canMoveUp = canMove;
-    //     }    
-    // }
-
 }
