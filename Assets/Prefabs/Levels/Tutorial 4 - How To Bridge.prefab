@@ -58,6 +58,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8620846282074041281}
   - component: {fileID: 8620846282074041280}
+  - component: {fileID: 1777391449}
   m_Layer: 0
   m_Name: Tutorial 4 - How To Bridge
   m_TagString: Untagged
@@ -72,7 +73,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8620846282074041283}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -93,15 +94,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c52d13c64915974d8127908fdb1a192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  girl: {fileID: 0}
   girlPos: {x: -7.5, y: 1, z: 0}
+  cat: {fileID: 0}
+  isCatInLevel: 1
   catPos: {x: -7.5, y: -1, z: 0}
-  isDoorOpen: 0
   hellTile: {fileID: 11400000, guid: 07db75bcacd1d514b8e27fa90f4d122b, type: 2}
   groundMap: {fileID: 8019535098890124490}
   hellMap: {fileID: 5046136676933453697}
-  girl: {fileID: 0}
-  cat: {fileID: 0}
   gates: []
+  doors: []
+  isDoorOpen: 0
+--- !u!114 &1777391449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8620846282074041283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7853ea1f3d78a1d41bf134e48bd5377b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialTextList:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1001 &8620846281261264094
 PrefabInstance:
   m_ObjectHideFlags: 0

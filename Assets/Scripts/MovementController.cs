@@ -29,8 +29,7 @@ public class MovementController : MonoBehaviour
     // It checks for input from the user and moves/rotates the ship accordingly.
     private void Start()
     {
-        _rigidbody2D = this.GetComponent<Rigidbody2D>();
-        // animator = GetComponent<Animator>();
+        _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
@@ -51,26 +50,26 @@ public class MovementController : MonoBehaviour
         }
 
         Vector2 newVel = Vector2.zero;
-        if (Input.GetKey(upButtonOpt1) || Input.GetKey(upButtonOpt2))
+        if ((Input.GetKey(upButtonOpt1) || Input.GetKey(upButtonOpt2)))
         {
             animator.SetBool("WalksUp", true);
             faceDirection = FaceDirection.Up;
             newVel += Vector2.up;
         }
-        if (Input.GetKey(downButtonOpt1) || Input.GetKey(downButtonOpt2))
+        if ((Input.GetKey(downButtonOpt1) || Input.GetKey(downButtonOpt2)))
         {
             animator.SetBool("WalksDown", true);
             faceDirection = FaceDirection.Down;
             newVel += Vector2.down;
         }
 
-        if (Input.GetKey(rightButtonOpt1) || Input.GetKey(rightButtonOpt2))
+        if ((Input.GetKey(rightButtonOpt1) || Input.GetKey(rightButtonOpt2)))
         {
             animator.SetBool("WalksRight", true);
             faceDirection = FaceDirection.Right;
             newVel += Vector2.right;
         }
-        if (Input.GetKey(leftButtonOpt1) || Input.GetKey(leftButtonOpt2))
+        if ((Input.GetKey(leftButtonOpt1) || Input.GetKey(leftButtonOpt2)))
         {
             animator.SetBool("WalksLeft", true);
             faceDirection = FaceDirection.Left;

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3297268682683983345}
   - component: {fileID: 3297268682683983344}
+  - component: {fileID: 1037151172}
   m_Layer: 0
   m_Name: Tutorial 3 - How To Throw
   m_TagString: Untagged
@@ -24,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3297268682683983347}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -45,16 +46,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c52d13c64915974d8127908fdb1a192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  girl: {fileID: 0}
   girlPos: {x: 5, y: 3, z: 0}
+  cat: {fileID: 0}
+  isCatInLevel: 1
   catPos: {x: 7.5, y: 3, z: 0}
-  isDoorOpen: 0
   hellTile: {fileID: 11400000, guid: 07db75bcacd1d514b8e27fa90f4d122b, type: 2}
   groundMap: {fileID: 3830939095931244875}
   hellMap: {fileID: 2046425280149796378}
-  girl: {fileID: 0}
-  cat: {fileID: 0}
   gates:
   - {fileID: 568670883071022290}
+  doors: []
+  isDoorOpen: 0
+--- !u!114 &1037151172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3297268682683983347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7853ea1f3d78a1d41bf134e48bd5377b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tutorialTextList:
+  - {fileID: 0}
 --- !u!1 &3297268683613276690
 GameObject:
   m_ObjectHideFlags: 0

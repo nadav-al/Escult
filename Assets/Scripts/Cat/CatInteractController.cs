@@ -47,7 +47,7 @@ public class CatInteractController : MonoBehaviour
         }
         catDirection = movementCtrl.faceDirection;
         //TODO - SHOW NADAV - ADDED CHECK OF LAYER
-        if (gameObject.layer != Layers.Air && Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2))
+        if (gameObject.layer != Layers.Air && (Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2)))
         {
             if (catFacingPit())
             {

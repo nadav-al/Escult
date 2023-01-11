@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textSouls;
     [SerializeField] private KeyCode restartLevelKey = KeyCode.R; 
     [SerializeField] private KeyCode switchCharactersKeyOpt1 = KeyCode.Tab;
-    [SerializeField] private KeyCode switchCharactersKeyOpt2 = KeyCode.K; 
+    [SerializeField] private KeyCode switchCharactersKeyOpt2 = KeyCode.J; 
     private SoulsController catSouls;
 
     [SerializeField] private List<LevelManager> levels;
@@ -50,6 +50,33 @@ public class GameManager : MonoBehaviour
         levels[currLevelInd].StartNewLevel();
         focusedCharacter = true;
         ApplyFocusToCharacters();
+    }
+    public LevelManager getLevel()
+    {
+        return levels[currLevelInd];
+    }
+    public void ApplyFocusToCharacters()
+    {
+        girlMovementCtrl.SetFocus(focusedCharacter);
+        girlInteractCtrl.SetFocus(focusedCharacter);
+        catMovementCtrl.SetFocus(!focusedCharacter);
+        catInteractCtrl.SetFocus(!focusedCharacter);
+        ApplyFocusColorsToCharacters();
+    }
+
+    public void ApplyFocusColorsToCharacters()
+    {
+        setColorToGirl(focusedCharacter);
+        setColorToCat(!focusedCharacter);
+    }
+
+    public void setColorToCat(bool isActiveColor)
+    {
+        catRenderer.color = isActiveColor ? catActiveColor : catInactiveColor;
+    }
+    public void setColorToGirl(bool isActiveColor)
+    {
+        girlRenderer.color = isActiveColor ? girlActiveColor : girlInactiveColor;
     }
 
     // Start is called before the first frame update
@@ -92,7 +119,8 @@ public class GameManager : MonoBehaviour
             ApplyFocusToCharacters();
             levels[currLevelInd].ResetLevel();
         }
-        if (!catSouls.IsDead() && Input.GetKeyDown(switchCharactersKeyOpt1) || Input.GetKeyDown(switchCharactersKeyOpt2))
+        if (levels[currLevelInd].getCatInLevel() && !catSouls.IsDead() &&
+            (Input.GetKeyDown(switchCharactersKeyOpt1) || Input.GetKeyDown(switchCharactersKeyOpt2)))
         {
             if (girlInteractCtrl.GetHoldsCat())
             {
@@ -104,26 +132,5 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ApplyFocusToCharacters()
-    {
-        girlMovementCtrl.SetFocus(focusedCharacter);
-        girlInteractCtrl.SetFocus(focusedCharacter);
-        catMovementCtrl.SetFocus(!focusedCharacter);
-        catInteractCtrl.SetFocus(!focusedCharacter);
-        if (focusedCharacter)
-        {
-            girlRenderer.color = girlActiveColor;
-            catRenderer.color = catInactiveColor;
-        }
-        else
-        {
-            girlRenderer.color = girlInactiveColor;
-            catRenderer.color = catActiveColor;
-        }
-    }
-
-    public LevelManager getLevel()
-    {
-        return levels[currLevelInd];
-    }
+    
 }

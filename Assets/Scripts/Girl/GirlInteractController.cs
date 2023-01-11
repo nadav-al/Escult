@@ -42,7 +42,8 @@ public class GirlInteractController : MonoBehaviour
             return;
         }
         girlDirection = movementController.faceDirection;
-        if (Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2))
+        
+        if ((Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2)))
         {
             if (catInArea)
             {

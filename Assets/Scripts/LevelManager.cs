@@ -6,20 +6,21 @@ using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private GameObject girl;
     [SerializeField] private Vector3 girlPos;
+    private GirlInteractController girlInteractController;
+    [SerializeField] private GameObject cat;
+    [SerializeField] private bool isCatInLevel = true;
     [SerializeField] private Vector3 catPos;
-    [SerializeField] private bool isDoorOpen;
+    private CatInteractController catInteractController;
+    private CatPickupController catPickupController;
     [SerializeField] private TileBase hellTile;
     [SerializeField] private Tilemap groundMap;
     [SerializeField] private Tilemap hellMap;
-    [SerializeField] private GameObject girl;
-    private GirlInteractController girlInteractController;
-    [SerializeField] private GameObject cat;
-    private CatInteractController catInteractController;
-    private CatPickupController catPickupController;
     private SoulsController soulsController;
     [SerializeField] private List<GameObject> gates;
     [SerializeField] private List<GameObject> doors;
+    [SerializeField] private bool isDoorOpen;
 
 
     // Start is called before the first frame update
@@ -29,6 +30,10 @@ public class LevelManager : MonoBehaviour
         catPickupController = cat.GetComponent<CatPickupController>();
         soulsController = cat.GetComponent<SoulsController>();
         girlInteractController = girl.GetComponent<GirlInteractController>();
+        if (!isCatInLevel)
+        {
+            cat.SetActive(false);
+        }
     }
     public void SetActive(bool isActive)
     {
@@ -43,10 +48,14 @@ public class LevelManager : MonoBehaviour
         // ResetComponents();
 
         // Reset Cat
-        cat.transform.position = catPos;
-        catPickupController.dropCat(catPos);
-        soulsController.ResetSouls();
-        cat.SetActive(true);
+        if (isCatInLevel)
+        {
+            cat.transform.position = catPos;
+            catPickupController.dropCat(catPos);
+            soulsController.ResetSouls();
+            cat.SetActive(true);    
+        }
+        
 
         // Reset Girl
         
@@ -130,5 +139,10 @@ public class LevelManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool getCatInLevel()
+    {
+        return isCatInLevel;
     }
 }

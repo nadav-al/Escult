@@ -13,11 +13,14 @@ public class CatPickupController : MonoBehaviour
     [SerializeField] private GameObject girl;
     private SoulsController soulsController;
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject gameManagerObj;
+    private GameManager gameManager;
 
     private void Start()
     {
         soulsController = GetComponent<SoulsController>();
         rigidbody = GetComponent<Rigidbody2D>();
+        gameManager = gameManagerObj.GetComponent<GameManager>();
     }
 
     public void Pick()
@@ -27,6 +30,7 @@ public class CatPickupController : MonoBehaviour
 
     public void Throw(Vector3 playerLoc, FaceDirection faceDirection)
     {
+        gameManager.setColorToCat(true);
         gameObject.SetActive(true);
         gameObject.layer = Layers.Air;
         animator.SetBool("CatInAir",true);
@@ -59,8 +63,8 @@ public class CatPickupController : MonoBehaviour
         rigidbody.velocity = Vector2.zero;
         gameObject.layer = Layers.Cat;
         animator.SetBool("CatInAir",false);
+        gameManager.ApplyFocusColorsToCharacters();
         Vector3Int catPos = hell.WorldToCell(transform.position);
-        
         if (hell.HasTile(catPos))
         {
             Debug.Log("You are in hell");
