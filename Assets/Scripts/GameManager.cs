@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
             // TODO turn off all other objects that are not relevant for Game Over screen (like the cat lives).
             Debug.Log("Done");
             return;
-        }
+        } 
         cat.GetComponent<CatInteractController>().ResetBridgeList();
         levels[currLevelInd].gameObject.SetActive(true);
         levels[currLevelInd].StartNewLevel();
@@ -164,6 +164,11 @@ public class GameManager : MonoBehaviour
         //     focusedCharacter = true;
         //     ApplyFocusToCharacters();
         // }
+        if (catSouls.IsDead())
+        {
+            focusedCharacter = true;
+            ApplyFocusToCharacters();
+        }
         if (Input.GetKeyDown(restartLevelKey))
         {
             

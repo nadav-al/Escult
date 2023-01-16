@@ -26,6 +26,7 @@ public class CatInteractController : MonoBehaviour
     [SerializeField] private Animator animator;
     private bool isSacrificeAnimationPlaying;
     private List<String> animNames;
+    private bool isDeathAfterBridgeAnimationPlaying;
 
     public List<Vector3Int> GetBridgeList()
     {
@@ -53,15 +54,29 @@ public class CatInteractController : MonoBehaviour
         
         if (isSacrificeAnimationPlaying)
         {
-            var animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            var animName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-            
-            if (animNames.Contains(animName) && animStateInfo.normalizedTime > 1.0f)
+            var animStateInfo1 = animator.GetCurrentAnimatorStateInfo(0);
+            var animName1 = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+
+            if (animNames.Contains(animName1) && animStateInfo1.normalizedTime > 1.0f)
             {
                 isSacrificeAnimationPlaying = false;
                 animator.SetBool("CatSacrificed", false);
+            }
+        }    
+        
+        if (isDeathAfterBridgeAnimationPlaying)
+        {
+            var animStateInfo2 = animator.GetCurrentAnimatorStateInfo(0);
+            var animName2 = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+        
+            if (animName2.Equals(AnimationNames.Death) && animStateInfo2.normalizedTime > 1.0f)
+            {
+                Debug.Log("You are out of hell");
+                isDeathAfterBridgeAnimationPlaying = false;
+                gameObject.SetActive(false);
             }    
         }
+
 
         if (!isFocused || gameManager.isImportantAnimationsPlaying())
         {
@@ -78,7 +93,7 @@ public class CatInteractController : MonoBehaviour
                 if (soulsCtrl.IsDead())
                 {
                     animator.SetInteger("CatSouls", 0);
-                    // isSacrificeAnimationPlaying = true;
+                    isDeathAfterBridgeAnimationPlaying = true;
                 }
             }
             else if (alterNearby && !alterController.GirlUnderGates(girl.position))
