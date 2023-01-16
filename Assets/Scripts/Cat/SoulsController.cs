@@ -7,6 +7,9 @@ public class SoulsController : MonoBehaviour
 {
     [SerializeField] private int CAT_INIT_SOULS = 9;
     private int numSouls = 9;
+
+    [SerializeField] private Animator catAnimator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,7 @@ public class SoulsController : MonoBehaviour
     public void DecreaseSoul()
     {
         numSouls--;
+        catAnimator.SetInteger("CatSouls", numSouls);
     }
 
     public void IncreaseSoul()

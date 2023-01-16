@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
         foreach (var name in animNames)
         {
-            if (girlAnimInfo.IsName(name) || (cat.activeSelf && catAnimator.GetCurrentAnimatorStateInfo(0).IsName(name)))
+            if (girlAnimInfo.IsName(name) || (catAnimator.GetCurrentAnimatorStateInfo(0).IsName(name)))
             {
                 return true;
             }
@@ -158,12 +158,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());
-        if (catSouls.IsDead() && cat.activeSelf && !isImportantAnimationsPlaying())
-        {
-            cat.SetActive(false);
-            focusedCharacter = true;
-            ApplyFocusToCharacters();
-        }
+        // if (catSouls.IsDead() && cat.activeSelf && !isImportantAnimationsPlaying())
+        // {
+        //     cat.SetActive(false);
+        //     focusedCharacter = true;
+        //     ApplyFocusToCharacters();
+        // }
         if (Input.GetKeyDown(restartLevelKey))
         {
             
@@ -188,6 +188,4 @@ public class GameManager : MonoBehaviour
             ApplyFocusToCharacters();
         }
     }
-
-    
 }

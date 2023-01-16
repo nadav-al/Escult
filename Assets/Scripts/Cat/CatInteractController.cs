@@ -59,6 +59,7 @@ public class CatInteractController : MonoBehaviour
             if (animNames.Contains(animName) && animStateInfo.normalizedTime > 1.0f)
             {
                 isSacrificeAnimationPlaying = false;
+                animator.SetBool("CatSacrificed", false);
             }    
         }
 
