@@ -48,17 +48,16 @@ public class LevelManager : MonoBehaviour
         // ResetComponents();
 
         // Reset Cat
+        soulsController.ResetSouls();
         if (isCatInLevel)
         {
             cat.transform.position = catPos;
             catPickupController.dropCat(catPos);
-            soulsController.ResetSouls();
             cat.SetActive(true);    
         }
         
 
         // Reset Girl
-        
         girl.transform.position = girlPos;
         girl.SetActive(true); 
         girlInteractController.SetHoldsCat(false);

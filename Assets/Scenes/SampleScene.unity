@@ -1599,12 +1599,12 @@ MonoBehaviour:
   switchCharactersKeyOpt2: 106
   levels:
   - {fileID: 653894063}
-  - {fileID: 2054079152}
   - {fileID: 1363896064}
   - {fileID: 2101964553}
   - {fileID: 1184666665}
   - {fileID: 2028410614}
   - {fileID: 1770541200}
+  - {fileID: 2054079152}
   - {fileID: 310671045}
   - {fileID: 1653217994}
   inactiveOpacityFactor: 0.75

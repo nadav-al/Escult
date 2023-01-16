@@ -75,7 +75,7 @@ public class GirlInteractController : MonoBehaviour
                 SetHoldsCat(true);
                 catInArea = false;
             }
-            else if (holdsCat && !isThrownAnimationPlaying)
+            else if (holdsCat)
             {
                 girlAnimator.SetBool("Throws",true);
                 isThrownAnimationPlaying = true;

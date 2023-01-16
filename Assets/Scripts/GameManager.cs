@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour
         var catAnimInfo = catAnimator.GetCurrentAnimatorStateInfo(0);
         return animHashes.Contains(girlAnimInfo.shortNameHash) || animHashes.Contains(catAnimInfo.shortNameHash);
         */
-
+        
+        /*
         var girlAnimName = girlAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
         if (cat.activeSelf)
         {
@@ -53,7 +54,18 @@ public class GameManager : MonoBehaviour
             return animNames.Contains(girlAnimName) || animNames.Contains(catAnimName);
         }
         return animNames.Contains(girlAnimName);
+        */
         
+        var girlAnimInfo = girlAnimator.GetCurrentAnimatorStateInfo(0);
+
+        foreach (var name in animNames)
+        {
+            if (girlAnimInfo.IsName(name) || (cat.activeSelf && catAnimator.GetCurrentAnimatorStateInfo(0).IsName(name)))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void NextLevel()
@@ -110,19 +122,16 @@ public class GameManager : MonoBehaviour
     {
         animNames = new List<String>
         {
-            //"Death",
-            //"Revive",
-            "GirlThrowsLeft",
-            "GirlThrowsRight",
-            "GirlThrowsUp",
-            "GirlThrowsDown"
+            AnimationNames.ThrowLeft,
+            AnimationNames.ThrowRight,
+            AnimationNames.ThrowUp,
+            AnimationNames.ThrowDown,
+            AnimationNames.DeathState,
+            AnimationNames.ReviveState
         };
-        // animHashes.Add(Animator.StringToHash("GirlThrowsLeft"));
-        // animHashes.Add(Animator.StringToHash("GirlThrowsRight"));
-        // animHashes.Add(Animator.StringToHash("GirlThrowsUp"));
-        // animHashes.Add(Animator.StringToHash("GirlThrowsDown"));
-        // animHashes.Add(Animator.StringToHash("Death"));
-        // animHashes.Add(Animator.StringToHash("Revive"));
+        catAnimator.Rebind();
+        girlAnimator.Rebind();
+        catAnimator.SetInteger("CatSouls", 9);
         
         levels[currLevelInd].SetActive(true);
         levels[currLevelInd].StartNewLevel();
@@ -149,7 +158,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());
-        if (catSouls.IsDead() && cat.activeSelf)
+        if (catSouls.IsDead() && cat.activeSelf && !isImportantAnimationsPlaying())
         {
             cat.SetActive(false);
             focusedCharacter = true;
@@ -157,9 +166,15 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(restartLevelKey))
         {
+            
             focusedCharacter = true;
             ApplyFocusToCharacters();
             levels[currLevelInd].ResetLevel();
+            catAnimator.Rebind();
+            girlAnimator.Rebind();
+            catAnimator.SetInteger("CatSouls", 9);
+            // girlAnimator.SetTrigger("ToDefault");
+            // catAnimator.SetTrigger("ToDefault");
         }
         if (levels[currLevelInd].getCatInLevel() && !catSouls.IsDead() && !isImportantAnimationsPlaying() &&
             (Input.GetKeyDown(switchCharactersKeyOpt1) || Input.GetKeyDown(switchCharactersKeyOpt2)))

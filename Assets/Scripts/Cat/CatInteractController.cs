@@ -58,12 +58,11 @@ public class CatInteractController : MonoBehaviour
             
             if (animNames.Contains(animName) && animStateInfo.normalizedTime > 1.0f)
             {
-                animator.SetBool("CatSacrificed",false);
                 isSacrificeAnimationPlaying = false;
             }    
         }
 
-        if (!isFocused  || gameManager.isImportantAnimationsPlaying())
+        if (!isFocused || gameManager.isImportantAnimationsPlaying())
         {
             return;
         }
@@ -75,9 +74,13 @@ public class CatInteractController : MonoBehaviour
                 soulsCtrl.DecreaseSoul();
                 hellMap.SetTile(catBridgePositions.Last(), null);
                 groundMap.SetTile(catBridgePositions.Last(), bloodTile);
-                
+                if (soulsCtrl.IsDead())
+                {
+                    animator.SetInteger("CatSouls", 0);
+                    // isSacrificeAnimationPlaying = true;
+                }
             }
-            else if (alterNearby && !alterController.GirlUnderGates(girl.position) && !isSacrificeAnimationPlaying)
+            else if (alterNearby && !alterController.GirlUnderGates(girl.position))
             {
                 animator.SetBool("CatSacrificed", true);
                 isSacrificeAnimationPlaying = true;
