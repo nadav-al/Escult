@@ -37,6 +37,20 @@ public class GameManager : MonoBehaviour
     // true = girl, false = cat
     private bool focusedCharacter = true;
     private CatPickupController catPickupController;
+    
+    // this semaphore helps us to decide if we are in an important animation
+    // in each script we activer
+    private int importantAnimationsSempahore = 0;
+
+    public void up()
+    {
+        importantAnimationsSempahore+=1;
+    }
+
+    public void down()
+    {
+        importantAnimationsSempahore-=1;
+    }
 
     public bool isImportantAnimationsPlaying()
     {
@@ -55,7 +69,7 @@ public class GameManager : MonoBehaviour
         }
         return animNames.Contains(girlAnimName);
         */
-        
+        /*
         var girlAnimInfo = girlAnimator.GetCurrentAnimatorStateInfo(0);
 
         foreach (var name in animNames)
@@ -66,6 +80,8 @@ public class GameManager : MonoBehaviour
             }
         }
         return false;
+        */
+        return importantAnimationsSempahore > 0;
     }
 
     public void NextLevel()
@@ -158,17 +174,17 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());
-        // if (catSouls.IsDead() && cat.activeSelf && !isImportantAnimationsPlaying())
-        // {
-        //     cat.SetActive(false);
-        //     focusedCharacter = true;
-        //     ApplyFocusToCharacters();
-        // }
-        if (catSouls.IsDead())
+        if (catSouls.IsDead() && cat.activeSelf && !isImportantAnimationsPlaying())
         {
+            cat.SetActive(false);
             focusedCharacter = true;
             ApplyFocusToCharacters();
         }
+        // if (catSouls.IsDead())
+        // {
+        //     focusedCharacter = true;
+        //     ApplyFocusToCharacters();
+        // }
         if (Input.GetKeyDown(restartLevelKey))
         {
             

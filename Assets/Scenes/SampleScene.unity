@@ -10743,6 +10743,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1922652120, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
+      propertyPath: catAnimator
+      value: 
+      objectReference: {fileID: 1922652129}
     - target: {fileID: 1922652121, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
       propertyPath: girl
       value: 

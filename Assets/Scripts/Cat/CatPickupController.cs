@@ -36,6 +36,7 @@ public class CatPickupController : MonoBehaviour
                 Debug.Log("You are out of hell");
                 animator.SetBool("CatSacrificed",false);
                 isFallToHellAnimationPlaying = false;
+                gameManager.down();
                 gameObject.transform.position = girl.transform.position;
             }    
         }
@@ -90,6 +91,7 @@ public class CatPickupController : MonoBehaviour
             soulsController.DecreaseSoul();
             animator.SetBool("CatSacrificed", true);
             isFallToHellAnimationPlaying = true;
+            gameManager.up();
         }
         else
         {

@@ -17,6 +17,8 @@ public class GirlInteractController : MonoBehaviour
     private bool isFocused;
     private bool isThrownAnimationPlaying;
     private List<String> animNames;
+    [SerializeField] private GameObject gameManagerObj;
+    private GameManager gameManager;
 
     public void SetFocus(bool isFocused)
     {
@@ -36,6 +38,7 @@ public class GirlInteractController : MonoBehaviour
     void Start()
     {
         movementController = GetComponentInParent<MovementController>();
+        gameManager = gameManagerObj.GetComponent<GameManager>();
         animNames = new List<String>
         {
             AnimationNames.ThrowLeft,
@@ -57,6 +60,7 @@ public class GirlInteractController : MonoBehaviour
             {
                 girlAnimator.SetBool("Throws",false);
                 isThrownAnimationPlaying = false;
+                gameManager.down();
                 SetHoldsCat(false);
                 catController.Throw(transform.position, movementController.faceDirection);
             }    
@@ -79,6 +83,7 @@ public class GirlInteractController : MonoBehaviour
             {
                 girlAnimator.SetBool("Throws",true);
                 isThrownAnimationPlaying = true;
+                gameManager.up();
             }
         }
 
