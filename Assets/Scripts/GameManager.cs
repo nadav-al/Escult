@@ -20,10 +20,14 @@ public class GameManager : MonoBehaviour
     private MovementController girlMovementCtrl;
     private GirlInteractController girlInteractCtrl;
     private SpriteRenderer girlRenderer;
+    [SerializeField] private Animator girlAnimator;
     [SerializeField] private GameObject cat;
     private MovementController catMovementCtrl;
     private CatInteractController catInteractCtrl;
     private SpriteRenderer catRenderer;
+    [SerializeField] private Animator catAnimator;
+
+    private List<String> animNames;
 
     private Color girlInactiveColor; 
     private Color catInactiveColor; 
@@ -34,6 +38,23 @@ public class GameManager : MonoBehaviour
     private bool focusedCharacter = true;
     private CatPickupController catPickupController;
 
+    public bool isImportantAnimationsPlaying()
+    {
+        /*
+        var girlAnimInfo = girlAnimator.GetCurrentAnimatorStateInfo(0);
+        var catAnimInfo = catAnimator.GetCurrentAnimatorStateInfo(0);
+        return animHashes.Contains(girlAnimInfo.shortNameHash) || animHashes.Contains(catAnimInfo.shortNameHash);
+        */
+
+        var girlAnimName = girlAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+        if (cat.activeSelf)
+        {
+            var catAnimName = catAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+            return animNames.Contains(girlAnimName) || animNames.Contains(catAnimName);
+        }
+        return animNames.Contains(girlAnimName);
+        
+    }
 
     public void NextLevel()
     {
@@ -54,6 +75,11 @@ public class GameManager : MonoBehaviour
     public LevelManager getLevel()
     {
         return levels[currLevelInd];
+    }
+
+    public void SetFocusedCharacter(bool focusValue)
+    {
+        focusedCharacter = focusValue;
     }
     public void ApplyFocusToCharacters()
     {
@@ -82,6 +108,22 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animNames = new List<String>
+        {
+            //"Death",
+            //"Revive",
+            "GirlThrowsLeft",
+            "GirlThrowsRight",
+            "GirlThrowsUp",
+            "GirlThrowsDown"
+        };
+        // animHashes.Add(Animator.StringToHash("GirlThrowsLeft"));
+        // animHashes.Add(Animator.StringToHash("GirlThrowsRight"));
+        // animHashes.Add(Animator.StringToHash("GirlThrowsUp"));
+        // animHashes.Add(Animator.StringToHash("GirlThrowsDown"));
+        // animHashes.Add(Animator.StringToHash("Death"));
+        // animHashes.Add(Animator.StringToHash("Revive"));
+        
         levels[currLevelInd].SetActive(true);
         levels[currLevelInd].StartNewLevel();
         girlMovementCtrl = girl.GetComponent<MovementController>();
@@ -119,7 +161,7 @@ public class GameManager : MonoBehaviour
             ApplyFocusToCharacters();
             levels[currLevelInd].ResetLevel();
         }
-        if (levels[currLevelInd].getCatInLevel() && !catSouls.IsDead() &&
+        if (levels[currLevelInd].getCatInLevel() && !catSouls.IsDead() && !isImportantAnimationsPlaying() &&
             (Input.GetKeyDown(switchCharactersKeyOpt1) || Input.GetKeyDown(switchCharactersKeyOpt2)))
         {
             if (girlInteractCtrl.GetHoldsCat())

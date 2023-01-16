@@ -23,11 +23,15 @@ public class CatInteractController : MonoBehaviour
     [SerializeField] private GameObject gameManagerObj;
     private GameManager gameManager;
     private List<GameObject> gates;
+    [SerializeField] private Animator animator;
+    private bool isSacrificeAnimationPlaying;
+    private List<String> animNames;
 
     public List<Vector3Int> GetBridgeList()
     {
         return catBridgePositions;
     }
+    
     
 
     private void Start()
@@ -37,16 +41,33 @@ public class CatInteractController : MonoBehaviour
         soulsCtrl = GetComponent<SoulsController>();
         movementCtrl = GetComponent<MovementController>();
         catBridgePositions = new List<Vector3Int>();
+        animNames = new List<String>
+        {
+            AnimationNames.Death, AnimationNames.Revive
+        };
     }
 
     void Update()
     {
-        if (!isFocused)
+        animator.SetInteger("CatSouls", soulsCtrl.getSouls());
+        
+        if (isSacrificeAnimationPlaying)
+        {
+            var animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            var animName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+            
+            if (animNames.Contains(animName) && animStateInfo.normalizedTime > 1.0f)
+            {
+                animator.SetBool("CatSacrificed",false);
+                isSacrificeAnimationPlaying = false;
+            }    
+        }
+
+        if (!isFocused  || gameManager.isImportantAnimationsPlaying())
         {
             return;
         }
         catDirection = movementCtrl.faceDirection;
-        //TODO - SHOW NADAV - ADDED CHECK OF LAYER
         if (gameObject.layer != Layers.Air && (Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2)))
         {
             if (catFacingPit())
@@ -56,12 +77,15 @@ public class CatInteractController : MonoBehaviour
                 groundMap.SetTile(catBridgePositions.Last(), bloodTile);
                 
             }
-            else if (alterNearby && !alterController.GirlUnderGates(girl.position))
+            else if (alterNearby && !alterController.GirlUnderGates(girl.position) && !isSacrificeAnimationPlaying)
             {
+                animator.SetBool("CatSacrificed", true);
+                isSacrificeAnimationPlaying = true;
                 alterController.Sacrifice();
                 soulsCtrl.DecreaseSoul();
             }
         }
+        
     }
     // This function also adds the gate to the list and as such, we must make sure here that we can build
     // The gate.

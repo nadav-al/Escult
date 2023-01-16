@@ -20,6 +20,8 @@ public class MovementController : MonoBehaviour
     public FaceDirection faceDirection;
     
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject gameManagerObj;
+    private GameManager gameManager;
 
     public void SetFocus(bool isFocused)
     {
@@ -30,6 +32,7 @@ public class MovementController : MonoBehaviour
     private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        gameManager = gameManagerObj.GetComponent<GameManager>();
     }
 
     void FixedUpdate()
@@ -43,7 +46,7 @@ public class MovementController : MonoBehaviour
             return;
         }
         
-        if (!isFocused)
+        if (!isFocused || gameManager.isImportantAnimationsPlaying())
         {
             _rigidbody2D.velocity = Vector2.zero;
             return;

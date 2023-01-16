@@ -1598,18 +1598,20 @@ MonoBehaviour:
   switchCharactersKeyOpt1: 9
   switchCharactersKeyOpt2: 106
   levels:
+  - {fileID: 653894063}
+  - {fileID: 2054079152}
   - {fileID: 1363896064}
   - {fileID: 2101964553}
-  - {fileID: 653894063}
   - {fileID: 1184666665}
   - {fileID: 2028410614}
   - {fileID: 1770541200}
-  - {fileID: 2054079152}
   - {fileID: 310671045}
   - {fileID: 1653217994}
   inactiveOpacityFactor: 0.75
   girl: {fileID: 1497816343}
+  girlAnimator: {fileID: 1497816345}
   cat: {fileID: 1922652118}
+  catAnimator: {fileID: 1922652129}
 --- !u!4 &866714895
 Transform:
   m_ObjectHideFlags: 0
@@ -10746,6 +10748,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1497816344}
     - target: {fileID: 1922652121, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1922652129}
+    - target: {fileID: 1922652121, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
       propertyPath: gameManagerObj
       value: 
       objectReference: {fileID: 866714893}
@@ -10835,7 +10841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8715704720659737692, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
       propertyPath: m_SortingOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8715704720659737693, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
       propertyPath: m_Size.x
@@ -10889,6 +10895,10 @@ PrefabInstance:
       propertyPath: downButtonOpt2
       value: 274
       objectReference: {fileID: 0}
+    - target: {fileID: 8715704720659737694, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
+      propertyPath: gameManagerObj
+      value: 
+      objectReference: {fileID: 866714893}
     - target: {fileID: 8715704720659737694, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
       propertyPath: leftButtonOpt1
       value: 97
@@ -11046,6 +11056,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2204166186252169029, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2204166186252169030, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
       propertyPath: m_Name
       value: Girl
@@ -11058,6 +11072,10 @@ PrefabInstance:
       propertyPath: cat
       value: 
       objectReference: {fileID: 1922652118}
+    - target: {fileID: 2204166186252169080, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+      propertyPath: girlAnimator
+      value: 
+      objectReference: {fileID: 1497816345}
     - target: {fileID: 2204166186252169080, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
       propertyPath: gameManagerObj
       value: 
@@ -11174,6 +11192,10 @@ PrefabInstance:
       propertyPath: downButtonOpt2
       value: 274
       objectReference: {fileID: 0}
+    - target: {fileID: 2204166186252169083, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+      propertyPath: gameManagerObj
+      value: 
+      objectReference: {fileID: 866714893}
     - target: {fileID: 2204166186252169083, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
       propertyPath: leftButtonOpt1
       value: 97
@@ -24226,6 +24248,11 @@ GameObject:
 --- !u!4 &1497816344 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2204166186252169082, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+  m_PrefabInstance: {fileID: 1177778332}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1497816345 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1497816352, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
   m_PrefabInstance: {fileID: 1177778332}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1536685127

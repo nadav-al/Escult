@@ -7,20 +7,24 @@ public class GirlInteractController : MonoBehaviour
 {
     [SerializeField] private KeyCode interactButtonOpt1 = KeyCode.E;
     [SerializeField] private KeyCode interactButtonOpt2 = KeyCode.J;
+
+    [SerializeField] private Animator girlAnimator;
     private MovementController movementController;
-    private FaceDirection girlDirection;
     private GameObject potentialHeldItem;
     private CatPickupController catController;
     private bool catInArea;
     private bool holdsCat;
     private bool isFocused;
-    
+    private bool isThrownAnimationPlaying;
+    private List<String> animNames;
+
     public void SetFocus(bool isFocused)
     {
         this.isFocused = isFocused;
     }
     public void SetHoldsCat(bool isHoldingCat)
     {
+        girlAnimator.SetBool("GirlHoldsCat",isHoldingCat);
         holdsCat = isHoldingCat;
     }
     public bool GetHoldsCat()
@@ -32,31 +36,54 @@ public class GirlInteractController : MonoBehaviour
     void Start()
     {
         movementController = GetComponentInParent<MovementController>();
+        animNames = new List<String>
+        {
+            AnimationNames.ThrowLeft,
+            AnimationNames.ThrowRight,
+            AnimationNames.ThrowUp,
+            AnimationNames.ThrowDown
+        };
     }
+
 
     // Update is called once per frame
     void Update()
     {
+        if (isThrownAnimationPlaying)
+        {
+            var animStateInfo = girlAnimator.GetCurrentAnimatorStateInfo(0);
+            var animName = girlAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+            if (animNames.Contains(animName) && animStateInfo.normalizedTime > 1.0f)
+            {
+                girlAnimator.SetBool("Throws",false);
+                isThrownAnimationPlaying = false;
+                SetHoldsCat(false);
+                catController.Throw(transform.position, movementController.faceDirection);
+            }    
+        }
+        
         if (!isFocused)
         {
             return;
         }
-        girlDirection = movementController.faceDirection;
         
         if ((Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2)))
         {
             if (catInArea)
             {
                 catController.Pick();
-                holdsCat = true;
+                SetHoldsCat(true);
                 catInArea = false;
             }
-            else if (holdsCat)
+            else if (holdsCat && !isThrownAnimationPlaying)
             {
-                holdsCat = false;
-                catController.Throw(transform.position, movementController.faceDirection);
+                girlAnimator.SetBool("Throws",true);
+                isThrownAnimationPlaying = true;
             }
         }
+
+        
+        
     }
 
 

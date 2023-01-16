@@ -15,12 +15,31 @@ public class CatPickupController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject gameManagerObj;
     private GameManager gameManager;
+    private bool isFallToHellAnimationPlaying;
 
     private void Start()
     {
         soulsController = GetComponent<SoulsController>();
         rigidbody = GetComponent<Rigidbody2D>();
         gameManager = gameManagerObj.GetComponent<GameManager>();
+    }
+
+    private void Update()
+    {
+        if (isFallToHellAnimationPlaying)
+        {
+            var animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            var animName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+            
+            if (animName.Equals(AnimationNames.Death) && animStateInfo.normalizedTime > 1.0f)
+            {
+                Debug.Log("You are out of hell");
+                animator.SetBool("CatSacrificed",false);
+                isFallToHellAnimationPlaying = false;
+                gameObject.transform.position = girl.transform.position;
+            }    
+        }
+
     }
 
     public void Pick()
@@ -34,6 +53,7 @@ public class CatPickupController : MonoBehaviour
         gameObject.SetActive(true);
         gameObject.layer = Layers.Air;
         animator.SetBool("CatInAir",true);
+        animator.SetInteger("FaceDirection", (int)faceDirection);
         catDirection = faceDirection;
         // Vector3Int cellPosition = hell.WorldToCell(playerLoc);
         // Vector3 cellCenter = hell.GetCellCenterWorld(cellPosition); 
@@ -63,19 +83,25 @@ public class CatPickupController : MonoBehaviour
         rigidbody.velocity = Vector2.zero;
         gameObject.layer = Layers.Cat;
         animator.SetBool("CatInAir",false);
-        gameManager.ApplyFocusColorsToCharacters();
         Vector3Int catPos = hell.WorldToCell(transform.position);
         if (hell.HasTile(catPos))
         {
             Debug.Log("You are in hell");
             soulsController.DecreaseSoul();
-            gameObject.transform.position = girl.transform.position;
+            animator.SetBool("CatSacrificed", true);
+            isFallToHellAnimationPlaying = true;
         }
+        else
+        {
+            // Cat has landed on ground, so it will be the active character now.
+            gameManager.SetFocusedCharacter(false);    
+        }
+        // In Throw, we set the color of cat to be active. So 
+        gameManager.ApplyFocusToCharacters();
     }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        // TODO - only land if on air.
         if (col.gameObject.layer == Layers.Wall && this.gameObject.layer == Layers.Air)
         {
             Land();            
