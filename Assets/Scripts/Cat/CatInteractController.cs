@@ -62,6 +62,10 @@ public class CatInteractController : MonoBehaviour
                 isSacrificeAnimationPlaying = false;
                 gameManager.down();
                 animator.SetBool("CatSacrificed", false);
+                if (soulsCtrl.IsDead())
+                {
+                    gameObject.SetActive(false);
+                }
             }
         }    
         
@@ -78,7 +82,6 @@ public class CatInteractController : MonoBehaviour
                 gameObject.SetActive(false);
             }    
         }
-
 
         if (!isFocused || gameManager.isImportantAnimationsPlaying())
         {
@@ -108,6 +111,7 @@ public class CatInteractController : MonoBehaviour
                 soulsCtrl.DecreaseSoul();
             }
         }
+
         
     }
     // This function also adds the gate to the list and as such, we must make sure here that we can build
@@ -202,5 +206,10 @@ public class CatInteractController : MonoBehaviour
     public void resetGates()
     {
         gates.Clear();
+    }
+
+    public bool isImportantAnimationPlaying()
+    {
+        return isSacrificeAnimationPlaying || isDeathAfterBridgeAnimationPlaying;
     }
 }

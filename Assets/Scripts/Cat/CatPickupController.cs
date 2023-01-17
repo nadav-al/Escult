@@ -38,6 +38,10 @@ public class CatPickupController : MonoBehaviour
                 isFallToHellAnimationPlaying = false;
                 gameManager.down();
                 gameObject.transform.position = girl.transform.position;
+                if (soulsController.IsDead())
+                {
+                    gameObject.SetActive(false);
+                }
             }    
         }
 
@@ -122,5 +126,10 @@ public class CatPickupController : MonoBehaviour
         gameObject.SetActive(true); 
         rigidbody.velocity = Vector2.zero;
         gameObject.layer = Layers.Cat;
+    }
+
+    public bool isImportantAnimationPlaying()
+    {
+        return isFallToHellAnimationPlaying;
     }
 }

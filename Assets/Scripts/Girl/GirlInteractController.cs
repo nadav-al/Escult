@@ -118,4 +118,9 @@ public class GirlInteractController : MonoBehaviour
             col.gameObject.GetComponent<IStepable>().StepOff();
         }
     }
+
+    public bool isImportantAnimationPlaying()
+    {
+        return isThrownAnimationPlaying;
+    }
 }

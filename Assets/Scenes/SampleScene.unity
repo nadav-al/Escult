@@ -1598,9 +1598,9 @@ MonoBehaviour:
   switchCharactersKeyOpt1: 9
   switchCharactersKeyOpt2: 106
   levels:
-  - {fileID: 653894063}
-  - {fileID: 1363896064}
   - {fileID: 2101964553}
+  - {fileID: 1363896064}
+  - {fileID: 653894063}
   - {fileID: 1184666665}
   - {fileID: 2028410614}
   - {fileID: 1770541200}

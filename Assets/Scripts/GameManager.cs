@@ -81,6 +81,8 @@ public class GameManager : MonoBehaviour
         }
         return false;
         */
+        return girlInteractCtrl.isImportantAnimationPlaying() || catInteractCtrl.isImportantAnimationPlaying() ||
+               catPickupController.isImportantAnimationPlaying();
         return importantAnimationsSempahore > 0;
     }
 
@@ -174,9 +176,9 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());
-        if (catSouls.IsDead() && cat.activeSelf && !isImportantAnimationsPlaying())
+        if (catSouls.IsDead() && !isImportantAnimationsPlaying())
         {
-            cat.SetActive(false);
+            importantAnimationsSempahore = 0;
             focusedCharacter = true;
             ApplyFocusToCharacters();
         }
@@ -187,7 +189,7 @@ public class GameManager : MonoBehaviour
         // }
         if (Input.GetKeyDown(restartLevelKey))
         {
-            
+            importantAnimationsSempahore = 0;
             focusedCharacter = true;
             ApplyFocusToCharacters();
             levels[currLevelInd].ResetLevel();
