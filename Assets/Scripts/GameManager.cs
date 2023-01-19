@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject girl;
     private MovementController girlMovementCtrl;
     private GirlInteractController girlInteractCtrl;
+    private ColliderGirlInteractController girlColliderInteractCtrl;
     private SpriteRenderer girlRenderer;
     [SerializeField] private Animator girlAnimator;
     [SerializeField] private GameObject cat;
@@ -30,16 +31,19 @@ public class GameManager : MonoBehaviour
 
     private List<String> animNames;
 
-    private Color girlInactiveColor; 
-    private Color catInactiveColor; 
-    private Color girlActiveColor; 
-    private Color catActiveColor; 
-    
+    private Color girlInactiveColor;
+    private Color catInactiveColor;
+    private Color girlActiveColor;
+    private Color catActiveColor;
+
+
     // true = girl, false = cat
     private bool focusedCharacter = true;
     private CatPickupController catPickupController;
-    
+
+
     // this semaphore helps us to decide if we are in an important animation
+
     // in each script we activer
     private int importantAnimationsSempahore = 0;
 
@@ -55,8 +59,8 @@ public class GameManager : MonoBehaviour
 
     public bool isImportantAnimationsPlaying()
     {
-        return girlInteractCtrl.isImportantAnimationPlaying() || catInteractCtrl.isImportantAnimationPlaying() ||
-               catPickupController.isImportantAnimationPlaying();
+        return girlInteractCtrl.isImportantAnimationPlaying() || girlColliderInteractCtrl.isImportantAnimationPlaying()
+               || catInteractCtrl.isImportantAnimationPlaying() ||catPickupController.isImportantAnimationPlaying();
         return importantAnimationsSempahore > 0;
     }
 
@@ -88,12 +92,12 @@ public class GameManager : MonoBehaviour
     }
     public void ApplyFocusToCharacters()
     {
+        activeCharacterAnimator.SetBool("FocusedCharacter", focusedCharacter);
         girlMovementCtrl.SetFocus(focusedCharacter);
         girlInteractCtrl.SetFocus(focusedCharacter);
         catMovementCtrl.SetFocus(!focusedCharacter);
         catInteractCtrl.SetFocus(!focusedCharacter);
         ApplyFocusColorsToCharacters();
-        activeCharacterAnimator.SetBool("FocusedCharacter", focusedCharacter);
     }
 
     public void ApplyFocusColorsToCharacters()
@@ -130,6 +134,7 @@ public class GameManager : MonoBehaviour
         levels[currLevelInd].SetActive(true);
         girlMovementCtrl = girl.GetComponent<MovementController>();
         girlInteractCtrl = girl.GetComponent<GirlInteractController>();
+        girlColliderInteractCtrl = girl.GetComponentInChildren<ColliderGirlInteractController>();
         catMovementCtrl = cat.GetComponent<MovementController>();
         catInteractCtrl = cat.GetComponent<CatInteractController>();
         catPickupController = cat.GetComponent<CatPickupController>();

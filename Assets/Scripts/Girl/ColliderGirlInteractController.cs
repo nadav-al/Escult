@@ -6,11 +6,31 @@ using UnityEngine;
 public class ColliderGirlInteractController : MonoBehaviour
 {
     [SerializeField] private GameObject gameManagerObj;
+    [SerializeField] private Animator catAnimator;
     public GameManager gameManager;
+    private bool isEndOfLevelAnimationPlaying;
 
     private void Start()
     {
         gameManager = gameManagerObj.GetComponent<GameManager>();
+    }
+
+
+    private void Update()
+    {
+        if (isEndOfLevelAnimationPlaying)
+        {
+            var animStateInfo2 = catAnimator.GetCurrentAnimatorStateInfo(0);
+            var animName2 = catAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+        
+            if (animName2.Equals(AnimationNames.CatLeavesLevel) && animStateInfo2.normalizedTime > 1.0f)
+            {
+                catAnimator.SetBool("LevelEnded", false);
+                isEndOfLevelAnimationPlaying = false;
+                gameManager.down();
+                gameManager.NextLevel();
+            }    
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -25,7 +45,9 @@ public class ColliderGirlInteractController : MonoBehaviour
                 {
                     Debug.Log(gameObject + " collided with " + col.gameObject);
                 }
-                gameManager.NextLevel();
+                catAnimator.SetBool("LevelEnded", true);
+                // isEndOfLevelAnimationPlaying = true;
+                gameManager.up();
                 
                 Debug.Log(gameManager);
 
@@ -46,4 +68,8 @@ public class ColliderGirlInteractController : MonoBehaviour
         }
     }
 
+    public bool isImportantAnimationPlaying()
+    {
+        return isEndOfLevelAnimationPlaying;
+    }
 }

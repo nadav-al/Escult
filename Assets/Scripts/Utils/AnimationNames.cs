@@ -7,6 +7,7 @@
     //TODO CHANGE!!!!!!!
     public const string Death = "Death_cat";
     public const string Revive = "teleport_in";
+    public const string CatLeavesLevel = "teleport_out";
     public const string DeathState = "CatDeath";
     public const string ReviveState = "Revive";
     public const string CatDefaultState = "Idle Down";
