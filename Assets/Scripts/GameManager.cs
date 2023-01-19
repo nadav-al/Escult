@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textSouls;
+    [SerializeField] private Animator activeCharacterAnimator;
     [SerializeField] private KeyCode restartLevelKey = KeyCode.R; 
     [SerializeField] private KeyCode switchCharactersKeyOpt1 = KeyCode.Tab;
     [SerializeField] private KeyCode switchCharactersKeyOpt2 = KeyCode.J; 
@@ -92,6 +93,7 @@ public class GameManager : MonoBehaviour
         catMovementCtrl.SetFocus(!focusedCharacter);
         catInteractCtrl.SetFocus(!focusedCharacter);
         ApplyFocusColorsToCharacters();
+        activeCharacterAnimator.SetBool("FocusedCharacter", focusedCharacter);
     }
 
     public void ApplyFocusColorsToCharacters()

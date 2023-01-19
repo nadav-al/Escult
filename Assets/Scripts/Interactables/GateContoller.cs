@@ -40,4 +40,9 @@ public class GateContoller : MonoBehaviour, IOpenable
     {
         return gameObject.name;
     }
+
+    public void ShowOutline(bool displayMode)
+    {
+        throw new System.NotImplementedException();
+    }
 }
