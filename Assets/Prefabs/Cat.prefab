@@ -35,7 +35,7 @@ Transform:
   m_GameObject: {fileID: 8715704720659737683}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.49, y: -0.75, z: 0}
-  m_LocalScale: {x: 0.64, y: 0.64, z: 0.64}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -81,8 +81,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2072621441
   m_SortingLayer: 1
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 437723622, guid: 84227f2534902414bbaa3f1e96d4a984, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 20055500, guid: e49852e511906b74f88868a68d3b8471, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -106,18 +106,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.23323011}
+  m_Offset: {x: 0.14386682, y: -0.23755601}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.34, y: 1.22}
+    oldSize: {x: 1.02, y: 1.21}
     newSize: {x: 1.34, y: 1.22}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.95, y: 0.5}
+  m_Size: {x: 0.3883529, y: 0.6816835}
   m_EdgeRadius: 0
 --- !u!61 &8715704720659737688
 BoxCollider2D:
@@ -132,18 +132,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.14606741, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.34, y: 1.22}
+    oldSize: {x: 1.02, y: 1.21}
     newSize: {x: 1.34, y: 1.22}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.6974557, y: 1.15}
   m_EdgeRadius: 0
 --- !u!50 &8715704720659737682
 Rigidbody2D:
@@ -178,17 +178,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67544f1fad8d2484998ea23f6c34036d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  leftButtonOpt1: 0
-  rightButtonOpt1: 0
-  upButtonOpt1: 0
-  downButtonOpt1: 0
-  leftButtonOpt2: 0
-  rightButtonOpt2: 0
-  upButtonOpt2: 0
-  downButtonOpt2: 0
+  movementSpeed: 4
+  leftButtonOpt1: 97
+  rightButtonOpt1: 100
+  upButtonOpt1: 119
+  downButtonOpt1: 115
+  leftButtonOpt2: 276
+  rightButtonOpt2: 275
+  upButtonOpt2: 273
+  downButtonOpt2: 274
   faceDirection: 0
   animator: {fileID: 1922652129}
+  gameManagerObj: {fileID: 0}
 --- !u!114 &8715704720659737689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +206,7 @@ MonoBehaviour:
   hell: {fileID: 0}
   girl: {fileID: 0}
   animator: {fileID: 1922652129}
+  gameManagerObj: {fileID: 0}
 --- !u!58 &1922652128
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -218,9 +220,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.09}
+  m_Offset: {x: 0.1, y: -0.24}
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.275
 --- !u!114 &1922652120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CAT_INIT_SOULS: 9
+  catAnimator: {fileID: 1922652129}
 --- !u!114 &1922652121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,12 +249,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 387b2dd3bc7459b47b03078f23762e2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactButton: 101
+  interactButtonOpt1: 101
+  interactButtonOpt2: 107
   girl: {fileID: 0}
   hellMap: {fileID: 0}
   groundMap: {fileID: 0}
   bloodTile: {fileID: 11400000, guid: a456250f930d4884eab471d5266c47d9, type: 2}
   gameManagerObj: {fileID: 0}
+  animator: {fileID: 1922652129}
 --- !u!95 &1922652129
 Animator:
   serializedVersion: 4

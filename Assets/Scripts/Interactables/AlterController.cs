@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class AlterController : MonoBehaviour
 {
     [SerializeField] private List<GameObject> connectedObjects;
     private List<IOpenable> openables;
-    private List<Tilemap> tilemaps;
+    private List<Tilemap> gatesTilemaps;
+    [SerializeField] private GameObject altarOutline;
 
     private void Start()
     {
         openables = new List<IOpenable>();
-        tilemaps = new List<Tilemap>();
+        gatesTilemaps = new List<Tilemap>();
         foreach (var obj in connectedObjects)
         {
             openables.Add(obj.GetComponent<IOpenable>());
             // TODO - better way to check if object has a tilemap
             if(!obj.CompareTag(Tags.Door))
             {
-                tilemaps.Add(obj.GetComponent<Tilemap>());    
+                gatesTilemaps.Add(obj.GetComponent<Tilemap>());    
             }
         }
     }
+    
 
 
     public void Sacrifice()
@@ -38,13 +41,22 @@ public class AlterController : MonoBehaviour
 
     public bool GirlUnderGates(Vector3 girlPosition)
     {
-        foreach (var tilemap in tilemaps)
+        foreach (var gate in gatesTilemaps)
         {
-            if (tilemap.HasTile(tilemap.WorldToCell(girlPosition)))
+            if (gate.HasTile(gate.WorldToCell(girlPosition)))
             {
                 return true;
             }
         }
         return false;
     }
+
+    // public void ShowOutlines(bool displayMode)
+    // {
+    //     altarOutline.SetActive(displayMode);
+    //     foreach (var openable in openables)
+    //     {
+    //         openable.ShowOutline(displayMode);
+    //     }
+    // }
 }

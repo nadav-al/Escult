@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject cat;
     [SerializeField] private bool isCatInLevel = true;
     [SerializeField] private Vector3 catPos;
+    private Animator catAnimator; 
     private CatInteractController catInteractController;
     private CatPickupController catPickupController;
     [SerializeField] private TileBase hellTile;
@@ -38,15 +39,12 @@ public class LevelManager : MonoBehaviour
     public void SetActive(bool isActive)
     {
         gameObject.SetActive(isActive);
-        // ResetComponents();
+        cat.SetActive(isActive);
+        girl.SetActive(isActive);
     }
 
     public void ResetLevel()
     {
-        // TODO - check if needed
-        // // Reset Components
-        // ResetComponents();
-
         // Reset Cat
         soulsController.ResetSouls();
         if (isCatInLevel)
@@ -62,17 +60,23 @@ public class LevelManager : MonoBehaviour
         girl.SetActive(true); 
         girlInteractController.SetHoldsCat(false);
 
+        GateContoller gateCtrl;
         // Reset Gates
         foreach (var gate in gates)
         {
-            gate.GetComponent<GateContoller>().ResetGate();
+            gate.SetActive(true);
+            gateCtrl = gate.GetComponent<GateContoller>(); 
+            // gateCtrl.EstablishOutlines();
+            gateCtrl.ResetGate();
         }
 
         // Reset Tilemaps
-        foreach (var cell in catInteractController.GetBridgeList())
+        List<Vector3Int> bridgeLocations = catInteractController.GetBridgeList();
+        List<TileBase> hellOrigTiles = catInteractController.GetOriginalHellTileList();
+        for (int i = 0; i < bridgeLocations.Count; ++i)
         {
-            hellMap.SetTile(cell, hellTile);
-            groundMap.SetTile(cell, null);
+            hellMap.SetTile(bridgeLocations[i], hellOrigTiles[i]);
+            groundMap.SetTile(bridgeLocations[i], null);
         }
         
         // Reset Doors
@@ -81,6 +85,8 @@ public class LevelManager : MonoBehaviour
             IOpenable doorCtrl = door.GetComponent<DoorController>();
             doorCtrl.SetOpen(isDoorOpen);
         }
+        
+        catAnimator.Play(AnimationNames.ReviveState);
     }
 
     private void ResetComponents()
@@ -88,6 +94,7 @@ public class LevelManager : MonoBehaviour
         catPickupController = cat.GetComponent<CatPickupController>();
         catInteractController = cat.GetComponent<CatInteractController>();
         soulsController = cat.GetComponent<SoulsController>();
+        catAnimator = cat.GetComponent<Animator>();
         girlInteractController = girl.GetComponent<GirlInteractController>();
     }
 
@@ -102,29 +109,11 @@ public class LevelManager : MonoBehaviour
     public void StartNewLevel()
     {
         // Reset Components
+        cat.SetActive(true);
+        girl.SetActive(true);
         ResetComponents();
         SetCatTilemaps();
         ResetLevel();
-        //
-        // // Set up the cat
-        // cat.transform.position = catPos;
-        // cat.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        // cat.layer = Layers.Cat;
-        // cat.GetComponent<SoulsController>().ResetSouls();
-        // // Set up the cat needed tilemaps
-        // catInteractController = cat.GetComponent<CatInteractController>();
-        // catInteractController.setGroundmap(groundMap);
-        // catInteractController.setHellmap(hellMap);
-        // catInteractController.setGates(gates);
-        // cat.GetComponent<CatPickupController>().setHellmap(hellMap);
-        // cat.SetActive(true);
-        //
-        // // Set up the girl
-        // girl.transform.position = girlPos;
-        // girl.SetActive(true);
-        // girl.GetComponent<GirlInteractController>().SetHoldsCat(false);
-        //
-        // // Set up the gates.
     }
 
     public bool hasGates(Vector3Int catCellLookPos)

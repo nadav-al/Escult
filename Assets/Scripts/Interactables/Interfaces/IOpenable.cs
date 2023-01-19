@@ -7,4 +7,5 @@
     public void SwapOpenState();
 
     public string getName();
+    void ShowOutline(bool displayMode);
 }

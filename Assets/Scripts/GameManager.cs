@@ -54,33 +54,6 @@ public class GameManager : MonoBehaviour
 
     public bool isImportantAnimationsPlaying()
     {
-        /*
-        var girlAnimInfo = girlAnimator.GetCurrentAnimatorStateInfo(0);
-        var catAnimInfo = catAnimator.GetCurrentAnimatorStateInfo(0);
-        return animHashes.Contains(girlAnimInfo.shortNameHash) || animHashes.Contains(catAnimInfo.shortNameHash);
-        */
-        
-        /*
-        var girlAnimName = girlAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-        if (cat.activeSelf)
-        {
-            var catAnimName = catAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-            return animNames.Contains(girlAnimName) || animNames.Contains(catAnimName);
-        }
-        return animNames.Contains(girlAnimName);
-        */
-        /*
-        var girlAnimInfo = girlAnimator.GetCurrentAnimatorStateInfo(0);
-
-        foreach (var name in animNames)
-        {
-            if (girlAnimInfo.IsName(name) || (catAnimator.GetCurrentAnimatorStateInfo(0).IsName(name)))
-            {
-                return true;
-            }
-        }
-        return false;
-        */
         return girlInteractCtrl.isImportantAnimationPlaying() || catInteractCtrl.isImportantAnimationPlaying() ||
                catPickupController.isImportantAnimationPlaying();
         return importantAnimationsSempahore > 0;
@@ -89,7 +62,8 @@ public class GameManager : MonoBehaviour
     public void NextLevel()
     {
         // levels[currLevelInd].ResetLevel();
-        levels[currLevelInd].gameObject.SetActive(false);
+        levels[currLevelInd].SetActive(false);
+        
         if (++currLevelInd == levels.Count)
         {
             // TODO turn off all other objects that are not relevant for Game Over screen (like the cat lives).
@@ -152,14 +126,12 @@ public class GameManager : MonoBehaviour
         catAnimator.SetInteger("CatSouls", 9);
         
         levels[currLevelInd].SetActive(true);
-        levels[currLevelInd].StartNewLevel();
         girlMovementCtrl = girl.GetComponent<MovementController>();
         girlInteractCtrl = girl.GetComponent<GirlInteractController>();
         catMovementCtrl = cat.GetComponent<MovementController>();
         catInteractCtrl = cat.GetComponent<CatInteractController>();
         catPickupController = cat.GetComponent<CatPickupController>();
         catSouls = cat.GetComponent<SoulsController>();
-        // textSouls = cat
 
         girlRenderer = girl.GetComponent<SpriteRenderer>();
         catRenderer = cat.GetComponent<SpriteRenderer>();
@@ -170,6 +142,7 @@ public class GameManager : MonoBehaviour
         
         ApplyFocusToCharacters();
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());
+        levels[currLevelInd].StartNewLevel();
     }
 
     // Update is called once per frame
@@ -196,8 +169,6 @@ public class GameManager : MonoBehaviour
             catAnimator.Rebind();
             girlAnimator.Rebind();
             catAnimator.SetInteger("CatSouls", 9);
-            // girlAnimator.SetTrigger("ToDefault");
-            // catAnimator.SetTrigger("ToDefault");
         }
         if (levels[currLevelInd].getCatInLevel() && !catSouls.IsDead() && !isImportantAnimationsPlaying() &&
             (Input.GetKeyDown(switchCharactersKeyOpt1) || Input.GetKeyDown(switchCharactersKeyOpt2)))

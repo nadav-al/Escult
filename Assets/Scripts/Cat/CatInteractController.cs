@@ -20,6 +20,7 @@ public class CatInteractController : MonoBehaviour
     [SerializeField] private Tilemap groundMap;
     [SerializeField] private TileBase bloodTile;
     private List<Vector3Int> catBridgePositions;
+    private List<TileBase> hellOriginalTiles;
     [SerializeField] private GameObject gameManagerObj;
     private GameManager gameManager;
     private List<GameObject> gates;
@@ -27,10 +28,17 @@ public class CatInteractController : MonoBehaviour
     private bool isSacrificeAnimationPlaying;
     private List<String> animNames;
     private bool isDeathAfterBridgeAnimationPlaying;
+    private CircleCollider2D circleCollider;
+    private Vector3Int catCellLookPos;
 
     public List<Vector3Int> GetBridgeList()
     {
         return catBridgePositions;
+    }
+
+    public List<TileBase> GetOriginalHellTileList()
+    {
+        return hellOriginalTiles;
     }
     
     
@@ -42,10 +50,12 @@ public class CatInteractController : MonoBehaviour
         soulsCtrl = GetComponent<SoulsController>();
         movementCtrl = GetComponent<MovementController>();
         catBridgePositions = new List<Vector3Int>();
+        hellOriginalTiles = new List<TileBase>();
         animNames = new List<String>
         {
             AnimationNames.Death, AnimationNames.Revive
         };
+        circleCollider = GetComponent<CircleCollider2D>();
     }
 
     void Update()
@@ -88,10 +98,22 @@ public class CatInteractController : MonoBehaviour
             return;
         }
         catDirection = movementCtrl.faceDirection;
+        
+        
+        //TODO Changes 18.1: order of alter and pit are switched.
         if (gameObject.layer != Layers.Air && (Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2)))
         {
-            if (catFacingPit())
+            if (alterNearby && !alterController.GirlUnderGates(girl.position))
             {
+                animator.SetBool("CatSacrificed", true);
+                isSacrificeAnimationPlaying = true;
+                gameManager.up();
+                alterController.Sacrifice();
+                soulsCtrl.DecreaseSoul();
+            }
+            else if (catFacingPit())
+            {
+                addLocationToBridges();
                 soulsCtrl.DecreaseSoul();
                 hellMap.SetTile(catBridgePositions.Last(), null);
                 groundMap.SetTile(catBridgePositions.Last(), bloodTile);
@@ -101,24 +123,18 @@ public class CatInteractController : MonoBehaviour
                     isDeathAfterBridgeAnimationPlaying = true;
                     gameManager.up();
                 }
-            }
-            else if (alterNearby && !alterController.GirlUnderGates(girl.position))
-            {
-                animator.SetBool("CatSacrificed", true);
-                isSacrificeAnimationPlaying = true;
-                gameManager.up();
-                alterController.Sacrifice();
-                soulsCtrl.DecreaseSoul();
-            }
+            } 
         }
 
         
     }
+
+
     // This function also adds the gate to the list and as such, we must make sure here that we can build
     // The gate.
     private bool catFacingPit()
     {
-        Vector3Int catCellLookPos = groundMap.WorldToCell(transform.position);
+        catCellLookPos = groundMap.WorldToCell(circleCollider.bounds.center);
         switch (catDirection)
         {
             case FaceDirection.Up:
@@ -137,10 +153,16 @@ public class CatInteractController : MonoBehaviour
 
         if (hellMap.HasTile(catCellLookPos) && (!gameManager.getLevel().hasGates(catCellLookPos)))
         {
-            catBridgePositions.Add(catCellLookPos);
             return true;
         }
         return false;
+    }
+    
+    
+    private void addLocationToBridges()
+    {
+        catBridgePositions.Add(catCellLookPos);
+        hellOriginalTiles.Add(hellMap.GetTile(catCellLookPos));
     }
 
     public void SetFocus(bool isFocused)
@@ -154,6 +176,7 @@ public class CatInteractController : MonoBehaviour
         {
             alterNearby = true;
             alterController = col.gameObject.GetComponent<AlterController>();
+            // alterController.ShowOutlines(true);
         }
     }
 
@@ -161,6 +184,7 @@ public class CatInteractController : MonoBehaviour
     {
         if (col.gameObject.CompareTag(Tags.Alter))
         {
+            // alterController.ShowOutlines(false);
             alterNearby = false;
             alterController = null;
         }
@@ -196,11 +220,12 @@ public class CatInteractController : MonoBehaviour
     public void ResetBridgeList()
     {
         catBridgePositions.Clear();
+        hellOriginalTiles.Clear();
     }
 
     public void setGates(List<GameObject> gatesList)
     {
-        this.gates = gatesList;
+        gates = gatesList;
     }
 
     public void resetGates()

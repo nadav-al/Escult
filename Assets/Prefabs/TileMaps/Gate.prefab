@@ -235,3 +235,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   INITIAL_GATE_STATUS: 1
+  gateOutlinePrefab: {fileID: 8394442562732259770, guid: d4df61e7c2f6ab94fa23ff61d69069ef, type: 3}

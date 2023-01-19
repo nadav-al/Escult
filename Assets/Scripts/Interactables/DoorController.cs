@@ -9,7 +9,8 @@ public class DoorController : MonoBehaviour, IOpenable
     [SerializeField] private GameObject doorOpened;
 
     [SerializeField] private bool openStatus;
-    
+    [SerializeField] private GameObject outline;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,5 +40,13 @@ public class DoorController : MonoBehaviour, IOpenable
     public string getName()
     {
         return gameObject.name;
+    }
+
+    public void ShowOutline(bool displayMode)
+    {
+        if (outline != null)
+        {
+            outline.SetActive(displayMode);
+        }
     }
 }

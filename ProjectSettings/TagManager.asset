@@ -58,3 +58,6 @@ TagManager:
   - name: Gates
     uniqueID: 1304546049
     locked: 0
+  - name: Props
+    uniqueID: 3621924875
+    locked: 0
