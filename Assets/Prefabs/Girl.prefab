@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 858018080}
   - component: {fileID: 858018081}
-  - component: {fileID: 858018082}
   - component: {fileID: 858018084}
   - component: {fileID: 858018083}
   m_Layer: 8
@@ -45,10 +44,10 @@ BoxCollider2D:
   m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.02048695, y: -0.55735385}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -59,24 +58,8 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.0382935, y: 1.4558325}
   m_EdgeRadius: 0
---- !u!114 &858018082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 858018079}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d24169b90f0c40940ae15ce2664577aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactButton: 273
-  girlDirection: 0
-  cat: {fileID: 0}
-  gameManagerObj: {fileID: 0}
 --- !u!58 &858018084
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -90,9 +73,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.19}
+  m_Offset: {x: 0, y: -0.52}
   serializedVersion: 2
-  m_Radius: 0.275
+  m_Radius: 0.6
 --- !u!114 &858018083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManagerObj: {fileID: 0}
+  catAnimator: {fileID: 0}
   gameManager: {fileID: 0}
 --- !u!1 &2204166186252169030
 GameObject:
@@ -138,7 +122,7 @@ Transform:
   m_GameObject: {fileID: 2204166186252169030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.11, y: 0.82, z: 0}
-  m_LocalScale: {x: 0.64, y: 0.96, z: 1}
+  m_LocalScale: {x: 0.35, y: 0.32, z: 0.91145825}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 858018080}
@@ -185,9 +169,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2072621441
   m_SortingLayer: 1
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.3540395, g: 0.18535063, b: 0.8396226, a: 1}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 2077482229, guid: d6b6b7caf8f2c254ab737eac9234f37c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -210,18 +194,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.050079733, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.32, y: 2.56}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.1001594, y: 2.52}
   m_EdgeRadius: 0
 --- !u!50 &2204166186252169031
 Rigidbody2D:
@@ -256,17 +240,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67544f1fad8d2484998ea23f6c34036d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  leftButtonOpt1: 0
-  rightButtonOpt1: 0
-  upButtonOpt1: 0
-  downButtonOpt1: 0
-  leftButtonOpt2: 0
-  rightButtonOpt2: 0
-  upButtonOpt2: 0
-  downButtonOpt2: 0
+  movementSpeed: 2.8
+  leftButtonOpt1: 97
+  rightButtonOpt1: 100
+  upButtonOpt1: 119
+  downButtonOpt1: 115
+  leftButtonOpt2: 276
+  rightButtonOpt2: 275
+  upButtonOpt2: 273
+  downButtonOpt2: 274
   faceDirection: 0
   animator: {fileID: 1497816352}
+  gameManagerObj: {fileID: 0}
 --- !u!114 &2204166186252169080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,9 +264,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d24169b90f0c40940ae15ce2664577aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactButton: 101
-  girlDirection: 0
-  cat: {fileID: 0}
+  interactButtonOpt1: 101
+  interactButtonOpt2: 107
+  girlAnimator: {fileID: 1497816352}
   gameManagerObj: {fileID: 0}
 --- !u!95 &1497816352
 Animator:
@@ -291,9 +276,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2204166186252169030}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a29a580ba13ede240af077adba9591d2, type: 2}
+  m_Controller: {fileID: 9100000, guid: 99c4d0993feef2542a02e505ae90aed9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

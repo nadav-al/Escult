@@ -35,7 +35,7 @@ Transform:
   m_GameObject: {fileID: 8715704720659737683}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.49, y: -0.75, z: 0}
-  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67544f1fad8d2484998ea23f6c34036d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 4
+  movementSpeed: 2.8
   leftButtonOpt1: 97
   rightButtonOpt1: 100
   upButtonOpt1: 119
@@ -254,7 +254,7 @@ MonoBehaviour:
   girl: {fileID: 0}
   hellMap: {fileID: 0}
   groundMap: {fileID: 0}
-  bloodTile: {fileID: 11400000, guid: a456250f930d4884eab471d5266c47d9, type: 2}
+  bloodTile: {fileID: 11400000, guid: 0d65e2e87771ad945a9b0cfd253f3011, type: 2}
   gameManagerObj: {fileID: 0}
   animator: {fileID: 1922652129}
 --- !u!95 &1922652129
