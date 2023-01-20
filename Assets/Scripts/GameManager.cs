@@ -75,6 +75,8 @@ public class GameManager : MonoBehaviour
             Debug.Log("Done");
             return;
         } 
+        // TODO - why did we put it here and not in resetLevel?? Because we need the coordinates of original
+        // hell tile maps.
         cat.GetComponent<CatInteractController>().ResetBridgeList();
         levels[currLevelInd].gameObject.SetActive(true);
         levels[currLevelInd].StartNewLevel();

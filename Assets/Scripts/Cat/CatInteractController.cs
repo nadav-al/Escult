@@ -31,6 +31,8 @@ public class CatInteractController : MonoBehaviour
     private CircleCollider2D circleCollider;
     private Vector3Int catCellLookPos;
     [SerializeField] private GameObject bloodOutline;
+    [SerializeField] private GameObject movingBridgePrefab;
+    [SerializeField] private List<GameObject> movingBridges;
 
     public List<Vector3Int> GetBridgeList()
     {
@@ -47,6 +49,7 @@ public class CatInteractController : MonoBehaviour
     private void Start()
     {
         gates = new List<GameObject>();
+        movingBridges = new List<GameObject>();
         gameManager = gameManagerObj.GetComponent<GameManager>();
         soulsCtrl = GetComponent<SoulsController>();
         movementCtrl = GetComponent<MovementController>();
@@ -168,6 +171,9 @@ public class CatInteractController : MonoBehaviour
     {
         catBridgePositions.Add(catCellLookPos);
         hellOriginalTiles.Add(hellMap.GetTile(catCellLookPos));
+        GameObject movingBridge = Instantiate(movingBridgePrefab);
+        movingBridge.transform.position = hellMap.GetCellCenterWorld(catCellLookPos);
+        movingBridges.Add(movingBridge);
     }
 
     public void SetFocus(bool isFocused)
@@ -231,6 +237,15 @@ public class CatInteractController : MonoBehaviour
     public void ResetBloodBridgeOutline()
     {
         bloodOutline.SetActive(false);
+    }
+    // TODO - Show Nadav
+    public void getRidOfMovingBridges()
+    {
+        foreach (var bridge in movingBridges)
+        {
+            Destroy(bridge);
+        }
+        movingBridges.Clear();
     }
 
     public void setGates(List<GameObject> gatesList)

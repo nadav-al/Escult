@@ -50,6 +50,7 @@ public class LevelManager : MonoBehaviour
         if (isCatInLevel)
         {
             catInteractController.ResetBloodBridgeOutline();
+            catInteractController.getRidOfMovingBridges();
             cat.transform.position = catPos;
             catPickupController.dropCat(catPos);
             cat.SetActive(true);    
