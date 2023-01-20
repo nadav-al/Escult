@@ -9,23 +9,42 @@ public class AlterController : MonoBehaviour
     [SerializeField] private List<GameObject> connectedObjects;
     private List<IOpenable> openables;
     private List<Tilemap> gatesTilemaps;
-    [SerializeField] private GameObject gateOutline;
+    [SerializeField] private GameObject gateOutlinePrefab;
     private List<GameObject> gatesOutlines;
-    [SerializeField] private GameObject altarOutline;
+    [SerializeField] private GameObject altarOutlinePrefab;
+    private GameObject altarOutline;
 
     private void Start()
     {
         openables = new List<IOpenable>();
         gatesTilemaps = new List<Tilemap>();
+        gatesOutlines = new List<GameObject>();
         foreach (var obj in connectedObjects)
         {
             openables.Add(obj.GetComponent<IOpenable>());
             // TODO - better way to check if object has a tilemap
             if(!obj.CompareTag(Tags.Door))
             {
-                gatesTilemaps.Add(obj.GetComponent<Tilemap>());
+                var currGateTilemap = obj.GetComponent<Tilemap>(); 
+                gatesTilemaps.Add(currGateTilemap);
+                foreach (var position in currGateTilemap.cellBounds.allPositionsWithin)
+                {
+                    if (!currGateTilemap.HasTile(position))
+                    {
+                        continue;
+                    }
+
+                    GameObject currOutline = Instantiate(gateOutlinePrefab);
+                    currOutline.transform.position = currGateTilemap.GetCellCenterWorld(position);
+                    currOutline.SetActive(false);
+                    gatesOutlines.Add(currOutline);
+                }
             }
         }
+
+        altarOutline = Instantiate(altarOutlinePrefab);
+        altarOutline.transform.position = transform.position;
+        altarOutline.SetActive(false);
     }
     
 
@@ -56,9 +75,13 @@ public class AlterController : MonoBehaviour
     public void ShowOutlines(bool displayMode)
     {
         altarOutline.SetActive(displayMode);
-        foreach (var openable in openables)
+        // foreach (var openable in openables)
+        // {
+        //     openable.ShowOutline(displayMode);
+        // }
+        foreach (var gOutline in gatesOutlines)
         {
-            openable.ShowOutline(displayMode);
+            gOutline.SetActive(displayMode);
         }
     }
 }

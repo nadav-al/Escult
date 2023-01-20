@@ -100,7 +100,7 @@ public class CatInteractController : MonoBehaviour
             return;
         }
         catDirection = movementCtrl.faceDirection;
-        catFacingPit();
+        bool catPitIndicator = catFacingPit();
         
         //TODO Changes 18.1: order of alter and pit are switched.
         if (gameObject.layer != Layers.Air && (Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2)))
@@ -113,7 +113,7 @@ public class CatInteractController : MonoBehaviour
                 alterController.Sacrifice();
                 soulsCtrl.DecreaseSoul();
             }
-            else if (catFacingPit())
+            else if (catPitIndicator)
             {
                 addLocationToBridges();
                 soulsCtrl.DecreaseSoul();
@@ -181,7 +181,7 @@ public class CatInteractController : MonoBehaviour
         {
             alterNearby = true;
             alterController = col.gameObject.GetComponent<AlterController>();
-            // alterController.ShowOutlines(true);
+            alterController.ShowOutlines(true);
         }
     }
 
@@ -189,7 +189,7 @@ public class CatInteractController : MonoBehaviour
     {
         if (col.gameObject.CompareTag(Tags.Alter))
         {
-            // alterController.ShowOutlines(false);
+            alterController.ShowOutlines(false);
             alterNearby = false;
             alterController = null;
         }
@@ -226,6 +226,11 @@ public class CatInteractController : MonoBehaviour
     {
         catBridgePositions.Clear();
         hellOriginalTiles.Clear();
+    }
+
+    public void ResetBloodBridgeOutline()
+    {
+        bloodOutline.SetActive(false);
     }
 
     public void setGates(List<GameObject> gatesList)

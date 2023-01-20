@@ -126,4 +126,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedObjects:
   - {fileID: 0}
-  altarOutline: {fileID: 8394442562732259770, guid: 69f7425689e3daf4baba2c9357bb0fa2, type: 3}
+  gateOutlinePrefab: {fileID: 86254543825740930, guid: c1c08bf0944dd03489e7a286e6f0e6b7, type: 3}
+  altarOutlinePrefab: {fileID: 236661308793992879, guid: 54a05ee6e16dccb4ba5dc3b8d402dcae, type: 3}

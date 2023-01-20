@@ -49,6 +49,7 @@ public class LevelManager : MonoBehaviour
         soulsController.ResetSouls();
         if (isCatInLevel)
         {
+            catInteractController.ResetBloodBridgeOutline();
             cat.transform.position = catPos;
             catPickupController.dropCat(catPos);
             cat.SetActive(true);    
