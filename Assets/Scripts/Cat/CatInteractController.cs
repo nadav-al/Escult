@@ -30,6 +30,7 @@ public class CatInteractController : MonoBehaviour
     private bool isDeathAfterBridgeAnimationPlaying;
     private CircleCollider2D circleCollider;
     private Vector3Int catCellLookPos;
+    [SerializeField] private GameObject bloodOutline;
 
     public List<Vector3Int> GetBridgeList()
     {
@@ -56,6 +57,7 @@ public class CatInteractController : MonoBehaviour
             AnimationNames.Death, AnimationNames.Revive
         };
         circleCollider = GetComponent<CircleCollider2D>();
+        bloodOutline.SetActive(false);
     }
 
     void Update()
@@ -98,7 +100,7 @@ public class CatInteractController : MonoBehaviour
             return;
         }
         catDirection = movementCtrl.faceDirection;
-        
+        catFacingPit();
         
         //TODO Changes 18.1: order of alter and pit are switched.
         if (gameObject.layer != Layers.Air && (Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2)))
@@ -153,8 +155,11 @@ public class CatInteractController : MonoBehaviour
 
         if (hellMap.HasTile(catCellLookPos) && (!gameManager.getLevel().hasGates(catCellLookPos)))
         {
+            bloodOutline.SetActive(true);
+            bloodOutline.transform.position = hellMap.GetCellCenterWorld(catCellLookPos);
             return true;
         }
+        bloodOutline.SetActive(false);
         return false;
     }
     

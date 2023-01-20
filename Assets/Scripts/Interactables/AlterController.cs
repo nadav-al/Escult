@@ -9,6 +9,8 @@ public class AlterController : MonoBehaviour
     [SerializeField] private List<GameObject> connectedObjects;
     private List<IOpenable> openables;
     private List<Tilemap> gatesTilemaps;
+    [SerializeField] private GameObject gateOutline;
+    private List<GameObject> gatesOutlines;
     [SerializeField] private GameObject altarOutline;
 
     private void Start()
@@ -21,7 +23,7 @@ public class AlterController : MonoBehaviour
             // TODO - better way to check if object has a tilemap
             if(!obj.CompareTag(Tags.Door))
             {
-                gatesTilemaps.Add(obj.GetComponent<Tilemap>());    
+                gatesTilemaps.Add(obj.GetComponent<Tilemap>());
             }
         }
     }
@@ -51,12 +53,12 @@ public class AlterController : MonoBehaviour
         return false;
     }
 
-    // public void ShowOutlines(bool displayMode)
-    // {
-    //     altarOutline.SetActive(displayMode);
-    //     foreach (var openable in openables)
-    //     {
-    //         openable.ShowOutline(displayMode);
-    //     }
-    // }
+    public void ShowOutlines(bool displayMode)
+    {
+        altarOutline.SetActive(displayMode);
+        foreach (var openable in openables)
+        {
+            openable.ShowOutline(displayMode);
+        }
+    }
 }

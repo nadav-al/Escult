@@ -11,6 +11,7 @@ public class GateContoller : MonoBehaviour, IOpenable
     void Start()
     {
         // ResetGate();
+        
     }
     
     public void SetOpen(bool openStatus)
