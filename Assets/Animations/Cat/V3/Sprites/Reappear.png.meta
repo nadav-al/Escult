@@ -1,0 +1,437 @@
+fileFormatVersion: 2
+guid: 77728f49dd76caa4b8b31fc76500a091
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Reappear_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 71
+        width: 260
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57a5aa2079930834587a3658a153cd2a
+      internalID: -904757579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Reappear_2
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 71
+        width: 281
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 060ea69c2a9faaa41b5317b83a794175
+      internalID: 260262348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Reappear_3
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 71
+        width: 276
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b95a6ec9196437d4ea89d7767e8fc681
+      internalID: -1114546145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Reappear_4
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 71
+        width: 163
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cda5b94311629a74e805d1e627c7669e
+      internalID: -195354919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Reappear_32
+      rect:
+        serializedVersion: 2
+        x: 2948
+        y: 73
+        width: 181
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be81b1c51d21b8b4fa9897d08c5fb734
+      internalID: 487351101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Reappear_44
+      rect:
+        serializedVersion: 2
+        x: 2377
+        y: 73
+        width: 181
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b88357b8d94882a4c89acb691cd83f67
+      internalID: -53237521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Reappear_50
+      rect:
+        serializedVersion: 2
+        x: 2089
+        y: 73
+        width: 176
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 524e94da417763d4a914cb8b9892c117
+      internalID: -85675034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Reappear_52
+      rect:
+        serializedVersion: 2
+        x: 2671
+        y: 73
+        width: 175
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1ec611eed3dff8459f7c1e88b367ca2
+      internalID: -494420236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Reappear_56
+      rect:
+        serializedVersion: 2
+        x: 1834
+        y: 72
+        width: 141
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78852a682b3a82b45b45ff32de26d330
+      internalID: 255331469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Reappear_65
+      rect:
+        serializedVersion: 2
+        x: 1239
+        y: 71
+        width: 185
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f601e0a6808b39c42b4a7094142ea011
+      internalID: 2123068600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Reappear_67
+      rect:
+        serializedVersion: 2
+        x: 1512
+        y: 71
+        width: 217
+        height: 336
+      alignment: 9
+      pivot: {x: 0.5, y: 0.21}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee97ef8e00f881d42b20619c086ef1c5
+      internalID: 206589244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Reappear_64: -143330302
+      Reappear_40: 872529913
+      Reappear_45: 332012297
+      Reappear_41: 1172243675
+      Reappear_21: -876555918
+      Reappear_30: -1752302262
+      Reappear_11: 2064042002
+      Reappear_35: 1537337750
+      Reappear_6: -1797758114
+      Reappear_36: -1971009189
+      Reappear_47: 2065085677
+      Reappear_49: -915142032
+      Reappear_67: 206589244
+      Reappear_16: -1361601569
+      Reappear_38: -729088199
+      Reappear_34: 1052393646
+      Reappear_18: 1263811454
+      Reappear_10: -15880443
+      Reappear_61: -283336013
+      Reappear_43: -171169574
+      Reappear_19: 463114474
+      Reappear_53: -1544115781
+      Reappear_27: -673852222
+      Reappear_69: 463801005
+      Reappear_48: -1535974105
+      Reappear_28: 647631514
+      Reappear_0: -904757579
+      Reappear_32: 487351101
+      Reappear_17: -743883293
+      Reappear_9: -1808106445
+      Reappear_24: -730132673
+      Reappear_20: -841907916
+      Reappear_31: -1546021497
+      Reappear_51: 1799629749
+      Reappear_44: -53237521
+      Reappear_8: 1268732083
+      Reappear_2: 260262348
+      Reappear_3: -1114546145
+      Reappear_63: -1154973400
+      Reappear_55: -823644675
+      Reappear_1: 2044311714
+      Reappear_26: 588898208
+      Reappear_22: -498938033
+      Reappear_42: 972474254
+      Reappear_52: -494420236
+      Reappear_14: -874223401
+      Reappear_33: -101218410
+      Reappear_46: 1203503919
+      Reappear_57: -1679110197
+      Reappear_12: 1754465503
+      Reappear_58: 761827342
+      Reappear_4: -195354919
+      Reappear_15: -2102663571
+      Reappear_39: 1687049676
+      Reappear_56: 255331469
+      Reappear_54: -450774139
+      Reappear_59: 327355558
+      Reappear_60: -467712640
+      Reappear_13: 1556458732
+      Reappear_62: -1624498402
+      Reappear_68: -1870951110
+      Reappear_7: -410340276
+      Reappear_66: 1661712193
+      Reappear_37: -1954386668
+      Reappear_50: -85675034
+      Reappear_29: -906480058
+      Reappear_65: 2123068600
+      Reappear_5: 783617099
+      Reappear_70: 9642132
+      Reappear_23: 469782574
+      Reappear_25: -444537849
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
