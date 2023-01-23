@@ -14,7 +14,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] private KeyCode rightButtonOpt2;
     [SerializeField] private KeyCode upButtonOpt2;
     [SerializeField] private KeyCode downButtonOpt2;
-    
+    [SerializeField] private AudioSource walkAudio;
     private bool isFocused = true;
     private Rigidbody2D _rigidbody2D;
     public FaceDirection faceDirection;
@@ -52,15 +52,18 @@ public class MovementController : MonoBehaviour
             return;
         }
 
+        walkAudio.Stop();
         Vector2 newVel = Vector2.zero;
         if ((Input.GetKey(upButtonOpt1) || Input.GetKey(upButtonOpt2)))
         {
+            walkAudio.Play();
             animator.SetBool("WalksUp", true);
             faceDirection = FaceDirection.Up;
             newVel += Vector2.up;
         }
         if ((Input.GetKey(downButtonOpt1) || Input.GetKey(downButtonOpt2)))
         {
+            walkAudio.Play();
             animator.SetBool("WalksDown", true);
             faceDirection = FaceDirection.Down;
             newVel += Vector2.down;
@@ -68,12 +71,14 @@ public class MovementController : MonoBehaviour
 
         if ((Input.GetKey(rightButtonOpt1) || Input.GetKey(rightButtonOpt2)))
         {
+            walkAudio.Play();
             animator.SetBool("WalksRight", true);
             faceDirection = FaceDirection.Right;
             newVel += Vector2.right;
         }
         if ((Input.GetKey(leftButtonOpt1) || Input.GetKey(leftButtonOpt2)))
         {
+            walkAudio.Play();
             animator.SetBool("WalksLeft", true);
             faceDirection = FaceDirection.Left;
             newVel += Vector2.left;

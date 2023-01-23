@@ -119,6 +119,7 @@ public class CatInteractController : MonoBehaviour
                 animator.SetBool("CatSacrificed", true);
                 isSacrificeAnimationPlaying = true;
                 gameManager.up();
+                // alterController.GetComponent<AudioSource>().Play();
                 alterController.Sacrifice();
                 soulsCtrl.DecreaseSoul();
             }

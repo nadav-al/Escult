@@ -13,6 +13,7 @@ public class AlterController : MonoBehaviour
     private List<GameObject> gatesOutlines;
     [SerializeField] private GameObject altarOutlinePrefab;
     private GameObject altarOutline;
+    [SerializeField] private AudioSource gateSound;
 
     private void Start()
     {
@@ -51,6 +52,10 @@ public class AlterController : MonoBehaviour
 
     public void Sacrifice()
     {
+        if (openables.Count != 0)
+        {
+            gateSound.Play();
+        }
         foreach (var openable in openables)
         {
             openable.SwapOpenState();
