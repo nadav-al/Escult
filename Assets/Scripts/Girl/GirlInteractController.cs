@@ -9,8 +9,9 @@ public class GirlInteractController : MonoBehaviour
     [SerializeField] private KeyCode interactButtonOpt2 = KeyCode.J;
 
     [SerializeField] private Animator girlAnimator;
-    private MovementController movementController;
+    [SerializeField] private MovementController movementController;
     private GameObject potentialHeldItem;
+    // TODO - Maybe Serialize
     private CatPickupController catController;
     private bool catInArea;
     private bool holdsCat;
@@ -18,7 +19,7 @@ public class GirlInteractController : MonoBehaviour
     private bool isThrownAnimationPlaying;
     private List<String> animNames;
     [SerializeField] private GameObject gameManagerObj;
-    private GameManager gameManager;
+    [SerializeField] private GameManager gameManager;
 
     public void SetFocus(bool isFocused)
     {
@@ -35,10 +36,8 @@ public class GirlInteractController : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        movementController = GetComponentInParent<MovementController>();
-        gameManager = gameManagerObj.GetComponent<GameManager>();
         animNames = new List<String>
         {
             AnimationNames.ThrowLeft,
@@ -46,6 +45,12 @@ public class GirlInteractController : MonoBehaviour
             AnimationNames.ThrowUp,
             AnimationNames.ThrowDown
         };
+    }
+
+    void Start()
+    {
+        // movementController = GetComponentInParent<MovementController>();
+        // gameManager = gameManagerObj.GetComponent<GameManager>();
     }
 
 

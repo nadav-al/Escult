@@ -7,12 +7,15 @@ public class ColliderGirlInteractController : MonoBehaviour
 {
     [SerializeField] private GameObject gameManagerObj;
     [SerializeField] private Animator catAnimator;
-    public GameManager gameManager;
+    [SerializeField] public GameManager gameManager;
+    [SerializeField] public GirlInteractController girlInteractController;
+    [SerializeField] public GameObject cat;
+    [SerializeField] private AudioSource deathCatSound;
     private bool isEndOfLevelAnimationPlaying;
 
     private void Start()
     {
-        gameManager = gameManagerObj.GetComponent<GameManager>();
+        // gameManager = gameManagerObj.GetComponent<GameManager>();
     }
 
 
@@ -25,7 +28,6 @@ public class ColliderGirlInteractController : MonoBehaviour
         
             if (animName2.Equals(AnimationNames.CatLeavesLevel) && animStateInfo2.normalizedTime > 1.0f)
             {
-                // catAnimator.SetBool("LevelEnded", false);
                 isEndOfLevelAnimationPlaying = false;
                 gameManager.down();
                 gameManager.NextLevel();
@@ -45,10 +47,16 @@ public class ColliderGirlInteractController : MonoBehaviour
                 {
                     Debug.Log(gameObject + " collided with " + col.gameObject);
                 }
-
-                if (!gameManager.getLevel().getCatInLevel() || gameManager.isCatDead())
+                if (!gameManager.getLevel().getCatInLevel() || gameManager.isCatDead() || 
+                    girlInteractController.GetHoldsCat() || cat.layer == Layers.Air || 
+                    gameManager.isImportantAnimationsPlaying())
                 {
+                    if (deathCatSound.isPlaying)
+                    {
+                        deathCatSound.Stop();
+                    }
                     gameManager.NextLevel();
+                    
                 }
                 else
                 {

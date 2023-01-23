@@ -206,11 +206,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   throwSpeed: 15
+  rigidbody: {fileID: 8715704720659737682}
   hell: {fileID: 0}
   girl: {fileID: 0}
+  soulsController: {fileID: 1922652120}
   animator: {fileID: 1922652129}
   gameManagerObj: {fileID: 0}
+  gameManager: {fileID: 0}
   deathSound: {fileID: -7082556310796878300}
+  landSound: {fileID: 0}
 --- !u!58 &1922652128
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -255,12 +259,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactButtonOpt1: 101
   interactButtonOpt2: 107
+  alterController: {fileID: 0}
+  soulsCtrl: {fileID: 1922652120}
   girl: {fileID: 0}
+  movementCtrl: {fileID: 8715704720659737694}
   hellMap: {fileID: 0}
   groundMap: {fileID: 0}
   bloodTile: {fileID: 11400000, guid: ee975c579f93396439982ac166ace010, type: 2}
   gameManagerObj: {fileID: 0}
+  gameManager: {fileID: 0}
   animator: {fileID: 1922652129}
+  circleCollider: {fileID: 1922652128}
   bloodOutline: {fileID: 0}
   movingBridgePrefab: {fileID: 1332526763441699258, guid: 58b092a95c4024446a463729c6801243, type: 3}
   movingBridges: []

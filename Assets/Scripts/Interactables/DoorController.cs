@@ -12,10 +12,17 @@ public class DoorController : MonoBehaviour, IOpenable
     [SerializeField] private GameObject outline;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         doorClosed.SetActive(!openStatus);
         doorOpened.SetActive(openStatus);
+
+    }
+
+    void Start()
+    {
+        // doorClosed.SetActive(!openStatus);
+        // doorOpened.SetActive(openStatus);
     }
 
     public void SetOpen(bool openStatus)

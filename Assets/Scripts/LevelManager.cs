@@ -7,14 +7,15 @@ using UnityEngine.Tilemaps;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject girl;
-    [SerializeField] private Vector3 girlPos;
+    [SerializeField] public Vector3 girlPos;
     private GirlInteractController girlInteractController;
     [SerializeField] private GameObject cat;
     [SerializeField] private bool isCatInLevel = true;
     [SerializeField] private Vector3 catPos;
     private Animator catAnimator; 
-    private CatInteractController catInteractController;
-    private CatPickupController catPickupController;
+    private Animator girlAnimator;
+    [SerializeField] private CatInteractController catInteractController;
+    [SerializeField] private CatPickupController catPickupController;
     [SerializeField] private TileBase hellTile;
     [SerializeField] private Tilemap groundMap;
     [SerializeField] private Tilemap hellMap;
@@ -25,30 +26,35 @@ public class LevelManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         catInteractController = cat.GetComponent<CatInteractController>();
         catPickupController = cat.GetComponent<CatPickupController>();
         soulsController = cat.GetComponent<SoulsController>();
         girlInteractController = girl.GetComponent<GirlInteractController>();
+        catAnimator = cat.GetComponent<Animator>();
+        girlAnimator = girl.GetComponent<Animator>();
         if (!isCatInLevel)
         {
             cat.SetActive(false);
         }
     }
+    void Start()
+    {
+        // catInteractController = cat.GetComponent<CatInteractController>();
+        // catPickupController = cat.GetComponent<CatPickupController>();
+        // soulsController = cat.GetComponent<SoulsController>();
+        // girlInteractController = girl.GetComponent<GirlInteractController>();
+        // if (!isCatInLevel)
+        // {
+        //     cat.SetActive(false);
+        // }
+    }
+
     public void SetActive(bool isActive)
     {
         gameObject.SetActive(isActive);
-        catInteractController = cat.GetComponent<CatInteractController>();
-        catPickupController = cat.GetComponent<CatPickupController>();
-        soulsController = cat.GetComponent<SoulsController>();
-        girlInteractController = girl.GetComponent<GirlInteractController>();
-        cat.SetActive(isActive);
-        if (!isCatInLevel)
-        {
-            cat.SetActive(false);
-        }
-        girl.SetActive(isActive);
+        ResetComponents();
     }
 
     public void ResetLevel()
@@ -61,7 +67,8 @@ public class LevelManager : MonoBehaviour
             catInteractController.getRidOfMovingBridges();
             cat.transform.position = catPos;
             catPickupController.dropCat(catPos);
-            cat.SetActive(true);    
+            cat.SetActive(true);
+            catAnimator.Rebind();
         }
         
 
@@ -69,6 +76,7 @@ public class LevelManager : MonoBehaviour
         girl.transform.position = girlPos;
         girl.SetActive(true); 
         girlInteractController.SetHoldsCat(false);
+        girlAnimator.Rebind();
 
         GateContoller gateCtrl;
         // Reset Gates
@@ -105,6 +113,7 @@ public class LevelManager : MonoBehaviour
         catInteractController = cat.GetComponent<CatInteractController>();
         soulsController = cat.GetComponent<SoulsController>();
         catAnimator = cat.GetComponent<Animator>();
+        girlAnimator = girl.GetComponent<Animator>();
         girlInteractController = girl.GetComponent<GirlInteractController>();
     }
 

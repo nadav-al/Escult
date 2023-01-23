@@ -7,23 +7,28 @@ using UnityEngine.Tilemaps;
 public class CatPickupController : MonoBehaviour
 {
     [SerializeField] private float throwSpeed = 3;
-    private Rigidbody2D rigidbody;
+    [SerializeField] private Rigidbody2D rigidbody;
     private FaceDirection catDirection;
     [SerializeField] private Tilemap hell;
     [SerializeField] private GameObject girl;
-    private SoulsController soulsController;
+    [SerializeField] private SoulsController soulsController;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject gameManagerObj;
-    private GameManager gameManager;
+    [SerializeField] private GameManager gameManager;
     private bool isFallToHellAnimationPlaying;
     [SerializeField] private AudioSource deathSound;
     [SerializeField] private AudioSource landSound;
 
     private void Start()
     {
-        soulsController = GetComponent<SoulsController>();
-        rigidbody = GetComponent<Rigidbody2D>();
-        gameManager = gameManagerObj.GetComponent<GameManager>();
+        // soulsController = GetComponent<SoulsController>();
+        // rigidbody = GetComponent<Rigidbody2D>();
+        // gameManager = gameManagerObj.GetComponent<GameManager>();
+    }
+
+    private void Awake()
+    {
+        
     }
 
     private void Update()
@@ -129,7 +134,12 @@ public class CatPickupController : MonoBehaviour
     {
         animator.SetBool("CatInAir",false);
         gameObject.transform.position = playerLoc;
-        gameObject.SetActive(true); 
+        gameObject.SetActive(true);
+        if (rigidbody == null)
+        {
+            gameObject.transform.position = Vector3.zero;
+            return;
+        }
         rigidbody.velocity = Vector2.zero;
         gameObject.layer = Layers.Cat;
     }

@@ -16,7 +16,7 @@ public class AlterController : MonoBehaviour
     [SerializeField] private AudioSource gateSound;
     [SerializeField] private AudioSource altarSound;
 
-    private void Start()
+    private void Awake()
     {
         openables = new List<IOpenable>();
         gatesTilemaps = new List<Tilemap>();
@@ -47,6 +47,11 @@ public class AlterController : MonoBehaviour
         altarOutline = Instantiate(altarOutlinePrefab);
         altarOutline.transform.position = transform.position;
         altarOutline.SetActive(false);
+    }
+
+    private void Start()
+    {
+        
     }
     
 

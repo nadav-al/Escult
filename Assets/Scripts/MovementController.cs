@@ -16,12 +16,12 @@ public class MovementController : MonoBehaviour
     [SerializeField] private KeyCode downButtonOpt2;
     [SerializeField] private AudioSource walkAudio;
     private bool isFocused = true;
-    private Rigidbody2D _rigidbody2D;
+    [SerializeField] private Rigidbody2D _rigidbody2D;
     public FaceDirection faceDirection;
     
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject gameManagerObj;
-    private GameManager gameManager;
+    [SerializeField] private GameManager gameManager;
     private bool isMoving;
 
     public void SetFocus(bool isFocused)
@@ -32,8 +32,14 @@ public class MovementController : MonoBehaviour
     // It checks for input from the user and moves/rotates the ship accordingly.
     private void Start()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-        gameManager = gameManagerObj.GetComponent<GameManager>();
+        // _rigidbody2D = GetComponent<Rigidbody2D>();
+        // gameManager = gameManagerObj.GetComponent<GameManager>();
+    }
+
+    private void Awake()
+    {
+        // _rigidbody2D = GetComponent<Rigidbody2D>();
+        // gameManager = gameManagerObj.GetComponent<GameManager>();
     }
 
     void FixedUpdate()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,11 @@ public class GateContoller : MonoBehaviour, IOpenable
     private bool gateStatus;
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        ResetGate();
+    }
+
     void Start()
     {
         // ResetGate();

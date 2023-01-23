@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,9 +12,13 @@ public class SoulsController : MonoBehaviour
     [SerializeField] private Animator catAnimator;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         numSouls = CAT_INIT_SOULS;
+    }
+
+    void Start()
+    {
     }
 
     // Update is called once per frame

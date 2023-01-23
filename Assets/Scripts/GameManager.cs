@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
+        ResetImportantAnimations();
         // levels[currLevelInd].ResetLevel();
         levels[currLevelInd].SetActive(false);
         
@@ -131,7 +132,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         animNames = new List<String>
         {
@@ -142,6 +143,11 @@ public class GameManager : MonoBehaviour
             AnimationNames.DeathState,
             AnimationNames.ReviveState
         };
+
+    }
+
+    void Start()
+    {
         StartGame();
     }
 

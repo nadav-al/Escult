@@ -11,24 +11,24 @@ public class CatInteractController : MonoBehaviour
     [SerializeField] private KeyCode interactButtonOpt2 = KeyCode.J;
     private bool isFocused = false;
     private bool alterNearby;
-    private AlterController alterController;
-    private SoulsController soulsCtrl;
+    [SerializeField] private AlterController alterController;
+    [SerializeField] private SoulsController soulsCtrl;
     [SerializeField] private Transform girl;
     private FaceDirection catDirection;
-    private MovementController movementCtrl;
+    [SerializeField] private MovementController movementCtrl;
     [SerializeField] private Tilemap hellMap;
     [SerializeField] private Tilemap groundMap;
     [SerializeField] private TileBase bloodTile;
     private List<Vector3Int> catBridgePositions;
     private List<TileBase> hellOriginalTiles;
     [SerializeField] private GameObject gameManagerObj;
-    private GameManager gameManager;
+    [SerializeField] private GameManager gameManager;
     private List<GameObject> gates;
     [SerializeField] private Animator animator;
     private bool isSacrificeAnimationPlaying;
     private List<String> animNames;
     private bool isDeathAfterBridgeAnimationPlaying;
-    private CircleCollider2D circleCollider;
+    [SerializeField] private CircleCollider2D circleCollider;
     private Vector3Int catCellLookPos;
     [SerializeField] private GameObject bloodOutline;
     [SerializeField] private GameObject movingBridgePrefab;
@@ -44,24 +44,28 @@ public class CatInteractController : MonoBehaviour
     {
         return hellOriginalTiles;
     }
-    
-    
 
-    private void Start()
+    private void Awake()
     {
         gates = new List<GameObject>();
         movingBridges = new List<GameObject>();
-        gameManager = gameManagerObj.GetComponent<GameManager>();
-        soulsCtrl = GetComponent<SoulsController>();
-        movementCtrl = GetComponent<MovementController>();
+        // gameManager = gameManagerObj.GetComponent<GameManager>();
+        // soulsCtrl = GetComponent<SoulsController>();
+        // movementCtrl = GetComponent<MovementController>();
         catBridgePositions = new List<Vector3Int>();
         hellOriginalTiles = new List<TileBase>();
         animNames = new List<String>
         {
             AnimationNames.Death, AnimationNames.Revive
         };
-        circleCollider = GetComponent<CircleCollider2D>();
+        // circleCollider = GetComponent<CircleCollider2D>();
         bloodOutline.SetActive(false);
+
+    }
+    
+
+    private void Start()
+    {
     }
 
     void Update()

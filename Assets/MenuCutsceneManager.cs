@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,12 +11,17 @@ public class MenuCutsceneManager : MonoBehaviour
     private int currOpenSceneInd = 0;
     [SerializeField] private List<GameObject> endCutscenes;
     private int currEndSceneInd = 0;
-    
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         openCutscenes[currOpenSceneInd].SetActive(true);
     }
+
+    // Start is called before the first frame update
+    // void Start()
+    // {
+    //     openCutscenes[currOpenSceneInd].SetActive(true);
+    // }
 
     // Update is called once per frame
     void Update()
@@ -49,7 +55,7 @@ public class MenuCutsceneManager : MonoBehaviour
         {
             // TODO turn off all other objects that are not relevant for Game Over screen (like the cat lives).
             Debug.Log("Done");
-            openCutscenes[currOpenSceneInd-1].GetComponent<Animator>().Play("FadeOut");
+            // openCutscenes[currOpenSceneInd-1].GetComponent<Animator>().Play("FadeOut");
             SceneManager.LoadScene("SampleScene");
             return;
         }
