@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -81,7 +82,8 @@ public class GameManager : MonoBehaviour
         if (++currLevelInd == levels.Count)
         {
             // TODO turn off all other objects that are not relevant for Game Over screen (like the cat lives).
-            Debug.Log("Done");
+            // Debug.Log("Done");
+            SceneManager.LoadScene("End Cutscenes Scene");
             return;
         } 
         // TODO - why did we put it here and not in resetLevel?? Because we need the coordinates of original
@@ -143,7 +145,7 @@ public class GameManager : MonoBehaviour
             AnimationNames.DeathState,
             AnimationNames.ReviveState
         };
-
+        currLevelInd = 0;
     }
 
     void Start()
@@ -153,6 +155,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        currLevelInd = 0;
         catAnimator.Rebind();
         girlAnimator.Rebind();
         catAnimator.SetInteger("CatSouls", 9);
@@ -181,6 +184,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());
         if (catSouls.IsDead() && !isImportantAnimationsPlaying())
         {
@@ -204,8 +211,8 @@ public class GameManager : MonoBehaviour
             catAnimator.SetInteger("CatSouls", 9);
             levels[currLevelInd].ResetLevel();
         }
-        if (levels[currLevelInd].getCatInLevel() && !catSouls.IsDead() && !isImportantAnimationsPlaying() &&
-            (Input.GetKeyDown(switchCharactersKeyOpt1) || Input.GetKeyDown(switchCharactersKeyOpt2)))
+        if (currLevelInd < levels.Count && levels[currLevelInd].getCatInLevel() && !catSouls.IsDead() 
+            && !isImportantAnimationsPlaying() && (Input.GetKeyDown(switchCharactersKeyOpt1) || Input.GetKeyDown(switchCharactersKeyOpt2)))
         {
             if (girlInteractCtrl.GetHoldsCat())
             {
