@@ -88,6 +88,11 @@ public class GameManager : MonoBehaviour
         return levels[currLevelInd];
     }
 
+    public bool isCatDead()
+    {
+        return catSouls.IsDead();
+    }
+
     public void SetFocusedCharacter(bool focusValue)
     {
         focusedCharacter = focusValue;
@@ -129,6 +134,11 @@ public class GameManager : MonoBehaviour
             AnimationNames.DeathState,
             AnimationNames.ReviveState
         };
+        StartGame();
+    }
+
+    public void StartGame()
+    {
         catAnimator.Rebind();
         girlAnimator.Rebind();
         catAnimator.SetInteger("CatSouls", 9);
