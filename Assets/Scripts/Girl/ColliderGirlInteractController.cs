@@ -46,7 +46,7 @@ public class ColliderGirlInteractController : MonoBehaviour
                     Debug.Log(gameObject + " collided with " + col.gameObject);
                 }
                 catAnimator.SetBool("LevelEnded", true);
-                // isEndOfLevelAnimationPlaying = true;
+                isEndOfLevelAnimationPlaying = true;
                 gameManager.up();
                 
                 Debug.Log(gameManager);

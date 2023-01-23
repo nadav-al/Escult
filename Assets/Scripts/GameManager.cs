@@ -174,10 +174,10 @@ public class GameManager : MonoBehaviour
             importantAnimationsSempahore = 0;
             focusedCharacter = true;
             ApplyFocusToCharacters();
-            levels[currLevelInd].ResetLevel();
             catAnimator.Rebind();
             girlAnimator.Rebind();
             catAnimator.SetInteger("CatSouls", 9);
+            levels[currLevelInd].ResetLevel();
         }
         if (levels[currLevelInd].getCatInLevel() && !catSouls.IsDead() && !isImportantAnimationsPlaying() &&
             (Input.GetKeyDown(switchCharactersKeyOpt1) || Input.GetKeyDown(switchCharactersKeyOpt2)))
@@ -186,6 +186,7 @@ public class GameManager : MonoBehaviour
             {
                 girlInteractCtrl.SetHoldsCat(false);
                 catPickupController.dropCat(girl.transform.position);
+                catMovementCtrl.faceDirection = FaceDirection.Down;
             }
             focusedCharacter = !focusedCharacter;
             ApplyFocusToCharacters();

@@ -40,6 +40,8 @@ public class CatPickupController : MonoBehaviour
                 gameObject.transform.position = girl.transform.position;
                 if (soulsController.IsDead())
                 {
+                    gameManager.SetFocusedCharacter(true);
+                    gameManager.ApplyFocusToCharacters();
                     gameObject.SetActive(false);
                 }
             }    
@@ -86,9 +88,9 @@ public class CatPickupController : MonoBehaviour
     public void Land()
     {
         rigidbody.velocity = Vector2.zero;
-        gameObject.layer = Layers.Cat;
         animator.SetBool("CatInAir",false);
         Vector3Int catPos = hell.WorldToCell(transform.position);
+        gameObject.layer = Layers.Cat;
         if (hell.HasTile(catPos))
         {
             Debug.Log("You are in hell");

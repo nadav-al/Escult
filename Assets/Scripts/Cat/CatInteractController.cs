@@ -79,6 +79,9 @@ public class CatInteractController : MonoBehaviour
                 animator.SetBool("CatSacrificed", false);
                 if (soulsCtrl.IsDead())
                 {
+                    gameManager.SetFocusedCharacter(true);
+                    gameManager.ApplyFocusToCharacters();
+                    bloodOutline.SetActive(false);
                     gameObject.SetActive(false);
                 }
             }
@@ -95,11 +98,14 @@ public class CatInteractController : MonoBehaviour
                 isDeathAfterBridgeAnimationPlaying = false;
                 gameManager.down();
                 gameObject.SetActive(false);
+                gameManager.SetFocusedCharacter(true);
+                gameManager.ApplyFocusToCharacters();
             }    
         }
 
         if (!isFocused || gameManager.isImportantAnimationsPlaying())
         {
+            bloodOutline.SetActive(false);
             return;
         }
         catDirection = movementCtrl.faceDirection;
@@ -124,6 +130,7 @@ public class CatInteractController : MonoBehaviour
                 groundMap.SetTile(catBridgePositions.Last(), bloodTile);
                 if (soulsCtrl.IsDead())
                 {
+                    bloodOutline.SetActive(false);
                     animator.SetInteger("CatSouls", 0);
                     isDeathAfterBridgeAnimationPlaying = true;
                     gameManager.up();
@@ -156,7 +163,8 @@ public class CatInteractController : MonoBehaviour
                 break;
         }
 
-        if (hellMap.HasTile(catCellLookPos) && (!gameManager.getLevel().hasGates(catCellLookPos)))
+        if (gameObject.layer != Layers.Air && hellMap.HasTile(catCellLookPos) &&
+            (!gameManager.getLevel().hasGates(catCellLookPos)))
         {
             bloodOutline.SetActive(true);
             bloodOutline.transform.position = hellMap.GetCellCenterWorld(catCellLookPos);

@@ -1559,7 +1559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 509225841878213631, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 509225841878213631, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size
@@ -4779,7 +4779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 509225841963703387, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 509225841963703387, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size
@@ -8851,7 +8851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 509225843855397825, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1162885308947152073, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_RootOrder
@@ -9182,6 +9182,7 @@ MonoBehaviour:
   switchCharactersKeyOpt2: 106
   levels:
   - {fileID: 514768749}
+  - {fileID: 1815540375}
   - {fileID: 1125901334}
   - {fileID: 1125901334}
   - {fileID: 1125901334}
@@ -21481,9 +21482,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 866714895}
     m_Modifications:
+    - target: {fileID: 728891851558344483, guid: aa5429563dce5364881353b534442df8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 728891851558344483, guid: aa5429563dce5364881353b534442df8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 728891851558344483, guid: aa5429563dce5364881353b534442df8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 728891851558344483, guid: aa5429563dce5364881353b534442df8, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 728891851558344484, guid: aa5429563dce5364881353b534442df8, type: 3}
       propertyPath: openStatus
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5209826450865677796, guid: aa5429563dce5364881353b534442df8, type: 3}
       propertyPath: m_Tiles.Array.size
@@ -30419,7 +30436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8784580152715918371, guid: aa5429563dce5364881353b534442df8, type: 3}
       propertyPath: doors.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8784580152715918371, guid: aa5429563dce5364881353b534442df8, type: 3}
       propertyPath: doors.Array.data[0]
@@ -32265,6 +32282,17 @@ TilemapCollider2D:
   m_CorrespondingSourceObject: {fileID: 5106348421571009393, guid: 4d2bed6dd9790a8478f3937089e66607, type: 3}
   m_PrefabInstance: {fileID: 1842719797}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1815540375 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8784580152715918371, guid: aa5429563dce5364881353b534442df8, type: 3}
+  m_PrefabInstance: {fileID: 1408959714}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c52d13c64915974d8127908fdb1a192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!19719996 &1829689636 stripped
 TilemapCollider2D:
   m_CorrespondingSourceObject: {fileID: 2190093559978284508, guid: 532e2c62f47614940b6f364bd29e6713, type: 3}
@@ -75647,6 +75675,10 @@ PrefabInstance:
     - target: {fileID: 8658674630782245447, guid: 692ae08077e1e454b97877b8d1d76e77, type: 3}
       propertyPath: girlPos.y
       value: 1.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658674630782245447, guid: 692ae08077e1e454b97877b8d1d76e77, type: 3}
+      propertyPath: isDoorOpen
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8658674630782245447, guid: 692ae08077e1e454b97877b8d1d76e77, type: 3}
       propertyPath: gates.Array.size

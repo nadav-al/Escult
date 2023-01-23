@@ -5,7 +5,7 @@
     public const string ThrowUp = "Girl_Throw_Back";
     public const string ThrowDown = "Girl_Throw_Front";
     //TODO CHANGE!!!!!!!
-    public const string Death = "Death_cat";
+    public const string Death = "Death_cat V2";
     public const string Revive = "teleport_in";
     public const string CatLeavesLevel = "teleport_out";
     public const string DeathState = "CatDeath";

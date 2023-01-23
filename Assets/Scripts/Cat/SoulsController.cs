@@ -45,5 +45,6 @@ public class SoulsController : MonoBehaviour
     public void ResetSouls()
     {
         numSouls = CAT_INIT_SOULS;
+        catAnimator.SetInteger("CatSouls", numSouls);
     }
 }
