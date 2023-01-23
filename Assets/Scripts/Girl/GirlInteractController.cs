@@ -123,4 +123,9 @@ public class GirlInteractController : MonoBehaviour
     {
         return isThrownAnimationPlaying;
     }
+
+    public void ResetImportantAnimation()
+    {
+        isThrownAnimationPlaying = false;
+    }
 }

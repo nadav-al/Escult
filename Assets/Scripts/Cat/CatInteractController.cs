@@ -270,4 +270,10 @@ public class CatInteractController : MonoBehaviour
     {
         return isSacrificeAnimationPlaying || isDeathAfterBridgeAnimationPlaying;
     }
+    
+    public void ResetImportantAnimation()
+    {
+        isSacrificeAnimationPlaying = false;
+        isDeathAfterBridgeAnimationPlaying = false;
+    }
 }

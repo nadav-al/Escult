@@ -60,8 +60,16 @@ public class GameManager : MonoBehaviour
     public bool isImportantAnimationsPlaying()
     {
         return girlInteractCtrl.isImportantAnimationPlaying() || girlColliderInteractCtrl.isImportantAnimationPlaying()
-               || catInteractCtrl.isImportantAnimationPlaying() ||catPickupController.isImportantAnimationPlaying();
+               || catInteractCtrl.isImportantAnimationPlaying() || catPickupController.isImportantAnimationPlaying();
         return importantAnimationsSempahore > 0;
+    }
+
+    public void ResetImportantAnimations()
+    {
+        girlInteractCtrl.ResetImportantAnimation();
+        girlColliderInteractCtrl.ResetImportantAnimation();
+        catInteractCtrl.ResetImportantAnimation();
+        catPickupController.ResetImportantAnimation();
     }
 
     public void NextLevel()
@@ -182,6 +190,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(restartLevelKey))
         {
             importantAnimationsSempahore = 0;
+            ResetImportantAnimations();
             focusedCharacter = true;
             ApplyFocusToCharacters();
             catAnimator.Rebind();

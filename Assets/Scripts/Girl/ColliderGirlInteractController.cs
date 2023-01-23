@@ -80,4 +80,9 @@ public class ColliderGirlInteractController : MonoBehaviour
     {
         return isEndOfLevelAnimationPlaying;
     }
+    
+    public void ResetImportantAnimation()
+    {
+        isEndOfLevelAnimationPlaying = false;
+    }
 }

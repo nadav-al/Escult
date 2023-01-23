@@ -134,4 +134,9 @@ public class CatPickupController : MonoBehaviour
     {
         return isFallToHellAnimationPlaying;
     }
+    
+    public void ResetImportantAnimation()
+    {
+        isFallToHellAnimationPlaying = false;
+    }
 }
