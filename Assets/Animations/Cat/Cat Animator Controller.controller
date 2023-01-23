@@ -1395,7 +1395,7 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: CatSouls
-    m_EventTreshold: 77777
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3819759303656007406}
   m_Solo: 0
