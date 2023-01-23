@@ -136,6 +136,7 @@ public class CatInteractController : MonoBehaviour
                     animator.SetInteger("CatSouls", 0);
                     isDeathAfterBridgeAnimationPlaying = true;
                     gameManager.up();
+                    deathSound.Play();
                 }
             } 
         }

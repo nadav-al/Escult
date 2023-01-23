@@ -39,7 +39,15 @@ public class LevelManager : MonoBehaviour
     public void SetActive(bool isActive)
     {
         gameObject.SetActive(isActive);
+        catInteractController = cat.GetComponent<CatInteractController>();
+        catPickupController = cat.GetComponent<CatPickupController>();
+        soulsController = cat.GetComponent<SoulsController>();
+        girlInteractController = girl.GetComponent<GirlInteractController>();
         cat.SetActive(isActive);
+        if (!isCatInLevel)
+        {
+            cat.SetActive(false);
+        }
         girl.SetActive(isActive);
     }
 

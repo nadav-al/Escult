@@ -46,7 +46,7 @@ public class ColliderGirlInteractController : MonoBehaviour
                     Debug.Log(gameObject + " collided with " + col.gameObject);
                 }
 
-                if (gameManager.isCatDead())
+                if (!gameManager.getLevel().getCatInLevel() || gameManager.isCatDead())
                 {
                     gameManager.NextLevel();
                 }
