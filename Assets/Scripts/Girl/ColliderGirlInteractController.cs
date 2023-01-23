@@ -25,7 +25,7 @@ public class ColliderGirlInteractController : MonoBehaviour
         
             if (animName2.Equals(AnimationNames.CatLeavesLevel) && animStateInfo2.normalizedTime > 1.0f)
             {
-                catAnimator.SetBool("LevelEnded", false);
+                // catAnimator.SetBool("LevelEnded", false);
                 isEndOfLevelAnimationPlaying = false;
                 gameManager.down();
                 gameManager.NextLevel();
@@ -45,7 +45,7 @@ public class ColliderGirlInteractController : MonoBehaviour
                 {
                     Debug.Log(gameObject + " collided with " + col.gameObject);
                 }
-                catAnimator.SetBool("LevelEnded", true);
+                catAnimator.SetTrigger("LevelEnded");
                 isEndOfLevelAnimationPlaying = true;
                 gameManager.up();
                 
@@ -55,18 +55,18 @@ public class ColliderGirlInteractController : MonoBehaviour
         }
     }
     
-    private void OnCollisionStay2D(Collision2D col)
-    {
-        if (col.collider.CompareTag(Tags.Door))
-        {
-            IOpenable door = col.gameObject.GetComponent<DoorController>();
-            if (door.GetOpenStatus())
-            {
-                Debug.Log("Stage Cleared");
-                gameManager.NextLevel();
-            }
-        }
-    }
+    // private void OnCollisionStay2D(Collision2D col)
+    // {
+    //     if (col.collider.CompareTag(Tags.Door))
+    //     {
+    //         IOpenable door = col.gameObject.GetComponent<DoorController>();
+    //         if (door.GetOpenStatus())
+    //         {
+    //             Debug.Log("Stage Cleared");
+    //             // gameManager.NextLevel();
+    //         }
+    //     }
+    // }
 
     public bool isImportantAnimationPlaying()
     {

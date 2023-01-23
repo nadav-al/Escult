@@ -1559,7 +1559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 509225841878213631, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 509225841878213631, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size
@@ -4779,7 +4779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 509225841963703387, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 509225841963703387, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size
@@ -8851,7 +8851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 509225843855397825, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1162885308947152073, guid: 9b021901c444d134489b6c389da22511, type: 3}
       propertyPath: m_RootOrder
@@ -9181,15 +9181,15 @@ MonoBehaviour:
   switchCharactersKeyOpt1: 9
   switchCharactersKeyOpt2: 106
   levels:
+  - {fileID: 1125901334}
+  - {fileID: 1125901334}
+  - {fileID: 1125901334}
+  - {fileID: 1125901334}
+  - {fileID: 1125901334}
+  - {fileID: 1125901334}
+  - {fileID: 1125901334}
   - {fileID: 514768749}
   - {fileID: 1815540375}
-  - {fileID: 1125901334}
-  - {fileID: 1125901334}
-  - {fileID: 1125901334}
-  - {fileID: 1125901334}
-  - {fileID: 1125901334}
-  - {fileID: 1125901334}
-  - {fileID: 1125901334}
   inactiveOpacityFactor: 0.75
   girl: {fileID: 1497816343}
   girlAnimator: {fileID: 1497816345}
