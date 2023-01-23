@@ -33,6 +33,7 @@ public class CatInteractController : MonoBehaviour
     [SerializeField] private GameObject bloodOutline;
     [SerializeField] private GameObject movingBridgePrefab;
     [SerializeField] private List<GameObject> movingBridges;
+    [SerializeField] private AudioSource deathSound;
 
     public List<Vector3Int> GetBridgeList()
     {
@@ -119,9 +120,9 @@ public class CatInteractController : MonoBehaviour
                 animator.SetBool("CatSacrificed", true);
                 isSacrificeAnimationPlaying = true;
                 gameManager.up();
-                // alterController.GetComponent<AudioSource>().Play();
                 alterController.Sacrifice();
                 soulsCtrl.DecreaseSoul();
+                deathSound.Play();
             }
             else if (catPitIndicator)
             {

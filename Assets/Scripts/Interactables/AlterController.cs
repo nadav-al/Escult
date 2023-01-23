@@ -14,6 +14,7 @@ public class AlterController : MonoBehaviour
     [SerializeField] private GameObject altarOutlinePrefab;
     private GameObject altarOutline;
     [SerializeField] private AudioSource gateSound;
+    [SerializeField] private AudioSource altarSound;
 
     private void Start()
     {
@@ -54,7 +55,8 @@ public class AlterController : MonoBehaviour
     {
         if (openables.Count != 0)
         {
-            gateSound.Play();
+            gateSound.Play(1);
+            altarSound.Play();
         }
         foreach (var openable in openables)
         {

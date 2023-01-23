@@ -16,6 +16,8 @@ public class CatPickupController : MonoBehaviour
     [SerializeField] private GameObject gameManagerObj;
     private GameManager gameManager;
     private bool isFallToHellAnimationPlaying;
+    [SerializeField] private AudioSource deathSound;
+    [SerializeField] private AudioSource landSound;
 
     private void Start()
     {
@@ -95,6 +97,7 @@ public class CatPickupController : MonoBehaviour
         {
             Debug.Log("You are in hell");
             soulsController.DecreaseSoul();
+            deathSound.Play();
             animator.SetBool("CatSacrificed", true);
             isFallToHellAnimationPlaying = true;
             gameManager.up();
@@ -102,6 +105,7 @@ public class CatPickupController : MonoBehaviour
         else
         {
             // Cat has landed on ground, so it will be the active character now.
+            landSound.Play();
             gameManager.SetFocusedCharacter(false);    
         }
         // In Throw, we set the color of cat to be active. So 
