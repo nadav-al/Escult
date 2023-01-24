@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         levels[currLevelInd].SetActive(false);
         
         if (++currLevelInd == levels.Count)
-        {
+        {   
             // TODO turn off all other objects that are not relevant for Game Over screen (like the cat lives).
             // Debug.Log("Done");
             gameObject.SetActive(false);
