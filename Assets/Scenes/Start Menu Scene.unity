@@ -465,6 +465,14 @@ PrefabInstance:
       propertyPath: Loop
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1406959912627644608, guid: 6ebb011c2c8fba3448b546bd92051e05, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2693946795881223920, guid: 6ebb011c2c8fba3448b546bd92051e05, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6598216576776379004, guid: 6ebb011c2c8fba3448b546bd92051e05, type: 3}
       propertyPath: m_fontColor.b
       value: 1
@@ -524,6 +532,14 @@ PrefabInstance:
     - target: {fileID: 8756302134596128827, guid: 6ebb011c2c8fba3448b546bd92051e05, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8756302136232099678, guid: 6ebb011c2c8fba3448b546bd92051e05, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 8756302136232099678, guid: 6ebb011c2c8fba3448b546bd92051e05, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1080
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ebb011c2c8fba3448b546bd92051e05, type: 3}
