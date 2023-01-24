@@ -8,7 +8,6 @@ public class MenuCutsceneManager : MonoBehaviour
 {
     [SerializeField] private bool isOpening;
     [SerializeField] private List<GameObject> cutscenes;
-    [SerializeField] private AudioSource menuSoundtrack;
     private int currSceneInd = 0;
 
     private void Awake()
@@ -42,6 +41,7 @@ public class MenuCutsceneManager : MonoBehaviour
                 // TODO turn off all other objects that are not relevant for Game Over screen (like the cat lives).
                 Debug.Log("Done");
                 // cutscenes[currSceneInd-1].GetComponent<Animator>().Play("FadeOut");
+                currSceneInd = 0;
                 if (isOpening)
                 {
                     SceneManager.LoadScene("SampleScene");    
@@ -51,7 +51,6 @@ public class MenuCutsceneManager : MonoBehaviour
                     SceneManager.LoadScene("Start Menu Scene");
                 }
 
-                currSceneInd = 0;
                 return;
             }
             cutscenes[currSceneInd].SetActive(true);
