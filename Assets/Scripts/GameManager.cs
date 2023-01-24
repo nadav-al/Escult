@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
         {
             // TODO turn off all other objects that are not relevant for Game Over screen (like the cat lives).
             // Debug.Log("Done");
+            gameObject.SetActive(false);
             SceneManager.LoadScene("End Cutscenes Scene");
             return;
         } 

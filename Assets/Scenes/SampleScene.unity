@@ -10200,6 +10200,7 @@ MonoBehaviour:
   levels:
   - {fileID: 1580265785}
   - {fileID: 2101964556}
+  - {fileID: 1973524218}
   inactiveOpacityFactor: 0.75
   girl: {fileID: 1497816343}
   girlAnimator: {fileID: 1497816345}
@@ -38017,6 +38018,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1973524218 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3297268682683983344, guid: 532e2c62f47614940b6f364bd29e6713, type: 3}
+  m_PrefabInstance: {fileID: 398235011}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c52d13c64915974d8127908fdb1a192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1976097018 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2803440731639372503, guid: 946d27cdcfc2c13419d0e3e372dff2f1, type: 3}
