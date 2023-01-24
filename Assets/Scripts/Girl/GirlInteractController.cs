@@ -20,6 +20,8 @@ public class GirlInteractController : MonoBehaviour
     private List<String> animNames;
     [SerializeField] private GameObject gameManagerObj;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private AudioSource catPickUpSound;
+    [SerializeField] private AudioSource catThrowSound;
 
     public void SetFocus(bool isFocused)
     {
@@ -68,6 +70,7 @@ public class GirlInteractController : MonoBehaviour
                 gameManager.down();
                 SetHoldsCat(false);
                 catController.Throw(transform.position, movementController.faceDirection);
+                catThrowSound.Play();
             }    
         }
         
@@ -81,6 +84,7 @@ public class GirlInteractController : MonoBehaviour
             if (catInArea)
             {
                 catController.Pick();
+                catPickUpSound.Play();
                 SetHoldsCat(true);
                 catInArea = false;
             }

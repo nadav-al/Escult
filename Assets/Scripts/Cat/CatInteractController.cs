@@ -34,6 +34,7 @@ public class CatInteractController : MonoBehaviour
     [SerializeField] private GameObject movingBridgePrefab;
     [SerializeField] private List<GameObject> movingBridges;
     [SerializeField] private AudioSource deathSound;
+    [SerializeField] private AudioSource bloodBridgeSound;
 
     public List<Vector3Int> GetBridgeList()
     {
@@ -141,6 +142,10 @@ public class CatInteractController : MonoBehaviour
                     isDeathAfterBridgeAnimationPlaying = true;
                     gameManager.up();
                     deathSound.Play();
+                }
+                else
+                {
+                    bloodBridgeSound.Play();
                 }
             } 
         }
