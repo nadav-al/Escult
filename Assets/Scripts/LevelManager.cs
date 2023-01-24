@@ -23,6 +23,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<GameObject> gates;
     [SerializeField] private List<GameObject> doors;
     [SerializeField] private bool isDoorOpen;
+    private GraphicCatSoulsController catGraphicSoulsController;
 
 
     // Start is called before the first frame update
@@ -34,6 +35,7 @@ public class LevelManager : MonoBehaviour
         girlInteractController = girl.GetComponent<GirlInteractController>();
         catAnimator = cat.GetComponent<Animator>();
         girlAnimator = girl.GetComponent<Animator>();
+        catGraphicSoulsController = cat.GetComponent<GraphicCatSoulsController>();
         if (!isCatInLevel)
         {
             cat.SetActive(false);
@@ -69,6 +71,12 @@ public class LevelManager : MonoBehaviour
             catPickupController.dropCat(catPos);
             cat.SetActive(true);
             catAnimator.Rebind();
+            catGraphicSoulsController.ShowHealthBar(true);
+        }
+        else
+        {
+            cat.SetActive(false);
+            catGraphicSoulsController.ShowHealthBar(false);
         }
         
 

@@ -10,6 +10,7 @@ public class SoulsController : MonoBehaviour
     private int numSouls = 9;
 
     [SerializeField] private Animator catAnimator;
+    [SerializeField] private GraphicCatSoulsController graphicCatSoulsController;
 
     // Start is called before the first frame update
     private void Awake()
@@ -30,6 +31,7 @@ public class SoulsController : MonoBehaviour
     {
         numSouls--;
         catAnimator.SetInteger("CatSouls", numSouls);
+        graphicCatSoulsController.SetCellImgInactive(numSouls);
     }
 
     public void IncreaseSoul()
@@ -51,5 +53,6 @@ public class SoulsController : MonoBehaviour
     {
         numSouls = CAT_INIT_SOULS;
         catAnimator.SetInteger("CatSouls", numSouls);
+        graphicCatSoulsController.ResetLifeCellsList();
     }
 }

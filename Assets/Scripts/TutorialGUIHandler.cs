@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class TutorialGUIHandler : MonoBehaviour
 {
-    [SerializeField] private List<TextMeshProUGUI> tutorialTextList;
+    [SerializeField] private List<GameObject> tutorialList;
 
     private void OnEnable()
     {
-        foreach(var tutorialText in tutorialTextList)
-            tutorialText.gameObject.SetActive(true);
+        foreach(var tutorial in tutorialList)
+            tutorial.SetActive(true);
     }
 
     private void OnDisable()
     {
-        foreach(var tutorialText in tutorialTextList)
-            tutorialText.gameObject.SetActive(false);
+        foreach(var tutorial in tutorialList)
+            tutorial.SetActive(false);
     }
 }
