@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Animator activeCharacterAnimator;
     [SerializeField] private KeyCode restartLevelKey = KeyCode.R; 
     [SerializeField] private KeyCode switchCharactersKeyOpt1 = KeyCode.Tab;
-    [SerializeField] private KeyCode switchCharactersKeyOpt2 = KeyCode.J; 
     private SoulsController catSouls;
 
     [SerializeField] private List<LevelManager> levels;
@@ -212,7 +211,7 @@ public class GameManager : MonoBehaviour
             levels[currLevelInd].ResetLevel();
         }
         if (currLevelInd < levels.Count && levels[currLevelInd].getCatInLevel() && !catSouls.IsDead() 
-            && !isImportantAnimationsPlaying() && (Input.GetKeyDown(switchCharactersKeyOpt1) || Input.GetKeyDown(switchCharactersKeyOpt2)))
+            && !isImportantAnimationsPlaying() && Input.GetKeyDown(switchCharactersKeyOpt1))
         {
             if (girlInteractCtrl.GetHoldsCat())
             {

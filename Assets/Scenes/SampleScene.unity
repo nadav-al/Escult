@@ -10197,7 +10197,6 @@ MonoBehaviour:
   activeCharacterAnimator: {fileID: 8992468}
   restartLevelKey: 114
   switchCharactersKeyOpt1: 9
-  switchCharactersKeyOpt2: 106
   levels:
   - {fileID: 1580265785}
   - {fileID: 2101964556}
@@ -19774,6 +19773,10 @@ PrefabInstance:
       propertyPath: gameManagerObj
       value: 
       objectReference: {fileID: 866714893}
+    - target: {fileID: 1922652121, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
+      propertyPath: interactButtonOpt2
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 1922652149, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
       propertyPath: m_Volume
       value: 0.2
@@ -19911,6 +19914,10 @@ PrefabInstance:
       propertyPath: gameManagerObj
       value: 
       objectReference: {fileID: 866714893}
+    - target: {fileID: 2204166186252169080, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+      propertyPath: interactButtonOpt2
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 2204166186252169080, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
       propertyPath: movementController
       value: 
@@ -36473,7 +36480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7670157046884422344, guid: 2f0b322b52a5a6a43bb3b72dac0d8f07, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7670157046884422345, guid: 2f0b322b52a5a6a43bb3b72dac0d8f07, type: 3}
       propertyPath: cat
@@ -36485,7 +36492,7 @@ PrefabInstance:
       objectReference: {fileID: 1497816343}
     - target: {fileID: 7670157047053932400, guid: 2f0b322b52a5a6a43bb3b72dac0d8f07, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7670157047053932400, guid: 2f0b322b52a5a6a43bb3b72dac0d8f07, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_Collider
@@ -37461,7 +37468,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7670157047961500019, guid: 2f0b322b52a5a6a43bb3b72dac0d8f07, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7670157047961500019, guid: 2f0b322b52a5a6a43bb3b72dac0d8f07, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_Collider
