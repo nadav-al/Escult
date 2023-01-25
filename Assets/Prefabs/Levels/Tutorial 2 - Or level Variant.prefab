@@ -15,9 +15,21 @@ PrefabInstance:
       propertyPath: tutorialList.Array.data[1]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8346444121974045891, guid: 3dca360cfe52a1a45856c8133553478a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8346444121974045891, guid: 3dca360cfe52a1a45856c8133553478a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8597902728035989748, guid: 3dca360cfe52a1a45856c8133553478a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 603b88446fa3fc542aebbe838b7b969c, type: 3}
     - target: {fileID: 9077863854056999594, guid: 3dca360cfe52a1a45856c8133553478a, type: 3}
       propertyPath: m_Name
-      value: Tutorial 2 - Or level
+      value: Tutorial 2 - Or level Variant
       objectReference: {fileID: 0}
     - target: {fileID: 9077863854056999595, guid: 3dca360cfe52a1a45856c8133553478a, type: 3}
       propertyPath: m_RootOrder

@@ -6,7 +6,7 @@
     public const string ThrowDown = "Girl_Throw_Front";
     //TODO CHANGE!!!!!!!
     public const string Death = "Death_cat";
-    public const string Revive = "Revive";
+    public const string Revive = "revive_new";
     public const string CatLeavesLevel = "Level_exit";
     public const string DeathState = "CatDeath";
     public const string ReviveState = "Revive";
