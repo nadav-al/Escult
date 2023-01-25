@@ -6,8 +6,8 @@
     public const string ThrowDown = "Girl_Throw_Front";
     //TODO CHANGE!!!!!!!
     public const string Death = "Death_cat";
-    public const string Revive = "teleport in";
-    public const string CatLeavesLevel = "teleport out";
+    public const string Revive = "Revive";
+    public const string CatLeavesLevel = "Level_exit";
     public const string DeathState = "CatDeath";
     public const string ReviveState = "Revive";
     public const string CatDefaultState = "Idle Down";

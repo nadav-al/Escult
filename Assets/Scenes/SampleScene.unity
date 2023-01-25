@@ -8740,7 +8740,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1042055060074594072, guid: 44a9bb5e93ed0a74881add80d7f87ad5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1042055060074594073, guid: 44a9bb5e93ed0a74881add80d7f87ad5, type: 3}
       propertyPath: m_RootOrder
@@ -8804,7 +8804,7 @@ PrefabInstance:
       objectReference: {fileID: 1922652180}
     - target: {fileID: 4454228904067814788, guid: 44a9bb5e93ed0a74881add80d7f87ad5, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4454228904067814788, guid: 44a9bb5e93ed0a74881add80d7f87ad5, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_Collider
@@ -9840,7 +9840,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4598741574535960863, guid: 44a9bb5e93ed0a74881add80d7f87ad5, type: 3}
       propertyPath: m_ColliderPaths.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4598741574535960863, guid: 44a9bb5e93ed0a74881add80d7f87ad5, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_Collider
@@ -11340,7 +11340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9043946943113360978, guid: 44a9bb5e93ed0a74881add80d7f87ad5, type: 3}
       propertyPath: m_Size.x
-      value: 0.7201493
+      value: 0.94
       objectReference: {fileID: 0}
     - target: {fileID: 9043946943113360978, guid: 44a9bb5e93ed0a74881add80d7f87ad5, type: 3}
       propertyPath: m_Size.y
@@ -11862,11 +11862,11 @@ MonoBehaviour:
   restartLevelKey: 114
   switchCharactersKeyOpt1: 9
   levels:
+  - {fileID: 764361096}
   - {fileID: 756793485}
   - {fileID: 2039256359}
   - {fileID: 1282376932}
   - {fileID: 703595208}
-  - {fileID: 764361096}
   - {fileID: 44498454}
   - {fileID: 1785852277}
   - {fileID: 928409000}
