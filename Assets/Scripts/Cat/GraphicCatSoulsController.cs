@@ -30,6 +30,9 @@ public class GraphicCatSoulsController : MonoBehaviour
         {
             lifeCellsImageList[i].sprite = activeCellImage;
             lifeCellsAnimatorList[i].enabled = true;
+            Color color = lifeCellsImageList[i].color;
+            color.a = (float) 200/255;
+            lifeCellsImageList[i].color = color;
         }
     }
     
@@ -37,6 +40,16 @@ public class GraphicCatSoulsController : MonoBehaviour
     {
         lifeCellsAnimatorList[cellNum].enabled = false;
         lifeCellsImageList[cellNum].sprite = inactiveCellImage;
+        Color color = lifeCellsImageList[cellNum].color;
+        if (cellNum == 0)
+        {
+            
+        }
+        else
+        {
+            color.a = 1;
+        }
+        lifeCellsImageList[cellNum].color = color;
     }
     // Update is called once per frame
     void Update()

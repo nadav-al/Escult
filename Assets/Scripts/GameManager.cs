@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     private CatInteractController catInteractCtrl;
     private SpriteRenderer catRenderer;
     [SerializeField] private Animator catAnimator;
+    [SerializeField] private AudioSource coinSound;
 
     private List<String> animNames;
 
@@ -214,6 +215,7 @@ public class GameManager : MonoBehaviour
         if (currLevelInd < levels.Count && levels[currLevelInd].getCatInLevel() && !catSouls.IsDead() 
             && !isImportantAnimationsPlaying() && Input.GetKeyDown(switchCharactersKeyOpt1))
         {
+            coinSound.Play();
             if (girlInteractCtrl.GetHoldsCat())
             {
                 girlInteractCtrl.SetHoldsCat(false);

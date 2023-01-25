@@ -143,7 +143,7 @@ public class CatInteractController : MonoBehaviour
                     gameManager.up();
                     deathSound.Play();
                 }
-                else
+                else if(!bloodBridgeSound.isPlaying)
                 {
                     bloodBridgeSound.Play();
                 }
