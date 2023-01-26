@@ -11890,10 +11890,10 @@ MonoBehaviour:
   restartLevelKey: 114
   switchCharactersKeyOpt1: 9
   levels:
-  - {fileID: 1282376932}
-  - {fileID: 703595208}
   - {fileID: 756793485}
   - {fileID: 2039256359}
+  - {fileID: 1282376932}
+  - {fileID: 703595208}
   - {fileID: 764361096}
   - {fileID: 928409000}
   - {fileID: 44498454}
