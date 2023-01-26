@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour
     private SoulsController soulsController;
     [SerializeField] private List<GameObject> gates;
     [SerializeField] private List<GameObject> doors;
+    [SerializeField] private List<GameObject> altars;
     [SerializeField] private bool isDoorOpen;
     private GraphicCatSoulsController catGraphicSoulsController;
 
@@ -46,6 +47,7 @@ public class LevelManager : MonoBehaviour
     {
         gameObject.SetActive(isActive);
         ResetComponents();
+        
     }
 
     public void ResetLevel()
@@ -83,7 +85,7 @@ public class LevelManager : MonoBehaviour
             gateCtrl = gate.GetComponent<GateContoller>(); 
             gateCtrl.ResetGate();
         }
-
+        
         // Reset Tilemaps
         resetBloodTiles();
         
@@ -151,6 +153,14 @@ public class LevelManager : MonoBehaviour
         {
             hellMap.SetTile(bridgeLocations[i], hellOrigTiles[i]);
             groundMap.SetTile(bridgeLocations[i], null);
+        }
+    }
+
+    public void DestroyLevelOutlines()
+    {
+        foreach (var altar in altars)
+        {
+            altar.GetComponent<AlterController>().DestroyOutlines();
         }
     }
 }

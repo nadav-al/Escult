@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
         }
         ResetImportantAnimations();
         // levels[currLevelInd].ResetLevel();
+        levels[currLevelInd - 1].DestroyLevelOutlines();
         levels[currLevelInd-1].SetActive(false);
         
         // hell tile maps.
@@ -213,6 +214,14 @@ public class GameManager : MonoBehaviour
             && !isImportantAnimationsPlaying() && Input.GetKeyDown(switchCharactersKeyOpt1))
         {
             coinSound.Play();
+            if (!focusedCharacter)
+            {
+                catMovementCtrl.StopMovementSound();
+            }
+            else
+            {
+                girlMovementCtrl.StopMovementSound();
+            }
             if (girlInteractCtrl.GetHoldsCat())
             {
                 girlInteractCtrl.SetHoldsCat(false);

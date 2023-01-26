@@ -42,7 +42,6 @@ public class AlterController : MonoBehaviour
                 }
             }
         }
-
         altarOutline = Instantiate(altarOutlinePrefab);
         altarOutline.transform.position = transform.position;
         altarOutline.SetActive(false);
@@ -92,5 +91,14 @@ public class AlterController : MonoBehaviour
         {
             gOutline.SetActive(displayMode);
         }
+    }
+
+    public void DestroyOutlines()
+    {
+        foreach (var gOutline in gatesOutlines)
+        {
+            Destroy(gOutline);
+        }
+        Destroy(altarOutline);
     }
 }

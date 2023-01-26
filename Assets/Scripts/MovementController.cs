@@ -96,4 +96,9 @@ public class MovementController : MonoBehaviour
         }
         _rigidbody2D.velocity = movementSpeed*(newVel.normalized);
     }
+
+    public void StopMovementSound()
+    {
+        walkAudio.Stop();
+    }
 }
