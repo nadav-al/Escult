@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
         if (++currLevelInd == levels.Count)
         {
             gameObject.SetActive(false);
+            catInteractCtrl.getRidOfMovingBridges();
             SceneManager.LoadScene("End Cutscenes Scene");
             return; 
         }
