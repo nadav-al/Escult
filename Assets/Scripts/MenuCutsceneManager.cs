@@ -38,9 +38,6 @@ public class MenuCutsceneManager : MonoBehaviour
         
             if (++currSceneInd == cutscenes.Count)
             {
-                // TODO turn off all other objects that are not relevant for Game Over screen (like the cat lives).
-                Debug.Log("Done");
-                // cutscenes[currSceneInd-1].GetComponent<Animator>().Play("FadeOut");
                 currSceneInd = 0;
                 if (isOpening)
                 {
@@ -56,40 +53,4 @@ public class MenuCutsceneManager : MonoBehaviour
             cutscenes[currSceneInd].SetActive(true);
         }
     }
-    
-    // private void handleOpenScenes()
-    // {
-    //     if (currSceneInd < (cutscenes.Count - 1))
-    //     {
-    //         cutscenes[currSceneInd].SetActive(false);
-    //     }
-    //     
-    //     if (++currSceneInd == cutscenes.Count)
-    //     {
-    //         // TODO turn off all other objects that are not relevant for Game Over screen (like the cat lives).
-    //         Debug.Log("Done");
-    //         cutscenes[currSceneInd-1].GetComponent<Animator>().Play("FadeOut");
-    //         SceneManager.LoadScene("SampleScene");
-    //         return;
-    //     }
-    //     cutscenes[currSceneInd].SetActive(true);
-    // }
-    // private void handleEndScenes()
-    // {
-    //     if (currEndSceneInd < (endCutscenes.Count - 1))
-    //     {
-    //         endCutscenes[currEndSceneInd].SetActive(false);
-    //     }
-    //
-    //     if (++currEndSceneInd >= endCutscenes.Count)
-    //     {
-    //         // TODO turn off all other objects that are not relevant for Game Over screen (like the cat lives).
-    //         Debug.Log("Done");
-    //         SceneManager.LoadScene("Start Menu Scene");
-    //         return;
-    //     } 
-    //     endCutscenes[currEndSceneInd].SetActive(true);
-    // }
-
-    
 }

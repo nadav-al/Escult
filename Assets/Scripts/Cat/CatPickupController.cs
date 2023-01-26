@@ -33,6 +33,11 @@ public class CatPickupController : MonoBehaviour
 
     private void Update()
     {
+        if (!isFallToHellAnimationPlaying && this.gameObject.layer == Layers.Cat && 
+            hell.HasTile(hell.WorldToCell(transform.position)))
+        {
+            Land();
+        }
         if (isFallToHellAnimationPlaying)
         {
             var animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -40,7 +45,6 @@ public class CatPickupController : MonoBehaviour
             
             if (animName.Equals(AnimationNames.Death) && animStateInfo.normalizedTime > 1.0f)
             {
-                Debug.Log("You are out of hell");
                 animator.SetBool("CatSacrificed",false);
                 isFallToHellAnimationPlaying = false;
                 gameManager.down();
@@ -100,7 +104,6 @@ public class CatPickupController : MonoBehaviour
         gameObject.layer = Layers.Cat;
         if (hell.HasTile(catPos))
         {
-            Debug.Log("You are in hell");
             soulsController.DecreaseSoul();
             deathSound.Play();
             animator.SetBool("CatSacrificed", true);

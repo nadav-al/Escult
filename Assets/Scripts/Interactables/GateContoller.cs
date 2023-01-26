@@ -39,8 +39,6 @@ public class GateContoller : MonoBehaviour, IOpenable
     public void SwapOpenState()
     {
         SetOpen(!gateStatus);
-        // gateStatus = !gateStatus;
-        // gameObject.SetActive(gateStatus);
     }
 
     public string getName()
@@ -50,6 +48,6 @@ public class GateContoller : MonoBehaviour, IOpenable
 
     public void ShowOutline(bool displayMode)
     {
-        throw new System.NotImplementedException();
+        // throw new System.NotImplementedException();
     }
 }

@@ -41,17 +41,6 @@ public class LevelManager : MonoBehaviour
             cat.SetActive(false);
         }
     }
-    void Start()
-    {
-        // catInteractController = cat.GetComponent<CatInteractController>();
-        // catPickupController = cat.GetComponent<CatPickupController>();
-        // soulsController = cat.GetComponent<SoulsController>();
-        // girlInteractController = girl.GetComponent<GirlInteractController>();
-        // if (!isCatInLevel)
-        // {
-        //     cat.SetActive(false);
-        // }
-    }
 
     public void SetActive(bool isActive)
     {
@@ -92,18 +81,11 @@ public class LevelManager : MonoBehaviour
         {
             gate.SetActive(true);
             gateCtrl = gate.GetComponent<GateContoller>(); 
-            // gateCtrl.EstablishOutlines();
             gateCtrl.ResetGate();
         }
 
         // Reset Tilemaps
-        List<Vector3Int> bridgeLocations = catInteractController.GetBridgeList();
-        List<TileBase> hellOrigTiles = catInteractController.GetOriginalHellTileList();
-        for (int i = 0; i < bridgeLocations.Count; ++i)
-        {
-            hellMap.SetTile(bridgeLocations[i], hellOrigTiles[i]);
-            groundMap.SetTile(bridgeLocations[i], null);
-        }
+        resetBloodTiles();
         
         // Reset Doors
         foreach (var door in doors)
@@ -159,5 +141,16 @@ public class LevelManager : MonoBehaviour
     public bool getCatInLevel()
     {
         return isCatInLevel;
+    }
+
+    public void resetBloodTiles()
+    {
+        List<Vector3Int> bridgeLocations = catInteractController.GetBridgeList();
+        List<TileBase> hellOrigTiles = catInteractController.GetOriginalHellTileList();
+        for (int i = 0; i < bridgeLocations.Count; ++i)
+        {
+            hellMap.SetTile(bridgeLocations[i], hellOrigTiles[i]);
+            groundMap.SetTile(bridgeLocations[i], null);
+        }
     }
 }

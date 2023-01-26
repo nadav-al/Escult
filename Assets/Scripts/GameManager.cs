@@ -75,19 +75,16 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        ResetImportantAnimations();
-        // levels[currLevelInd].ResetLevel();
-        levels[currLevelInd].SetActive(false);
-        
         if (++currLevelInd == levels.Count)
         {
-            // TODO turn off all other objects that are not relevant for Game Over screen (like the cat lives).
-            // Debug.Log("Done");
             gameObject.SetActive(false);
             SceneManager.LoadScene("End Cutscenes Scene");
-            return;
-        } 
-        // TODO - why did we put it here and not in resetLevel?? Because we need the coordinates of original
+            return; 
+        }
+        ResetImportantAnimations();
+        // levels[currLevelInd].ResetLevel();
+        levels[currLevelInd-1].SetActive(false);
+        
         // hell tile maps.
         cat.GetComponent<CatInteractController>().ResetBridgeList();
         levels[currLevelInd].gameObject.SetActive(true);

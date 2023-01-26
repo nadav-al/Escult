@@ -11,7 +11,6 @@ public class GirlInteractController : MonoBehaviour
     [SerializeField] private Animator girlAnimator;
     [SerializeField] private MovementController movementController;
     private GameObject potentialHeldItem;
-    // TODO - Maybe Serialize
     private CatPickupController catController;
     private bool catInArea;
     private bool holdsCat;
@@ -108,10 +107,6 @@ public class GirlInteractController : MonoBehaviour
             catController = col.gameObject.GetComponent<CatPickupController>();
             catInArea = true;
         }
-        if (col.CompareTag(Tags.Steppable))
-        {
-            col.gameObject.GetComponent<IStepable>().StepOn();
-        }
     }
 
 
@@ -120,11 +115,6 @@ public class GirlInteractController : MonoBehaviour
         if (col.CompareTag(Tags.Cat))
         {
             catInArea = false;
-        }
-
-        if (col.CompareTag(Tags.Steppable))
-        {
-            col.gameObject.GetComponent<IStepable>().StepOff();
         }
     }
 

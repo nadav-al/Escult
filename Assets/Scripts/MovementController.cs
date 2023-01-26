@@ -28,18 +28,10 @@ public class MovementController : MonoBehaviour
     {
         this.isFocused = isFocused;
     }
-    // Update is called once per frame
-    // It checks for input from the user and moves/rotates the ship accordingly.
-    private void Start()
-    {
-        // _rigidbody2D = GetComponent<Rigidbody2D>();
-        // gameManager = gameManagerObj.GetComponent<GameManager>();
-    }
+
 
     private void Awake()
     {
-        // _rigidbody2D = GetComponent<Rigidbody2D>();
-        // gameManager = gameManagerObj.GetComponent<GameManager>();
     }
 
     void FixedUpdate()

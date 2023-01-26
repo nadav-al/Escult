@@ -15,7 +15,6 @@ public class ColliderGirlInteractController : MonoBehaviour
 
     private void Start()
     {
-        // gameManager = gameManagerObj.GetComponent<GameManager>();
     }
 
 
@@ -42,11 +41,6 @@ public class ColliderGirlInteractController : MonoBehaviour
             IOpenable door = col.gameObject.GetComponent<DoorController>();
             if (door.GetOpenStatus())
             {
-                Debug.Log("Stage Cleared");
-                if (gameManager == null)
-                {
-                    Debug.Log(gameObject + " collided with " + col.gameObject);
-                }
                 if (!gameManager.getLevel().getCatInLevel() || gameManager.isCatDead() || 
                     girlInteractController.GetHoldsCat() || cat.layer == Layers.Air || 
                     gameManager.isImportantAnimationsPlaying())
@@ -65,24 +59,9 @@ public class ColliderGirlInteractController : MonoBehaviour
                     gameManager.up();
                 }
                 
-                Debug.Log(gameManager);
-
             }
         }
     }
-    
-    // private void OnCollisionStay2D(Collision2D col)
-    // {
-    //     if (col.collider.CompareTag(Tags.Door))
-    //     {
-    //         IOpenable door = col.gameObject.GetComponent<DoorController>();
-    //         if (door.GetOpenStatus())
-    //         {
-    //             Debug.Log("Stage Cleared");
-    //             // gameManager.NextLevel();
-    //         }
-    //     }
-    // }
 
     public bool isImportantAnimationPlaying()
     {

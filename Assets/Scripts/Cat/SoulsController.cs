@@ -18,15 +18,6 @@ public class SoulsController : MonoBehaviour
         numSouls = CAT_INIT_SOULS;
     }
 
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     public void DecreaseSoul()
     {
         numSouls--;

@@ -50,23 +50,14 @@ public class CatInteractController : MonoBehaviour
     {
         gates = new List<GameObject>();
         movingBridges = new List<GameObject>();
-        // gameManager = gameManagerObj.GetComponent<GameManager>();
-        // soulsCtrl = GetComponent<SoulsController>();
-        // movementCtrl = GetComponent<MovementController>();
         catBridgePositions = new List<Vector3Int>();
         hellOriginalTiles = new List<TileBase>();
         animNames = new List<String>
         {
             AnimationNames.Death, AnimationNames.Revive
         };
-        // circleCollider = GetComponent<CircleCollider2D>();
         bloodOutline.SetActive(false);
 
-    }
-    
-
-    private void Start()
-    {
     }
 
     void Update()
@@ -100,7 +91,6 @@ public class CatInteractController : MonoBehaviour
         
             if (animName2.Equals(AnimationNames.Death) && animStateInfo2.normalizedTime > 1.0f)
             {
-                Debug.Log("You are out of hell");
                 isDeathAfterBridgeAnimationPlaying = false;
                 gameManager.down();
                 gameObject.SetActive(false);
@@ -117,8 +107,8 @@ public class CatInteractController : MonoBehaviour
         catDirection = movementCtrl.faceDirection;
         bool catPitIndicator = catFacingPit();
         
-        //TODO Changes 18.1: order of alter and pit are switched.
-        if (gameObject.layer != Layers.Air && (Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2)))
+        if (gameObject.layer != Layers.Air && 
+            (Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2)))
         {
             if (alterNearby && !alterController.GirlUnderGates(girl.position))
             {
@@ -221,23 +211,6 @@ public class CatInteractController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.CompareTag(Tags.Steppable))
-        {
-            col.gameObject.GetComponent<IStepable>().StepOn();
-        }
-    }
-
-
-    private void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.CompareTag(Tags.Steppable))
-        {
-            col.gameObject.GetComponent<IStepable>().StepOff();
-        }
-    }
-
     public void setHellmap(Tilemap tilemap)
     {
         hellMap = tilemap;
@@ -258,7 +231,6 @@ public class CatInteractController : MonoBehaviour
     {
         bloodOutline.SetActive(false);
     }
-    // TODO - Show Nadav
     public void getRidOfMovingBridges()
     {
         foreach (var bridge in movingBridges)

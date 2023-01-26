@@ -51,11 +51,6 @@ public class GraphicCatSoulsController : MonoBehaviour
         }
         lifeCellsImageList[cellNum].color = color;
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void ShowHealthBar(bool isActive)
     {

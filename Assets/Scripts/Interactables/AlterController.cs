@@ -24,7 +24,6 @@ public class AlterController : MonoBehaviour
         foreach (var obj in connectedObjects)
         {
             openables.Add(obj.GetComponent<IOpenable>());
-            // TODO - better way to check if object has a tilemap
             if(!obj.CompareTag(Tags.Door))
             {
                 var currGateTilemap = obj.GetComponent<Tilemap>(); 
@@ -66,8 +65,6 @@ public class AlterController : MonoBehaviour
         foreach (var openable in openables)
         {
             openable.SwapOpenState();
-            // TODO - Remove DEBUG.LOG
-            // Debug.Log(openable.getName() + "Status is: " + openable.GetOpenStatus());
         }
     }
 

@@ -19,12 +19,6 @@ public class DoorController : MonoBehaviour, IOpenable
 
     }
 
-    void Start()
-    {
-        // doorClosed.SetActive(!openStatus);
-        // doorOpened.SetActive(openStatus);
-    }
-
     public void SetOpen(bool openStatus)
     {
         this.openStatus = openStatus;
