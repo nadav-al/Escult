@@ -35,6 +35,7 @@ public class CatInteractController : MonoBehaviour
     [SerializeField] private List<GameObject> movingBridges;
     [SerializeField] private AudioSource deathSound;
     [SerializeField] private AudioSource bloodBridgeSound;
+    [SerializeField] private AudioSource cantOpenGate;
 
     public List<Vector3Int> GetBridgeList()
     {
@@ -110,14 +111,21 @@ public class CatInteractController : MonoBehaviour
         if (gameObject.layer != Layers.Air && 
             (Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2)))
         {
-            if (alterNearby && !alterController.GirlUnderGates(girl.position))
+            if (alterNearby)
             {
-                animator.SetBool("CatSacrificed", true);
-                isSacrificeAnimationPlaying = true;
-                gameManager.up();
-                alterController.Sacrifice();
-                soulsCtrl.DecreaseSoul();
-                deathSound.Play();
+                if (!alterController.GirlUnderGates(girl.position))
+                {
+                    animator.SetBool("CatSacrificed", true);
+                    isSacrificeAnimationPlaying = true;
+                    gameManager.up();
+                    alterController.Sacrifice();
+                    soulsCtrl.DecreaseSoul();
+                    deathSound.Play();
+                }
+                else
+                {
+                    cantOpenGate.Play();
+                }
             }
             else if (catPitIndicator)
             {
