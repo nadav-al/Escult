@@ -1,35 +1,18 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class CatPickupController : MonoBehaviour
 {
     [SerializeField] private float throwSpeed = 3;
-    [SerializeField] private Rigidbody2D rigidbody;
-    private FaceDirection catDirection;
+    [SerializeField] private Rigidbody2D catRigidbody;
     [SerializeField] private Tilemap hell;
     [SerializeField] private GameObject girl;
     [SerializeField] private SoulsController soulsController;
     [SerializeField] private Animator animator;
-    [SerializeField] private GameObject gameManagerObj;
     [SerializeField] private GameManager gameManager;
     private bool isFallToHellAnimationPlaying;
     [SerializeField] private AudioSource deathSound;
     [SerializeField] private AudioSource landSound;
-
-    private void Start()
-    {
-        // soulsController = GetComponent<SoulsController>();
-        // rigidbody = GetComponent<Rigidbody2D>();
-        // gameManager = gameManagerObj.GetComponent<GameManager>();
-    }
-
-    private void Awake()
-    {
-        
-    }
 
     private void Update()
     {
@@ -47,7 +30,7 @@ public class CatPickupController : MonoBehaviour
             {
                 animator.SetBool("CatSacrificed",false);
                 isFallToHellAnimationPlaying = false;
-                gameManager.down();
+                // gameManager.down();
                 gameObject.transform.position = girl.transform.position;
                 if (soulsController.IsDead())
                 {
@@ -72,10 +55,6 @@ public class CatPickupController : MonoBehaviour
         gameObject.layer = Layers.Air;
         animator.SetBool("CatInAir",true);
         animator.SetInteger("FaceDirection", (int)faceDirection);
-        catDirection = faceDirection;
-        // Vector3Int cellPosition = hell.WorldToCell(playerLoc);
-        // Vector3 cellCenter = hell.GetCellCenterWorld(cellPosition); 
-        // gameObject.transform.position = cellCenter;
         gameObject.transform.position = playerLoc;
         Vector2 throwVelocity = Vector2.zero;
         switch (faceDirection)
@@ -93,12 +72,12 @@ public class CatPickupController : MonoBehaviour
                 throwVelocity = Vector2.down;
                 break;
         }
-        rigidbody.velocity = throwSpeed * throwVelocity;
+        catRigidbody.velocity = throwSpeed * throwVelocity;
     }
 
     public void Land()
     {
-        rigidbody.velocity = Vector2.zero;
+        catRigidbody.velocity = Vector2.zero;
         animator.SetBool("CatInAir",false);
         Vector3Int catPos = hell.WorldToCell(transform.position);
         gameObject.layer = Layers.Cat;
@@ -108,7 +87,7 @@ public class CatPickupController : MonoBehaviour
             deathSound.Play();
             animator.SetBool("CatSacrificed", true);
             isFallToHellAnimationPlaying = true;
-            gameManager.up();
+            // gameManager.up();
         }
         else
         {
@@ -138,12 +117,7 @@ public class CatPickupController : MonoBehaviour
         animator.SetBool("CatInAir",false);
         gameObject.transform.position = playerLoc;
         gameObject.SetActive(true);
-        if (rigidbody == null)
-        {
-            gameObject.transform.position = Vector3.zero;
-            return;
-        }
-        rigidbody.velocity = Vector2.zero;
+        catRigidbody.velocity = Vector2.zero;
         gameObject.layer = Layers.Cat;
     }
 

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +16,6 @@ public class GirlInteractController : MonoBehaviour
     private bool isFocused;
     private bool isThrownAnimationPlaying;
     private List<String> animNames;
-    [SerializeField] private GameObject gameManagerObj;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private AudioSource catPickUpSound;
     [SerializeField] private AudioSource catThrowSound;
@@ -48,13 +46,6 @@ public class GirlInteractController : MonoBehaviour
         };
     }
 
-    void Start()
-    {
-        // movementController = GetComponentInParent<MovementController>();
-        // gameManager = gameManagerObj.GetComponent<GameManager>();
-    }
-
-
     // Update is called once per frame
     void Update()
     {
@@ -66,7 +57,7 @@ public class GirlInteractController : MonoBehaviour
             {
                 girlAnimator.SetBool("Throws",false);
                 isThrownAnimationPlaying = false;
-                gameManager.down();
+                // gameManager.down();
                 SetHoldsCat(false);
                 catController.Throw(transform.position, movementController.faceDirection);
                 catThrowSound.Play();
@@ -91,14 +82,13 @@ public class GirlInteractController : MonoBehaviour
             {
                 girlAnimator.SetBool("Throws",true);
                 isThrownAnimationPlaying = true;
-                gameManager.up();
+                // gameManager.up();
             }
         }
 
         
         
     }
-
 
     private void OnTriggerEnter2D(Collider2D col)
     {

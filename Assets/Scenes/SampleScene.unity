@@ -15504,6 +15504,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 866714894}
     - target: {fileID: 8715704720659737689, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
+      propertyPath: catRigidbody
+      value: 
+      objectReference: {fileID: 1922652158}
+    - target: {fileID: 8715704720659737689, guid: ced07b39aff3ea846a13153fbaaaf93a, type: 3}
       propertyPath: catThrowSound
       value: 
       objectReference: {fileID: 0}

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 
 public class AlterController : MonoBehaviour
 {
@@ -46,19 +44,11 @@ public class AlterController : MonoBehaviour
         altarOutline.transform.position = transform.position;
         altarOutline.SetActive(false);
     }
-
-    private void Start()
-    {
-        
-    }
-    
-
-
     public void Sacrifice()
     {
         if (openables.Count != 0)
         {
-            gateSound.Play(1);
+            gateSound.Play();
             altarSound.Play();
         }
         foreach (var openable in openables)
@@ -83,10 +73,6 @@ public class AlterController : MonoBehaviour
     public void ShowOutlines(bool displayMode)
     {
         altarOutline.SetActive(displayMode);
-        // foreach (var openable in openables)
-        // {
-        //     openable.ShowOutline(displayMode);
-        // }
         foreach (var gOutline in gatesOutlines)
         {
             gOutline.SetActive(displayMode);

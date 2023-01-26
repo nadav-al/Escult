@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 
@@ -20,18 +19,12 @@ public class MovementController : MonoBehaviour
     public FaceDirection faceDirection;
     
     [SerializeField] private Animator animator;
-    [SerializeField] private GameObject gameManagerObj;
     [SerializeField] private GameManager gameManager;
     private bool isMoving;
 
     public void SetFocus(bool isFocused)
     {
         this.isFocused = isFocused;
-    }
-
-
-    private void Awake()
-    {
     }
 
     void FixedUpdate()

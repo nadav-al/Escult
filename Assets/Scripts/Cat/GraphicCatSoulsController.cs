@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,19 +10,8 @@ public class GraphicCatSoulsController : MonoBehaviour
     [SerializeField] private Sprite activeCellImage;
     [SerializeField] private Sprite inactiveCellImage;
     [SerializeField] private GameObject graphicLifeCounter;
-    // private List<Image> lifeCellsImageList;
-    // private List<Animator> lifeCellsAnimatorList;
-    private int currCell;
-    void Awake()
-    {
-        currCell = 9;
-        // foreach (GameObject lifeCell in lifeCellsList)
-        // {
-        //     lifeCellsImageList.Add(lifeCell.GetComponent<Image>());
-        //     lifeCellsAnimatorList.Add(lifeCell.GetComponent<Animator>());
-        // }
-    }
-
+    private const float ActiveOpacity = (float) 200/255;
+    private const float InactiveOpacity = 1.0f;
     public void ResetLifeCellsList()
     {
         for (int i = 0; i < lifeCellsImageList.Count; i++)
@@ -31,7 +19,7 @@ public class GraphicCatSoulsController : MonoBehaviour
             lifeCellsImageList[i].sprite = activeCellImage;
             lifeCellsAnimatorList[i].enabled = true;
             Color color = lifeCellsImageList[i].color;
-            color.a = (float) 200/255;
+            color.a = ActiveOpacity;
             lifeCellsImageList[i].color = color;
         }
     }
@@ -41,14 +29,7 @@ public class GraphicCatSoulsController : MonoBehaviour
         lifeCellsAnimatorList[cellNum].enabled = false;
         lifeCellsImageList[cellNum].sprite = inactiveCellImage;
         Color color = lifeCellsImageList[cellNum].color;
-        if (cellNum == 0)
-        {
-            
-        }
-        else
-        {
-            color.a = 1;
-        }
+        color.a = InactiveOpacity;
         lifeCellsImageList[cellNum].color = color;
     }
 

@@ -1,23 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ColliderGirlInteractController : MonoBehaviour
 {
-    [SerializeField] private GameObject gameManagerObj;
     [SerializeField] private Animator catAnimator;
     [SerializeField] public GameManager gameManager;
     [SerializeField] public GirlInteractController girlInteractController;
     [SerializeField] public GameObject cat;
     [SerializeField] private AudioSource deathCatSound;
     private bool isEndOfLevelAnimationPlaying;
-
-    private void Start()
-    {
-    }
-
-
+    
     private void Update()
     {
         if (isEndOfLevelAnimationPlaying)
@@ -28,7 +19,7 @@ public class ColliderGirlInteractController : MonoBehaviour
             if (animName2.Equals(AnimationNames.CatLeavesLevel) && animStateInfo2.normalizedTime > 1.0f)
             {
                 isEndOfLevelAnimationPlaying = false;
-                gameManager.down();
+                // gameManager.down();
                 gameManager.NextLevel();
             }    
         }
@@ -56,7 +47,7 @@ public class ColliderGirlInteractController : MonoBehaviour
                 {
                     catAnimator.SetTrigger("LevelEnded");
                     isEndOfLevelAnimationPlaying = true;
-                    gameManager.up();
+                    // gameManager.up();
                 }
                 
             }

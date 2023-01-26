@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -43,26 +42,25 @@ public class GameManager : MonoBehaviour
     private CatPickupController catPickupController;
 
 
-    // this semaphore helps us to decide if we are in an important animation
+    // this semaphore helps us to track if we are in an important animation
 
-    // in each script we activer
-    private int importantAnimationsSempahore = 0;
-
-    public void up()
-    {
-        importantAnimationsSempahore+=1;
-    }
-
-    public void down()
-    {
-        importantAnimationsSempahore-=1;
-    }
+    // private int importantAnimationsSempahore = 0;
+    //
+    // public void up()
+    // {
+    //     importantAnimationsSempahore+=1;
+    // }
+    //
+    // public void down()
+    // {
+    //     importantAnimationsSempahore-=1;
+    // }
 
     public bool isImportantAnimationsPlaying()
     {
         return girlInteractCtrl.isImportantAnimationPlaying() || girlColliderInteractCtrl.isImportantAnimationPlaying()
                || catInteractCtrl.isImportantAnimationPlaying() || catPickupController.isImportantAnimationPlaying();
-        return importantAnimationsSempahore > 0;
+        // return importantAnimationsSempahore > 0;
     }
 
     public void ResetImportantAnimations()
@@ -191,18 +189,13 @@ public class GameManager : MonoBehaviour
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());
         if (catSouls.IsDead() && !isImportantAnimationsPlaying())
         {
-            importantAnimationsSempahore = 0;
+            // importantAnimationsSempahore = 0;
             focusedCharacter = true;
             ApplyFocusToCharacters();
         }
-        // if (catSouls.IsDead())
-        // {
-        //     focusedCharacter = true;
-        //     ApplyFocusToCharacters();
-        // }
         if (Input.GetKeyDown(restartLevelKey))
         {
-            importantAnimationsSempahore = 0;
+            // importantAnimationsSempahore = 0;
             ResetImportantAnimations();
             focusedCharacter = true;
             ApplyFocusToCharacters();

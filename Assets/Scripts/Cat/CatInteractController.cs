@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -73,7 +72,7 @@ public class CatInteractController : MonoBehaviour
             if (animNames.Contains(animName1) && animStateInfo1.normalizedTime > 1.0f)
             {
                 isSacrificeAnimationPlaying = false;
-                gameManager.down();
+                // gameManager.down();
                 animator.SetBool("CatSacrificed", false);
                 if (soulsCtrl.IsDead())
                 {
@@ -93,7 +92,7 @@ public class CatInteractController : MonoBehaviour
             if (animName2.Equals(AnimationNames.Death) && animStateInfo2.normalizedTime > 1.0f)
             {
                 isDeathAfterBridgeAnimationPlaying = false;
-                gameManager.down();
+                // gameManager.down();
                 gameObject.SetActive(false);
                 gameManager.SetFocusedCharacter(true);
                 gameManager.ApplyFocusToCharacters();
@@ -117,7 +116,7 @@ public class CatInteractController : MonoBehaviour
                 {
                     animator.SetBool("CatSacrificed", true);
                     isSacrificeAnimationPlaying = true;
-                    gameManager.up();
+                    // gameManager.up();
                     alterController.Sacrifice();
                     soulsCtrl.DecreaseSoul();
                     deathSound.Play();
@@ -138,7 +137,7 @@ public class CatInteractController : MonoBehaviour
                     bloodOutline.SetActive(false);
                     animator.SetInteger("CatSouls", 0);
                     isDeathAfterBridgeAnimationPlaying = true;
-                    gameManager.up();
+                    // gameManager.up();
                     deathSound.Play();
                 }
                 else
@@ -252,12 +251,7 @@ public class CatInteractController : MonoBehaviour
     {
         gates = gatesList;
     }
-
-    public void resetGates()
-    {
-        gates.Clear();
-    }
-
+    
     public bool isImportantAnimationPlaying()
     {
         return isSacrificeAnimationPlaying || isDeathAfterBridgeAnimationPlaying;

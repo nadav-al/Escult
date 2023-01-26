@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GateContoller : MonoBehaviour, IOpenable
@@ -14,12 +11,6 @@ public class GateContoller : MonoBehaviour, IOpenable
         ResetGate();
     }
 
-    void Start()
-    {
-        // ResetGate();
-        
-    }
-    
     public void SetOpen(bool openStatus)
     {
         gateStatus = openStatus;
@@ -44,10 +35,5 @@ public class GateContoller : MonoBehaviour, IOpenable
     public string getName()
     {
         return gameObject.name;
-    }
-
-    public void ShowOutline(bool displayMode)
-    {
-        // throw new System.NotImplementedException();
     }
 }
