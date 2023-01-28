@@ -99,7 +99,7 @@ public class CatInteractController : MonoBehaviour
             }    
         }
 
-        if (!isFocused || gameManager.isImportantAnimationsPlaying())
+        if (!isFocused)
         {
             if (alterNearby)
             {
@@ -107,6 +107,11 @@ public class CatInteractController : MonoBehaviour
             }
             bloodOutline.SetActive(false);
             
+            return;
+        }
+
+        if (gameManager.isImportantAnimationsPlaying())
+        {
             return;
         }
         catDirection = movementCtrl.faceDirection;
