@@ -3436,11 +3436,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460040637409692077, guid: 0f2bfd44280d3da4384c77e975ddefb5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.25
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 2460040637409692077, guid: 0f2bfd44280d3da4384c77e975ddefb5, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.25
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2460040637409692077, guid: 0f2bfd44280d3da4384c77e975ddefb5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 2460040637409692077, guid: 0f2bfd44280d3da4384c77e975ddefb5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3476,7 +3480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460040637409692077, guid: 0f2bfd44280d3da4384c77e975ddefb5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 275
+      value: 285
       objectReference: {fileID: 0}
     - target: {fileID: 2460040637409692077, guid: 0f2bfd44280d3da4384c77e975ddefb5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3489,6 +3493,10 @@ PrefabInstance:
     - target: {fileID: 2460040637409692077, guid: 0f2bfd44280d3da4384c77e975ddefb5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2460040637409692077, guid: 0f2bfd44280d3da4384c77e975ddefb5, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f2bfd44280d3da4384c77e975ddefb5, type: 3}
@@ -11883,7 +11891,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 01b93d00aaa393749a62dfb5bb9479d6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.766
+  m_Volume: 0.185
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -15598,12 +15606,16 @@ PrefabInstance:
       objectReference: {fileID: 1497816347}
     - target: {fileID: 1497816351, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
       propertyPath: m_Pitch
-      value: 0.87
+      value: 1.04
       objectReference: {fileID: 0}
     - target: {fileID: 1497816351, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
       propertyPath: m_Volume
-      value: 0.674
+      value: 0.752
       objectReference: {fileID: 0}
+    - target: {fileID: 1497816351, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: be5f2e756824cf1448cc780a8381a455, type: 3}
     - target: {fileID: 1497816351, guid: 3177c31858cbddd48a29195dd4299c87, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
@@ -15937,6 +15949,18 @@ PrefabInstance:
       value: 226
       objectReference: {fileID: 0}
     - target: {fileID: 5218019182864204208, guid: 0d9100d2f15af58418a2644cc576fb6c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5218019182864204208, guid: 0d9100d2f15af58418a2644cc576fb6c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5218019182864204208, guid: 0d9100d2f15af58418a2644cc576fb6c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5218019182864204208, guid: 0d9100d2f15af58418a2644cc576fb6c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -15970,7 +15994,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5218019182864204208, guid: 0d9100d2f15af58418a2644cc576fb6c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -367
+      value: -310
       objectReference: {fileID: 0}
     - target: {fileID: 5218019182864204208, guid: 0d9100d2f15af58418a2644cc576fb6c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -15983,6 +16007,10 @@ PrefabInstance:
     - target: {fileID: 5218019182864204208, guid: 0d9100d2f15af58418a2644cc576fb6c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5218019182864204208, guid: 0d9100d2f15af58418a2644cc576fb6c, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5218019182864204209, guid: 0d9100d2f15af58418a2644cc576fb6c, type: 3}
       propertyPath: m_Name
@@ -19943,7 +19971,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a68b3371c3d2a2f4bb3ef61777986670, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.165
+  m_Volume: 0.085
   m_Pitch: 1
   Loop: 0
   Mute: 0
