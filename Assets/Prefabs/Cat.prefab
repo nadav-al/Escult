@@ -82,7 +82,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2072621441
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 20055500, guid: e49852e511906b74f88868a68d3b8471, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -190,9 +190,10 @@ MonoBehaviour:
   upButtonOpt2: 273
   downButtonOpt2: 274
   walkAudio: {fileID: 1922652149}
+  _rigidbody2D: {fileID: 0}
   faceDirection: 0
   animator: {fileID: 1922652129}
-  gameManagerObj: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!114 &8715704720659737689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,12 +207,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   throwSpeed: 15
-  rigidbody: {fileID: 8715704720659737682}
+  catRigidbody: {fileID: 0}
   hell: {fileID: 0}
   girl: {fileID: 0}
   soulsController: {fileID: 1922652120}
   animator: {fileID: 1922652129}
-  gameManagerObj: {fileID: 0}
   gameManager: {fileID: 0}
   deathSound: {fileID: -7082556310796878300}
   landSound: {fileID: 0}
@@ -245,6 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CAT_INIT_SOULS: 9
   catAnimator: {fileID: 1922652129}
+  graphicCatSoulsController: {fileID: 0}
 --- !u!114 &1922652121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +275,8 @@ MonoBehaviour:
   movingBridgePrefab: {fileID: 1332526763441699258, guid: 58b092a95c4024446a463729c6801243, type: 3}
   movingBridges: []
   deathSound: {fileID: -7082556310796878300}
+  bloodBridgeSound: {fileID: 0}
+  cantOpenGate: {fileID: 0}
 --- !u!95 &1922652129
 Animator:
   serializedVersion: 4
@@ -304,9 +307,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b7311cd419e0f384cb9d71be88f1e566, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 146a1897c70d9424c8e48aecb58ef1c9, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.277
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -350,7 +353,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.635
       inSlope: 0
       outSlope: 0
       tangentMode: 0

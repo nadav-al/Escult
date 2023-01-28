@@ -88,9 +88,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 008a541fc52cf3c4ab2a26150120a099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManagerObj: {fileID: 0}
   catAnimator: {fileID: 0}
   gameManager: {fileID: 0}
+  girlInteractController: {fileID: 0}
+  cat: {fileID: 0}
+  deathCatSound: {fileID: 0}
 --- !u!1 &2204166186252169030
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +171,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2072621441
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 2077482229, guid: d6b6b7caf8f2c254ab737eac9234f37c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -251,9 +253,10 @@ MonoBehaviour:
   upButtonOpt2: 273
   downButtonOpt2: 274
   walkAudio: {fileID: 1497816351}
+  _rigidbody2D: {fileID: 0}
   faceDirection: 0
   animator: {fileID: 1497816352}
-  gameManagerObj: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!114 &2204166186252169080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +272,10 @@ MonoBehaviour:
   interactButtonOpt1: 101
   interactButtonOpt2: 107
   girlAnimator: {fileID: 1497816352}
-  gameManagerObj: {fileID: 0}
+  movementController: {fileID: 0}
+  gameManager: {fileID: 0}
+  catPickUpSound: {fileID: 0}
+  catThrowSound: {fileID: 0}
 --- !u!95 &1497816352
 Animator:
   serializedVersion: 4
@@ -300,7 +306,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: be5f2e756824cf1448cc780a8381a455, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 06dd7a2729d21064887e8352a7611db4, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
