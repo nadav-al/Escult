@@ -101,12 +101,20 @@ public class CatInteractController : MonoBehaviour
 
         if (!isFocused || gameManager.isImportantAnimationsPlaying())
         {
+            if (alterNearby)
+            {
+                alterController.ShowOutlines(false);
+            }
             bloodOutline.SetActive(false);
+            
             return;
         }
         catDirection = movementCtrl.faceDirection;
         bool catPitIndicator = catFacingPit();
-        
+        if (alterNearby)
+        {
+            alterController.ShowOutlines(true);
+        }
         if (gameObject.layer != Layers.Air && 
             (Input.GetKeyDown(interactButtonOpt1) || Input.GetKeyDown(interactButtonOpt2)))
         {
