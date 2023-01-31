@@ -29,8 +29,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Animator catAnimator;
     [SerializeField] private AudioSource coinSound;
 
-    private List<String> animNames;
-
     private Color girlInactiveColor;
     private Color catInactiveColor;
     private Color girlActiveColor;
@@ -41,26 +39,14 @@ public class GameManager : MonoBehaviour
     private bool focusedCharacter = true;
     private CatPickupController catPickupController;
 
+    private float totalTimeTaken;
+    private float currLevelTimeTaken;
 
-    // this semaphore helps us to track if we are in an important animation
-
-    // private int importantAnimationsSempahore = 0;
-    //
-    // public void up()
-    // {
-    //     importantAnimationsSempahore+=1;
-    // }
-    //
-    // public void down()
-    // {
-    //     importantAnimationsSempahore-=1;
-    // }
 
     public bool isImportantAnimationsPlaying()
     {
         return girlInteractCtrl.isImportantAnimationPlaying() || girlColliderInteractCtrl.isImportantAnimationPlaying()
                || catInteractCtrl.isImportantAnimationPlaying() || catPickupController.isImportantAnimationPlaying();
-        // return importantAnimationsSempahore > 0;
     }
 
     public void ResetImportantAnimations()
@@ -73,17 +59,21 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
+        totalTimeTaken += currLevelTimeTaken;
+        Debug.Log("#" + currLevelInd + " " +levels[currLevelInd].gameObject.name + ": played for " + Convert.ToInt32(currLevelTimeTaken%60) + " seconds.");
         if (++currLevelInd == levels.Count)
         {
             gameObject.SetActive(false);
             catInteractCtrl.getRidOfMovingBridges();
+            Debug.Log("Total time taken: " + Convert.ToInt32(totalTimeTaken%60) + " seconds.");
+            Debug.Log("----------------------------------");
             SceneManager.LoadScene("End Cutscenes Scene");
             return; 
         }
         ResetImportantAnimations();
         // levels[currLevelInd].ResetLevel();
         levels[currLevelInd - 1].DestroyLevelOutlines();
-        levels[currLevelInd-1].SetActive(false);
+        levels[currLevelInd - 1].SetActive(false);
         
         // hell tile maps.
         cat.GetComponent<CatInteractController>().ResetBridgeList();
@@ -91,6 +81,7 @@ public class GameManager : MonoBehaviour
         levels[currLevelInd].StartNewLevel();
         focusedCharacter = true;
         ApplyFocusToCharacters();
+        currLevelTimeTaken = 0;
     }
     public LevelManager getLevel()
     {
@@ -134,15 +125,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        animNames = new List<String>
-        {
-            AnimationNames.ThrowLeft,
-            AnimationNames.ThrowRight,
-            AnimationNames.ThrowUp,
-            AnimationNames.ThrowDown,
-            AnimationNames.DeathState,
-            AnimationNames.ReviveState
-        };
         currLevelInd = 0;
     }
 
@@ -177,25 +159,31 @@ public class GameManager : MonoBehaviour
         ApplyFocusToCharacters();
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());
         levels[currLevelInd].StartNewLevel();
+        totalTimeTaken = 0;
+        currLevelTimeTaken = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        currLevelTimeTaken += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("#" + currLevelInd + " " +levels[currLevelInd].gameObject.name + ": Quit before finishing");
+            Debug.Log("Total finished levels time taken: " + Convert.ToInt32(totalTimeTaken%60) + " seconds.");
+            totalTimeTaken += currLevelTimeTaken;
+            Debug.Log("Total time taken: " + Convert.ToInt32(totalTimeTaken%60) + " seconds.");
+            Debug.Log("----------------------------------");
             Application.Quit();
         }
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());
         if (catSouls.IsDead() && !isImportantAnimationsPlaying())
         {
-            // importantAnimationsSempahore = 0;
             focusedCharacter = true;
             ApplyFocusToCharacters();
         }
         if (Input.GetKeyDown(restartLevelKey))
         {
-            // importantAnimationsSempahore = 0;
             ResetImportantAnimations();
             focusedCharacter = true;
             ApplyFocusToCharacters();
