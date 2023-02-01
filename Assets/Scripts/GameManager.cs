@@ -59,14 +59,14 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        totalTimeTaken += currLevelTimeTaken;
-        Debug.Log("#" + currLevelInd + " " +levels[currLevelInd].gameObject.name + ": played for " + Convert.ToInt32(currLevelTimeTaken%60) + " seconds.");
+        Debug.Log("#" + currLevelInd + " " +levels[currLevelInd].gameObject.name + ": played for " + (int)currLevelTimeTaken + " seconds.");
         if (++currLevelInd == levels.Count)
         {
             gameObject.SetActive(false);
             catInteractCtrl.getRidOfMovingBridges();
-            Debug.Log("Total time taken: " + Convert.ToInt32(totalTimeTaken%60) + " seconds.");
-            Debug.Log("----------------------------------");
+            totalTimeTaken += currLevelTimeTaken;
+            Debug.Log("Total time taken: " + (int)(totalTimeTaken/60) + "minutes and " + (int)totalTimeTaken + " seconds.");
+            Debug.Log("----------------------------------\n");
             SceneManager.LoadScene("End Cutscenes Scene");
             return; 
         }
@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
         levels[currLevelInd].StartNewLevel();
         focusedCharacter = true;
         ApplyFocusToCharacters();
+        totalTimeTaken += currLevelTimeTaken;
         currLevelTimeTaken = 0;
     }
     public LevelManager getLevel()
@@ -126,6 +127,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         currLevelInd = 0;
+        Debug.Log("       [" + DateTime.Now + "]       ");
     }
 
     void Start()
@@ -169,11 +171,11 @@ public class GameManager : MonoBehaviour
         currLevelTimeTaken += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("#" + currLevelInd + " " +levels[currLevelInd].gameObject.name + ": Quit before finishing");
-            Debug.Log("Total finished levels time taken: " + Convert.ToInt32(totalTimeTaken%60) + " seconds.");
-            totalTimeTaken += currLevelTimeTaken;
-            Debug.Log("Total time taken: " + Convert.ToInt32(totalTimeTaken%60) + " seconds.");
-            Debug.Log("----------------------------------");
+            Debug.Log("#" + currLevelInd + " " + levels[currLevelInd].gameObject.name + ": Quit before finishing");
+            Debug.Log("Total finished levels time taken: " + (int)(totalTimeTaken/60) + " minutes and " + (int)(totalTimeTaken%60) + " seconds.");
+            // totalTimeTaken += currLevelTimeTaken;
+            // Debug.Log("Total time taken: " + Convert.ToInt32(totalTimeTaken%60) + " seconds.");
+            Debug.Log("----------------------------------\n");
             Application.Quit();
         }
         textSouls.SetText("Remaining Souls: " + catSouls.getSouls());

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class DebugFile : MonoBehaviour
+
+public class DebugFile : Singleton<DebugFile>
 {
     private string customPath;
-    
+    private bool addedFunc = false;
     private void Start()
     {
+        DontDestroyOnLoad(this);
         customPath = Application.dataPath + "/PlayTimings.txt";
         //Create the file if it doesn't exist
         if (!File.Exists(customPath))
@@ -19,11 +21,14 @@ public class DebugFile : MonoBehaviour
     
     private void OnEnable()
     {
+        if (!addedFunc)
+        {
+            addedFunc = true;    
+        }
         Application.logMessageReceived += Log;
-        Debug.Log("       [" + System.DateTime.Now + "]       ");
     }
     
-    private void OnDisable()
+    private void OnApplicationQuit()
     {
         Application.logMessageReceived -= Log;
     }

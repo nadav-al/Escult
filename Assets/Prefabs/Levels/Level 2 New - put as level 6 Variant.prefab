@@ -3745,7 +3745,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7740681869408379457, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
       propertyPath: m_Name
-      value: Level 2 New - put as level 6
+      value: Level 2 New - put as level 6 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7740681869408379457, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
       propertyPath: m_IsActive
@@ -3760,8 +3760,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7740681869408379463, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
+      propertyPath: catPos.x
+      value: -5.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7740681869408379463, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
+      propertyPath: catPos.y
+      value: 2.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 7740681869408379463, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
+      propertyPath: girlPos.x
+      value: -6.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7740681869408379463, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
       propertyPath: gates.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7740681869408379463, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
+      propertyPath: altars.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7740681869408379463, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
+      propertyPath: catPickupController
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7740681869408379463, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
       propertyPath: gates.Array.data[0]
@@ -3771,8 +3791,30 @@ PrefabInstance:
       propertyPath: gates.Array.data[1]
       value: 
       objectReference: {fileID: 7474652714434848679}
+    - target: {fileID: 7740681869408379463, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
+      propertyPath: altars.Array.data[0]
+      value: 
+      objectReference: {fileID: 5024964393369956337}
+    - target: {fileID: 7740681869408379463, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
+      propertyPath: altars.Array.data[1]
+      value: 
+      objectReference: {fileID: 7457611322593409327}
+    - target: {fileID: 7740681869408379463, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
+      propertyPath: catInteractController
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
+--- !u!1 &5024964393369956337 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7740681867489923918, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
+  m_PrefabInstance: {fileID: 3373248191150832831}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7457611322593409327 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5309443415247308176, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
+  m_PrefabInstance: {fileID: 3373248191150832831}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7474652714434848679 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5290430287770704664, guid: 3cd9ddf13a833f0488c691c11d36e8d8, type: 3}
