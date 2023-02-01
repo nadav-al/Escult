@@ -59,13 +59,27 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        Debug.Log("#" + currLevelInd + " " +levels[currLevelInd].gameObject.name + ": played for " + (int)currLevelTimeTaken + " seconds.");
+        if (currLevelTimeTaken / 60 > 0)
+        {
+            Debug.Log("#" + currLevelInd + " " +levels[currLevelInd].gameObject.name + ": played for " +
+                      (int)(currLevelTimeTaken/60) + " minutes and " + (int)(currLevelTimeTaken%60) + " seconds.");
+        } else {
+            Debug.Log("#" + currLevelInd + " " +levels[currLevelInd].gameObject.name + ": played for " + 
+                      (int)currLevelTimeTaken + " seconds.");
+        }
         if (++currLevelInd == levels.Count)
         {
             gameObject.SetActive(false);
             catInteractCtrl.getRidOfMovingBridges();
             totalTimeTaken += currLevelTimeTaken;
-            Debug.Log("Total time taken: " + (int)(totalTimeTaken/60) + "minutes and " + (int)totalTimeTaken + " seconds.");
+            if (totalTimeTaken / 60 > 0)
+            {
+                Debug.Log("Total time taken: " + (int)(totalTimeTaken/60) + " minutes and " + 
+                          (int)(totalTimeTaken%60) + " seconds.");
+            } else {
+                Debug.Log("Total time taken: " + (int)totalTimeTaken + " seconds.");
+
+            }
             Debug.Log("----------------------------------\n");
             SceneManager.LoadScene("End Cutscenes Scene");
             return; 
