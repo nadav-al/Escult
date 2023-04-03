@@ -1,0 +1,33 @@
+       [01/02/2023 18:59:05]       
+#0 Tutorial 1: played for 10.11102 seconds.
+#1 Tutorial 2: played for 11.62743 seconds.
+#2 Tutorial 3: played for 28.40899 seconds.
+#3 Tutorial 4: played for 15.97145 seconds.
+#4 Level 1: played for 26.6974 seconds.
+#5 Level 2: played for 18.66119 seconds.
+#6 Level 3: played for 24.12179 seconds.
+#7 Level 4: played for 23.56613 seconds.
+Total time taken: 159.1654 seconds.
+----------------------------------
+
+       [01/02/2023 19:10:34]       
+#0 Tutorial 1: played for 5 seconds.
+#1 Tutorial 2: played for 14 seconds.
+#2 Tutorial 3: played for 9 seconds.
+#3 Tutorial 4: played for 12 seconds.
+#4 Level 1: Quit before finishing
+Total finished levels time taken: 0 minutes and 41 seconds.
+----------------------------------
+
+#4 Level 1: Quit before finishing
+Total finished levels time taken: 0 minutes and 41 seconds.
+----------------------------------
+
+#4 Level 1: Quit before finishing
+Total finished levels time taken: 0 minutes and 41 seconds.
+----------------------------------
+
+#4 Level 1: Quit before finishing
+Total finished levels time taken: 0 minutes and 41 seconds.
+----------------------------------
+

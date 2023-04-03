@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     public bool isImportantAnimationsPlaying()
     {
         return girlInteractCtrl.isImportantAnimationPlaying() || girlColliderInteractCtrl.isImportantAnimationPlaying()
-               || catInteractCtrl.isImportantAnimationPlaying() || catPickupController.isImportantAnimationPlaying();
+                                                              || catInteractCtrl.isImportantAnimationPlaying() || catPickupController.isImportantAnimationPlaying();
     }
 
     public void ResetImportantAnimations()
@@ -59,27 +59,27 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        if (currLevelTimeTaken / 60 > 0)
-        {
-            Debug.Log("#" + currLevelInd + " " +levels[currLevelInd].gameObject.name + ": played for " +
-                      (int)(currLevelTimeTaken/60) + " minutes and " + (int)(currLevelTimeTaken%60) + " seconds.");
-        } else {
-            Debug.Log("#" + currLevelInd + " " +levels[currLevelInd].gameObject.name + ": played for " + 
-                      (int)currLevelTimeTaken + " seconds.");
-        }
+        // Debug.Log("#" + currLevelInd + " " +levels[currLevelInd].gameObject.name + ": played for " +
+        //           (int)(currLevelTimeTaken/60) + " minutes and " + (int)(currLevelTimeTaken%60) + " seconds.");
+        Debug.Log(levels[currLevelInd].gameObject.name + ": " +
+                  (int)(currLevelTimeTaken/60) + "m " + (int)(currLevelTimeTaken%60) + "s.");
         if (++currLevelInd == levels.Count)
         {
             gameObject.SetActive(false);
             catInteractCtrl.getRidOfMovingBridges();
             totalTimeTaken += currLevelTimeTaken;
-            if (totalTimeTaken / 60 > 0)
-            {
-                Debug.Log("Total time taken: " + (int)(totalTimeTaken/60) + " minutes and " + 
-                          (int)(totalTimeTaken%60) + " seconds.");
-            } else {
-                Debug.Log("Total time taken: " + (int)totalTimeTaken + " seconds.");
-
-            }
+            // if (totalTimeTaken / 60 > 0)
+            // {
+            //     Debug.Log("Total time taken: " + (int)(totalTimeTaken/60) + " minutes and " + 
+            //               (int)(totalTimeTaken%60) + " seconds.");
+            // } else {
+            //     Debug.Log("Total time taken: " + (int)totalTimeTaken + " seconds.");
+            //
+            // }
+            // Debug.Log("Total time taken: " + (int)(totalTimeTaken/60) + " minutes and " + 
+            //           (int)(totalTimeTaken%60) + " seconds.");
+            Debug.Log("Total time taken: " + (int)(totalTimeTaken/60) + "m " + 
+                      (int)(totalTimeTaken%60) + "s.");
             Debug.Log("----------------------------------\n");
             SceneManager.LoadScene("End Cutscenes Scene");
             return; 
@@ -185,8 +185,11 @@ public class GameManager : MonoBehaviour
         currLevelTimeTaken += Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("#" + currLevelInd + " " + levels[currLevelInd].gameObject.name + ": Quit before finishing");
-            Debug.Log("Total finished levels time taken: " + (int)(totalTimeTaken/60) + " minutes and " + (int)(totalTimeTaken%60) + " seconds.");
+            // Debug.Log("#" + currLevelInd + " " + levels[currLevelInd].gameObject.name + ": Quit before finishing");
+            // Debug.Log("Total finished levels time taken: " + (int)(totalTimeTaken/60) + " minutes and " + (int)(totalTimeTaken%60) + " seconds.");
+            Debug.Log(levels[currLevelInd].gameObject.name + ": Quit before finishing");
+            Debug.Log("Total time taken: " + (int)(totalTimeTaken/60) + "m " + 
+                      (int)(totalTimeTaken%60) + "s.");
             // totalTimeTaken += currLevelTimeTaken;
             // Debug.Log("Total time taken: " + Convert.ToInt32(totalTimeTaken%60) + " seconds.");
             Debug.Log("----------------------------------\n");
