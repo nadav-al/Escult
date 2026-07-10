@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "name": "level4_reconstruction",
+  "seed": null,
+  "tier": "easy",
+  "bounds": { "w": 16, "h": 11 },
+  "terrain": [
+    "WWWWWWWWWWWWWWWW",
+    "WGGGGGGGGPGGPGGW",
+    "WGGGGWWWWWWWWWWW",
+    "WGGWWWWWWWWWWWWW",
+    "WGGWWWWWWWWWWWWW",
+    "WGGWWWWWWWWWWWWW",
+    "WGGGGGGGGGGGGGGW",
+    "WWWWWWWPWWGWWWWW",
+    "WWWWWWWGWWPWWWWW",
+    "WWWWWWWWWWPGWWWW",
+    "WWWWWWWWWWWWWWWW"
+  ],
+  "gates": [
+    { "id": "N", "cells": [[6,1],[7,1],[8,1]], "initialClosed": true, "overPit": false },
+    { "id": "P", "cells": [[9,1]], "initialClosed": true, "overPit": true },
+    { "id": "S", "cells": [[10,8],[10,9]], "initialClosed": true, "overPit": true }
+  ],
+  "altars": [
+    { "id": "1", "cell": [4,2], "targets": ["S"] },
+    { "id": "2", "cell": [7,8], "targets": ["N", "P"] }
+  ],
+  "doors": [
+    { "id": "d1", "cell": [13,1], "initialOpen": true }
+  ],
+  "spawns": { "girl": [9,6], "cat": [5,6], "catInLevel": true },
+  "soulBudget": 9,
+  "decoys": ["1", "S"],
+  "esn": [
+    "################",
+    "#.....NNNP..~O.#",
+    "#...1###########",
+    "#..#############",
+    "#..#############",
+    "#..#############",
+    "#....C...@.....#",
+    "#######~##.#####",
+    "#######2##S#####",
+    "##########S.####",
+    "################"
+  ],
+  "notes": "Reconstruction of the hand-made Level 4's topology (crossed altar/gate wiring, mixed-terrain gate split into N+P per the co-wired-gate workaround) at a solver-tractable scale. The 'terrain' field above is a placeholder — gate/altar/door/spawn overlay cells are NOT re-encoded into it (per schema: terrain holds pure G|P|W, overlays live in their own arrays); 'esn' is the authoritative source. See Docs/ProcGen/Library/level_records.md#level4_reconstruction for provenance and caveats."
+}

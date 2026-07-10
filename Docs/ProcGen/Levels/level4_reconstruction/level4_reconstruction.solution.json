@@ -1,0 +1,17 @@
+{
+  "minCost": 4,
+  "note": "Cleaned canonical realization of the solver's certified minCost=4 witness. The raw witness includes zero-cost PICKUP/DROP/MOVE noise (free actions the search happened to take); this is an equivalent minimal-cost path with the same 4 costed steps in the same order, presented without that noise. See solve_esn.ps1 output for the raw witness.",
+  "steps": [
+    { "op": "MOVE",      "actor": "CAT",  "to": [7,6] },
+    { "op": "BRIDGE",    "cell": [7,7],   "soulsAfter": 8 },
+    { "op": "MOVE",      "actor": "CAT",  "to": [7,7] },
+    { "op": "SACRIFICE", "altar": "2",    "soulsAfter": 7, "opens": ["N", "P"] },
+    { "op": "MOVE",      "actor": "CAT",  "to": [2,1] },
+    { "op": "MOVE",      "actor": "CAT",  "to": [8,1] },
+    { "op": "BRIDGE",    "cell": [9,1],   "soulsAfter": 6 },
+    { "op": "MOVE",      "actor": "CAT",  "to": [11,1] },
+    { "op": "BRIDGE",    "cell": [12,1],  "soulsAfter": 5 },
+    { "op": "MOVE",      "actor": "GIRL", "to": [12,1] },
+    { "op": "EXIT" }
+  ]
+}

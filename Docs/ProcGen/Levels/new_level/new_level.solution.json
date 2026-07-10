@@ -1,0 +1,14 @@
+{ "minCost": 4,
+  "solutionCount": 12,
+  "steps": [
+    { "op": "MOVE", "actor": "CAT", "to": [3,4] },
+    { "op": "BRIDGE", "actor": "CAT", "cell": [4,4], "soulsAfter": 8 },
+    { "op": "MOVE", "actor": "CAT", "to": [4,4] },
+    { "op": "BRIDGE", "actor": "CAT", "cell": [5,4], "soulsAfter": 7 },
+    { "op": "MOVE", "actor": "CAT", "to": [5,4] },
+    { "op": "BRIDGE", "actor": "CAT", "cell": [6,4], "soulsAfter": 6 },
+    { "op": "MOVE", "actor": "CAT", "to": [3,2] },
+    { "op": "SACRIFICE", "actor": "CAT", "altar": "1", "soulsAfter": 5 },
+    { "op": "MOVE", "actor": "GIRL", "to": [9,1] },
+    { "op": "EXIT" }
+  ] }

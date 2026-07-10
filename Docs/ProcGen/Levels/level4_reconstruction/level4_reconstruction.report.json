@@ -1,0 +1,28 @@
+{
+  "tier": "easy",
+  "vectors": {
+    "D1_solutionLength": 4,
+    "D2_soulSlack": 5,
+    "D3_trapDepth": "shallow (~1-3 souls sinkable via decoy altar 1 + gate S, no benefit)",
+    "D4_wiringDegree": 3,
+    "D5_maxParity": 1,
+    "D6_interleaving": 1,
+    "D7_misdirection": "high relative to map size - both altars target a distant, crossed gate",
+    "D8_throwComplexity": 0,
+    "D9_islands": 5,
+    "D10_decoys": 2
+  },
+  "checks": {
+    "V1_closedArena": "PASS - full wall perimeter",
+    "V2_initialSolvability": "PASS - solver certified, minCost 4",
+    "V3_soulFeasibility": "PASS - 4 <= 9, slack 5",
+    "V4_nonTriviality": "PASS for easy tier - requires 1 sacrifice + 2 bridges + 1 exploratory bridge",
+    "V5_spawnSanity": "PASS - both spawns on ground with legal initial moves",
+    "V6_elementRelevance": "PASS - altar 2/gate N/gate P used in witness; altar 1/gate S tagged decoys",
+    "V7_catDeathOrdering": "N/A - Cat never dies in the minimal solution",
+    "V8_antiCrushCompatibility": "PASS - Girl never stands on a wired gate cell during the sacrifice",
+    "V9_determinism": "PASS - no timing/physics dependence in the abstract model"
+  },
+  "solutionCount": "not enumerated (single witness only; see Docs/ProcGen/Tools/solve_esn.ps1 limitations)",
+  "provenance": "Reconstruction of the hand-made Level 4, not a live tile-dump re-verification. See Docs/ProcGen/Library/level_records.md#level4_reconstruction for what is confirmed-fact vs. interpretive."
+}

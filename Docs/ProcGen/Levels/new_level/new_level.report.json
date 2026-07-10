@@ -1,0 +1,18 @@
+{
+  "name": "new_level",
+  "valid": true,
+  "tier": "easy",
+  "vectors": { "D1": 9, "D2": 5, "D3": 3451, "D3_depth": 8, "D4": 3, "D4_shared": 1, "D5": 1, "D6": 1, "D7": 5, "D8": 0, "D9": 2, "D10": 1 },
+  "checks": { "V1": "PASS — bounding perimeter is all wall",
+              "V2": "PASS — solver proved a win path; min_cost=4, 12 minimal solution(s)",
+              "V3": "PASS — min_cost 4 ≤ budget 9; slack=5",
+              "V4": "INFO — no tier requested; V4 not enforced (estimate: easy)",
+              "V5": "PASS — spawns on ground, off gates, mobile",
+              "V6": "PASS — every element is used in some minimal solution or tagged decoy",
+              "V7": "PASS — solver locks all cat actions at souls=0 (by construction)",
+              "V8": "PASS — anti-crush interlock enforced inside successor generation (by construction)",
+              "V9": "PASS — abstract model is deterministic by definition" },
+  "solutionCount": 12,
+  "reachableStates": 40414,
+  "deadEndStates": 13129
+}

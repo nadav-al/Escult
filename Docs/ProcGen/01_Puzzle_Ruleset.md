@@ -29,8 +29,8 @@ and AI level-generation agents. Serialization & pipeline: see `02_Generation_Pip
 | Entity | Occupies | Dynamic state | Interaction |
 |--------|----------|---------------|-------------|
 | Gate   | cell set (over `G` or `P`!) | OPEN/CLOSED | CLOSED ⇒ its cells act as `W` (blocks walk, blocks throw, forbids BRIDGE under it). OPEN ⇒ underlying terrain applies. A gate over `P` still needs a bridge after opening. |
-| Altar  | 1 cell (solid) | none (stateless trigger) | Cat on an adjacent cell may SACRIFICE: **toggles ALL wired targets** (XOR — re-use re-closes; parity puzzles are intentional) |
-| Door   | 1 cell (solid) | OPEN/CLOSED | Win = Girl adjacent to an OPEN door. May start open or be altar-wired (it is just another toggle target) |
+| Altar  | 1 cell (blocks walk, **not** throw rays — Cat flies over; illegal landing cell) | none (stateless trigger) | Cat on an adjacent cell may SACRIFICE: **toggles ALL wired targets** (XOR — re-use re-closes; parity puzzles are intentional) |
+| Door   | 1 cell (blocks walk **and throw rays** — engine: door is Wall-layer, a legal backstop) | OPEN/CLOSED | Win = Girl adjacent to an OPEN door. May start open or be altar-wired (it is just another toggle target) |
 | Girl   | 1 cell | position, `carrying` flag | Mandatory. The only win-relevant character |
 | Cat    | 1 cell | position ∨ HELD ∨ DEAD; `souls` | The resource-bearer. Optional per level (`cat_in_level=false` ⇒ girl-only level) |
 
@@ -49,7 +49,7 @@ Free actions cost 0 souls and any number may occur between costed actions.
 | `MOVE(actor,to)` | either | 4-connected path over walkable cells (walkable = `G` ∪ bridges, minus CLOSED-gate cells, minus `W`; characters never block each other) | position ← `to` | 0 |
 | `PICKUP` | Girl | Girl and Cat within adjacency; Cat not DEAD | Cat ← HELD | 0 |
 | `DROP` | Girl | carrying | Cat placed at Girl's cell | 0 |
-| `THROW(dir)` | Girl | carrying | Ray-cast from Girl's cell along `dir`; flies over `G`/`P`; stops at first `W` or CLOSED-gate cell; lands on cell *before* it. Land on walkable ⇒ Cat there. Land on `P` ⇒ `souls−1`, Cat returns to Girl's cell (a paid "recall"). **Ray MUST terminate** (see V1) | 0 (1 if pit-landing) |
+| `THROW(dir)` | Girl | carrying | Ray-cast from Girl's cell along `dir`; flies over `G`/`P`/altars; stops at first `W`, CLOSED-gate cell, or **door** (doors are Wall-layer backstops); lands on cell *before* it. Landing on an altar cell is illegal (skip that throw). Land on walkable ⇒ Cat there. Land on `P` ⇒ `souls−1`, Cat returns to Girl's cell (a paid "recall"). **Ray MUST terminate** (see V1) | 0 (1 if pit-landing) |
 | `SACRIFICE(altar)` | Cat | Cat adjacent to altar; `souls ≥ 1`; **Girl not standing on any cell of any gate wired to this altar** (anti-crush interlock — applies even to currently-OPEN gates) | toggle every wired gate/door; `souls−1` | 1 |
 | `BRIDGE(cell)` | Cat | Cat adjacent to `cell`; `cell` is `P`; `cell` not covered by a CLOSED gate; `souls ≥ 1` | `cell` becomes permanent walkable bridge; `souls−1`; if souls hit 0 the bridge still completes, then Cat dies | 1 |
 | `EXIT` | Girl | Girl adjacent to an OPEN door | **WIN** | 0 |
@@ -161,14 +161,17 @@ Overlays (a cell's glyph; ground is assumed beneath unless the legend says `over
 
 Reserved letters `C`, `O`, `X` are never used as gate ids (they are Cat / open-door /
 closed-door). >9 altars: keep numbering in the legend only.
+Multiple doors: door ids are assigned in canvas reading order (`d1`, `d2`, …) and
+referenced by id in the legend; with a single door, `X`/`O` may be referenced directly.
 
 **Legend** — plain `key: value` / arrow lines; everything the canvas can't show:
 ```
 souls: 9
 1 -> A, X            # altar 1 toggles gate A and door X
-2 -> A               # altar 2 also toggles A  [decoy/trap: re-firing re-locks A]
+2 -> A               # altar 2 also toggles A (re-firing re-locks it)
 A: initial=CLOSED over=PIT
 X: initial=CLOSED
+decoys: 2            # machine-readable decoy tag (V6); comments are for humans only
 ```
 
 **Worked example** (easy tier; min-cost 4, slack 5):
@@ -183,9 +186,10 @@ X: initial=CLOSED
 ```
 souls: 9
 1 -> A, X
-2 -> A            # decoy/trap
+2 -> A
 A: initial=CLOSED over=PIT
 X: initial=CLOSED
+decoys: 2
 ```
 Intended solution: Cat sacrifices altar `1` (opens gate `A` + door `X`, −1) →
 Cat bridges the three pit cells of row 2 incl. the now-open gate cell (−3) →
