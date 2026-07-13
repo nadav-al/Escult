@@ -10,9 +10,9 @@ retrieval engine, which makes it deterministic, zero-cost, and git-diffable.
 | Link form | Node type | Defined in |
 |---|---|---|
 | `[[P1]]`…`[[P10]]` | Design principles (fun) | `design_principles.md` |
-| `[[V1]]`…`[[V9]]` | Validity constraints | `01_Puzzle_Ruleset.md` §3 |
-| `[[D1]]`…`[[D10]]` | Difficulty vectors | `01_Puzzle_Ruleset.md` §4 |
-| `[[THROW_LANE]]`, `[[BAIT_BRIDGE]]`, … | Puzzle atoms | `02_Generation_Pipeline.md` §1.2 |
+| `[[V1]]`…`[[V9]]` | Validity constraints | `01_Puzzle_Ruleset.md` section 3 |
+| `[[D1]]`…`[[D10]]` | Difficulty vectors | `01_Puzzle_Ruleset.md` section 4 |
+| `[[THROW_LANE]]`, `[[BAIT_BRIDGE]]`, … | Puzzle atoms | `02_Generation_Pipeline.md` section 1.2 |
 | `[[<record-name>]]` | Level records (case log) | `level_records.md` |
 | `#tag` | Fuzzy grouping across nodes | anywhere |
 

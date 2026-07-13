@@ -12,7 +12,7 @@ namespace Escult.ProcGen
     /// unity-bridge scratch scripts (AI agents) and from menu items (humans).
     ///
     /// Typical agent loop:
-    ///   1. write/edit  Docs/ProcGen/Levels/&lt;name&gt;/&lt;name&gt;.esn.txt
+    ///   1. write/edit  Assets/ProcGen/Levels/&lt;name&gt;/&lt;name&gt;.esn.txt
     ///   2. BridgeScratch.Run() { return Escult.ProcGen.EscultCli.CheckAll(); }
     ///   3. read the returned markdown / the emitted .report.json, fix, repeat
     /// </summary>
@@ -23,9 +23,18 @@ namespace Escult.ProcGen
             get { return Directory.GetParent(Application.dataPath).FullName; }
         }
 
+        /// <summary>Levels live under Assets so artifacts are visible/importable in the editor.</summary>
         public static string LevelsRoot
         {
-            get { return Path.Combine(ProjectRoot, "Docs", "ProcGen", "Levels"); }
+            get { return Path.Combine(Application.dataPath, "ProcGen", "Levels"); }
+        }
+
+        /// <summary>Import freshly written artifact files when they landed inside Assets/.</summary>
+        public static void RefreshIfInsideAssets(string folder)
+        {
+            string full = Path.GetFullPath(folder);
+            if (full.StartsWith(Path.GetFullPath(Application.dataPath), StringComparison.OrdinalIgnoreCase))
+                AssetDatabase.Refresh();
         }
 
         /// <summary>Validate + score one ESN file; emit all artifacts next to it. Returns a markdown summary.</summary>
@@ -50,6 +59,7 @@ namespace Escult.ProcGen
 
             var rep = EscultValidator.Run(parse.Topology, parse.Lints, requestedTier);
             EscultArtifacts.Emit(Path.GetDirectoryName(esnPath), esnText, parse.Topology, rep);
+            RefreshIfInsideAssets(Path.GetDirectoryName(esnPath));
             return EscultValidator.ToMarkdown(rep, parse.Topology);
         }
 
@@ -68,11 +78,11 @@ namespace Escult.ProcGen
             return EscultValidator.ToMarkdown(rep, parse.Topology);
         }
 
-        /// <summary>Validate every *.esn.txt under Docs/ProcGen/Levels (recursive). Returns a combined report.</summary>
+        /// <summary>Validate every *.esn.txt under Assets/ProcGen/Levels (recursive). Returns a combined report.</summary>
         public static string CheckAll()
         {
             if (!Directory.Exists(LevelsRoot))
-                return $"No levels folder yet ({LevelsRoot}). Create Docs/ProcGen/Levels/<name>/<name>.esn.txt first.";
+                return $"No levels folder yet ({LevelsRoot}). Create Assets/ProcGen/Levels/<name>/<name>.esn.txt first.";
 
             var files = Directory.GetFiles(LevelsRoot, "*.esn.txt", SearchOption.AllDirectories);
             Array.Sort(files, StringComparer.OrdinalIgnoreCase);
@@ -104,6 +114,7 @@ namespace Escult.ProcGen
             string outPath = Path.Combine(LevelsRoot, "_validation_report.md");
             Directory.CreateDirectory(LevelsRoot);
             File.WriteAllText(outPath, report, new UTF8Encoding(false));
+            RefreshIfInsideAssets(LevelsRoot);
             Debug.Log(report);
             Debug.Log($"Escult: full validation report written to {outPath}");
         }

@@ -6,7 +6,7 @@ namespace Escult.ProcGen
 {
     /// <summary>
     /// ESN (Escult Sketch Notation) parser + linter + serializer.
-    /// Spec: Docs/ProcGen/01_Puzzle_Ruleset.md §5.4. Lossless ESN ⇄ Topology.
+    /// Spec: Docs/ProcGen/01_Puzzle_Ruleset.md section 5.4. Lossless ESN ⇄ Topology.
     /// </summary>
     public static class EsnParser
     {
@@ -83,6 +83,7 @@ namespace Escult.ProcGen
                         case 'X':
                             t.Terrain[i] = 'G';
                             doorGlyphs.Add(new KeyValuePair<int, bool>(i, false));
+                            res.Warn($"closed-door glyph 'X' at ({c},{r}) is retired (ruleset v1.1: doors are always open) — use 'O' and lock the exit with a gate in front");
                             break;
                         case 'O':
                             t.Terrain[i] = 'G';
@@ -277,7 +278,7 @@ namespace Escult.ProcGen
             }
         }
 
-        /// <summary>Static (non-solver) lints, incl. the ESN lint of doc 02 §3.4 item 10.</summary>
+        /// <summary>Static (non-solver) lints, incl. the ESN lint of doc 02 section 3.4 item 10.</summary>
         static void StaticLint(Topology t, ParseResult res)
         {
             foreach (var a in t.Altars)

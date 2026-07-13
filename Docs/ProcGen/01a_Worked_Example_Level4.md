@@ -2,11 +2,11 @@
 
 Supersedes the pre-ESN draft of this file (dictionary-based schema, world
 coordinates, no solver run — see git history). This version is expressed in
-current ESN (`01_Puzzle_Ruleset.md` §5.4), compiled to the current JSON schema
-(`02_Generation_Pipeline.md` §2.2), and **actually solved** by
+current ESN (`01_Puzzle_Ruleset.md` section 5.4), compiled to the current JSON schema
+(`02_Generation_Pipeline.md` section 2.2), and **actually solved** by
 `Docs/ProcGen/Tools/solve_esn.ps1` — not illustrative-only.
 
-Full artifacts: `Docs/ProcGen/Levels/level4_reconstruction/`. Case-log entries:
+Full artifacts: `Assets/ProcGen/Levels/level4_reconstruction/`. Case-log entries:
 `Docs/ProcGen/Library/level_records.md#level4_reconstruction` (the result) and
 `#level4_state_explosion` (a real solver-scaling failure hit along the way,
 now [[P11]] in the design principles).

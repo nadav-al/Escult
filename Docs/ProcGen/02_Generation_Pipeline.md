@@ -1,15 +1,15 @@
 # Escult — Procedural Generation Pipeline (v1.0)
 
 How a valid Escult level is produced, stored, and requested from an AI agent.
-Depends on `01_Puzzle_Ruleset.md` (the world rules; referenced below as **R§n**).
+Depends on `01_Puzzle_Ruleset.md` (the world rules; referenced below as **Ruleset section n**).
 No engine code here — this is the logical pipeline contract.
 
 Artifacts produced per level:
 | File | Content | Consumer |
 |---|---|---|
-| `<name>.esn.txt` | ESN canvas + legend (R§5.4) — **authoring source of truth** | humans, AI agents, git diffs |
-| `<name>.level.json` | compiled `LevelTopology` (§2.2) | Unity importer, solver |
-| `<name>.solution.json` | certified `SolutionPath` (R§5.3) | validator, hint system, QA |
+| `<name>.esn.txt` | ESN canvas + legend (Ruleset section 5.4) — **authoring source of truth** | humans, AI agents, git diffs |
+| `<name>.level.json` | compiled `LevelTopology` (section 2.2) | Unity importer, solver |
+| `<name>.solution.json` | certified `SolutionPath` (Ruleset section 5.3) | validator, hint system, QA |
 | `<name>.report.json` | difficulty vectors D1–D10, tier, V1–V9 results | curation, playlists |
 
 ---
@@ -20,7 +20,7 @@ Two entry modes, one shared verification back-end:
 
 ```
 SEED MODE                        PROMPT MODE
-seed + GenerationSpec            natural-language request → AI agent (§3)
+seed + GenerationSpec            natural-language request → AI agent (section 3)
       │                                │
       ▼                                ▼
 S1–S5 constructive stages        agent authors ESN directly
@@ -36,12 +36,12 @@ S1–S5 constructive stages        agent authors ESN directly
 
 | # | Stage | Logic |
 |---|-------|-------|
-| S1 | **Budgeting** | From `GenerationSpec` (tier, size cap, atom whitelist, trap count, seed) pick target values for D1–D10 inside the tier row of R§4. Seeded RNG ⇒ fully reproducible. |
+| S1 | **Budgeting** | From `GenerationSpec` (tier, size cap, atom whitelist, trap count, seed) pick target values for D1–D10 inside the tier row of Ruleset section 4. Seeded RNG ⇒ fully reproducible. |
 | S2 | **Arena** | Lay the wall perimeter (satisfies V1 by construction), then partition the interior into 1–D9 ground islands separated by pit moats. |
-| S3 | **Solution-first construction** | Place the Door on a goal island. Walk **backwards** from it, inserting puzzle atoms (§1.2) as chained locks until reaching the spawn island. Maintain a running soul ledger; stop when `budget − ledger` hits the tier's target slack. This guarantees an intended solution exists *by construction* — the solver later re-proves it independently (V2). |
+| S3 | **Solution-first construction** | Place the Door on a goal island. Walk **backwards** from it, inserting puzzle atoms (section 1.2) as chained locks until reaching the spawn island. Maintain a running soul ledger; stop when `budget − ledger` hits the tier's target slack. This guarantees an intended solution exists *by construction* — the solver later re-proves it independently (V2). |
 | S4 | **Wiring** | Assign altar→target edges. For medium+ tiers deliberately add shared targets (parity, D4/D5) and cross-wire altars far from their gates (D7). Respect V8: every intended SACRIFICE must leave the Girl a legal standing spot. |
 | S5 | **Traps & decoys** | Inject dead-end branches (BAIT_BRIDGE, DECOY_ALTAR) per D3/D10 targets. Tag every decoy (`decoys:` legend line). Traps must be *enterable but never mandatory*. |
-| S6 | **Solve** | Reference solver (§1.3) exhaustively searches the abstract state space. Outputs: min-cost solution, all minimal solutions, reachable-state graph. Unsolvable ⇒ back to S3 with a repair hint. |
+| S6 | **Solve** | Reference solver (section 1.3) exhaustively searches the abstract state space. Outputs: min-cost solution, all minimal solutions, reachable-state graph. Unsolvable ⇒ back to S3 with a repair hint. |
 | S7 | **Validate** | Check V1–V9 mechanically (V2/V3/V7/V8 come free from the solver; V1/V5/V6 are static lints; V4 compares the min solution's mechanic usage to the tier floor). Any failure ⇒ targeted repair (e.g., widen a moat, re-wire an altar) with a bounded retry count, else reject the seed. |
 | S8 | **Score** | Compute D1–D10 from solver output (trap depth = souls sinkable in dead-end branches of the state graph). If outside the requested tier band ⇒ mutate (add/remove one atom, tighten slack) and go to S6. |
 | S9 | **Emit** | Write the four artifacts. The JSON embeds the ESN so any single file is self-describing. |
@@ -62,17 +62,17 @@ S1–S5 constructive stages        agent authors ESN directly
 | `DECOY_ALTAR` *(trap)* | altar whose firing only re-locks gates the player needs open | trap | D3 D10 |
 
 Atoms chain: the *key* of one lock is placed behind the *door* of the next.
-New mechanics (R§6) extend this table with their own atoms.
+New mechanics (Ruleset section 6) extend this table with their own atoms.
 
 ### 1.3 Reference solver requirements
 
-- Model: exactly R§2 actions over R§5.2 states; canonical hash for dedup.
+- Model: exactly Ruleset section 2 actions over Ruleset section 5.2 states; canonical hash for dedup.
 - Move abstraction: never enumerate per-cell walks. From any state, each character's
   free-move closure is a flood fill; successor states are generated only at
   **commitment points** — cells adjacent to altars, bridgeable pit cells, pickup
   adjacency, throw origins (cells whose ray terminates usefully), door adjacency.
 - Search: BFS (uniform action cost) or Dijkstra weighted by souls when only
-  min-cost matters. State space is small (R§5.2) — exhaustive is fine.
+  min-cost matters. State space is small (Ruleset section 5.2) — exhaustive is fine.
 - Required outputs: `min_cost`, one witness `SolutionPath`, count of distinct
   minimal solutions, and the reachable-state graph with each state labeled
   solvable/dead-end (feeds D3 and the trap audit).
@@ -84,7 +84,7 @@ New mechanics (R§6) extend this table with their own atoms.
 ### 2.1 File layout
 
 ```
-Docs/ProcGen/Levels/            # or Assets/StreamingAssets/Levels/ once the importer exists
+Assets/ProcGen/Levels/          # under Assets so the Unity editor imports and displays the artifacts
   twisted_moat_01/
     twisted_moat_01.esn.txt
     twisted_moat_01.level.json
@@ -106,20 +106,20 @@ deserialize `Dictionary`), no nulls (use empty arrays / sentinel `[-1,-1]`).
   "bounds": { "w": 11, "h": 6 },
   "terrain": [
     "WWWWWWWWWWW",
+    "WGGGWWWGGGW",
     "WGGGPPPGGGW",
-    "WGGGPPPGGGW",
-    "WGGGPPPGGGW",
-    "WGGGPPPGGGW",
+    "WGGGWWWGGGW",
+    "WGGGWWWGGGW",
     "WWWWWWWWWWW"
   ],
   "gates":  [ { "id": "A", "cells": [[5,2]], "initialClosed": true, "overPit": true } ],
-  "altars": [ { "id": "1", "cell": [3,3], "targets": ["A", "d1"] },
+  "altars": [ { "id": "1", "cell": [3,3], "targets": ["A"] },
               { "id": "2", "cell": [9,3], "targets": ["A"] } ],
-  "doors":  [ { "id": "d1", "cell": [9,2], "initialOpen": false } ],
+  "doors":  [ { "id": "d1", "cell": [9,2] } ],
   "spawns": { "girl": [1,2], "cat": [1,3], "catInLevel": true },
   "soulBudget": 9,
   "decoys": ["2"],
-  "esn": ["###########","#...~~~...#","#@..~A~..X#","#C.1~~~..2#","#...~~~...#","###########"]
+  "esn": ["###########","#...###...#","#@..~A~..O#","#C.1###..2#","#...###...#","###########"]
 }
 ```
 
@@ -127,7 +127,7 @@ Rules:
 - `terrain` holds **pure terrain** (`G|P|W`); gates/altars/doors/spawns are *not*
   baked into it — they are overlays, exactly as in ESN. `terrain[row][col]`, row 0 = top.
 - All coordinates are `[col,row]` in that same frame. ESN ⇄ JSON is a pure
-  re-encoding (lossless both ways, R§5.4).
+  re-encoding (lossless both ways, Ruleset section 5.4).
 - `esn` is embedded so the JSON is human-inspectable on its own; on conflict the
   compiler errors out (they can never legally disagree).
 
@@ -140,7 +140,7 @@ Rules:
 | `terrain` `W` | Walls tilemap tile (**Wall layer** — throw backstop) |
 | `gates[i]` | gate GameObject: Tilemap with `cells`, Wall layer, `GateContoller.INITIAL_GATE_STATUS = initialClosed` (engine convention: active GameObject = closed/locked) |
 | `altars[i]` | `Alter.prefab` at `cell`; `AlterController.connectedObjects` = resolved `targets` |
-| `doors[i]` | `Door.prefab` at `cell`; `LevelManager.isDoorOpen = initialOpen` |
+| `doors[i]` | `Door.prefab` at `cell`, `openStatus = true` (doors are always open, ruleset v1.1); leave `LevelManager.doors` empty — the engine's door-toggle machinery is deliberately unused |
 | `spawns` | `LevelManager.girlPos` / `catPos`; `catInLevel` → `isCatInLevel` |
 | `soulBudget` | `SoulsController.CAT_INIT_SOULS` |
 | grid mapping | Unity cell = `(col + originX, originY − row)`; the importer picks the origin (ESN rows grow downward, Unity Y grows upward) |
@@ -171,19 +171,19 @@ Rules:
 
 ```
 You are an Escult level designer.
-Authoritative rules: Docs/ProcGen/01_Puzzle_Ruleset.md. Author levels in ESN (R§5.4).
+Authoritative rules: Docs/ProcGen/01_Puzzle_Ruleset.md. Author levels in ESN (Ruleset section 5.4).
 
 Mandatory workflow, in this order:
 1. Parse the DESIGN REQUEST (tier, size cap, required atoms, traps).
-2. Pick puzzle atoms from 02_Generation_Pipeline.md §1.2 and chain them into a
+2. Pick puzzle atoms from 02_Generation_Pipeline.md section 1.2 and chain them into a
    solution skeleton (key of each lock behind the door of the next).
 3. Write the intended SOLUTION FIRST: ordered op list with a running soul
    ledger (9 → …). If the ledger goes negative, redesign before drawing anything.
 4. Draw the ESN canvas around that solution. Perimeter must be '#'.
 5. Only after the main path works, add the requested traps/decoys; tag them
    with a 'decoys:' legend line.
-6. Run the self-check (§3.4). Fix and re-run until every item passes.
-7. Emit exactly the OUTPUT CONTRACT (§3.3). No other prose.
+6. Run the self-check (section 3.4). Fix and re-run until every item passes.
+7. Emit exactly the OUTPUT CONTRACT (section 3.3). No other prose.
 
 Invariants you must never violate:
 - Altars TOGGLE all wired targets (re-firing re-locks; costs a soul every time).
@@ -194,7 +194,9 @@ Invariants you must never violate:
 - A gate over pit ('over=PIT') needs opening AND bridging.
 - Souls only decrease; sacrifice, bridge, and pit-landing cost 1 each.
 - SACRIFICE is illegal while the Girl stands on any cell of a wired gate.
-- Win = Girl adjacent to an OPEN door; the Cat never needs to reach it and may die.
+- Win = Girl adjacent to the door (doors are ALWAYS open and never altar-wired —
+  lock the exit with a gate in front of it if needed); the Cat never needs to
+  reach it and may die.
 - Only the initial state must be solvable; reachable traps are allowed and welcome.
 ```
 
@@ -238,12 +240,12 @@ V1..V9: PASS — <one-line justification each>
 ### 3.4 Self-verification checklist (agent must answer every item)
 
 1. **V1** Is every border cell `#`?
-2. **V2** Replay your SOLUTION step by step against R§2 preconditions — does every
+2. **V2** Replay your SOLUTION step by step against Ruleset section 2 preconditions — does every
    step's precondition hold in the state produced by the previous steps?
 3. **V3** Ledger: does the soul count stay ≥ 0, and does the final spend match `min_cost ≤ souls`?
-4. **V4** Does the solution use at least the tier's required mechanics (R§4 table)?
+4. **V4** Does the solution use at least the tier's required mechanics (Ruleset section 4 table)?
 5. **V5** Are `@` and `C` on ground, off gate cells, each with ≥1 legal move?
-6. **V6** Does every altar/gate/door appear in the solution or in `decoys:`?
+6. **V6** Does every altar/gate appear in the solution or in `decoys:`?
 7. **V7** If the Cat dies in your solution, are ALL later steps Girl-only?
 8. **V8** For each SACRIFICE, where exactly is the Girl standing? Confirm it is not a wired-gate cell.
 9. **V9** Does anything rely on timing/physics? (Must be no.)

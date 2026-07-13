@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Escult.ProcGen
 {
     /// <summary>
-    /// In-memory LevelTopology (Docs/ProcGen/01_Puzzle_Ruleset.md §5.1).
+    /// In-memory LevelTopology (Docs/ProcGen/01_Puzzle_Ruleset.md section 5.1).
     /// Cells are flat indexes: idx = row * W + col, row 0 = top (ESN frame).
     /// </summary>
     public class Gate

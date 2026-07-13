@@ -5,8 +5,8 @@ using System.Text;
 namespace Escult.ProcGen
 {
     /// <summary>
-    /// Exhaustive reference solver (Docs/ProcGen/02_Generation_Pipeline.md §1.3).
-    /// Models exactly the R§2 action alphabet over R§5.2 states. Free moves are
+    /// Exhaustive reference solver (Docs/ProcGen/02_Generation_Pipeline.md section 1.3).
+    /// Models exactly the Ruleset section 2 action alphabet over Ruleset section 5.2 states. Free moves are
     /// abstracted to connected-component closures; successor states are generated
     /// only at commitment points. Character positions are canonicalized to the
     /// minimum cell index of their component, which keeps the state space small

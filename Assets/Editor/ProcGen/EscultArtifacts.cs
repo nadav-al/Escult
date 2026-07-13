@@ -9,7 +9,7 @@ namespace Escult.ProcGen
     /// <summary>
     /// Emits the four per-level artifacts of Docs/ProcGen/02_Generation_Pipeline.md
     /// (esn.txt, level.json, solution.json, report.json) plus a rendered .svg.
-    /// JSON is hand-built (no library dependency); schema matches doc 02 §2.2/§2.4.
+    /// JSON is hand-built (no library dependency); schema matches doc 02 section 2.2/section 2.4.
     /// </summary>
     public static class EscultArtifacts
     {

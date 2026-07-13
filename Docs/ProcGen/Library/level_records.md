@@ -72,3 +72,25 @@ rather than forced into false relevance. Caveat: this is a topology-faithful
 reconstruction from documented landmarks, not a re-verified live tile dump —
 treat its verdict as "the documented model is solvable," not as gospel about
 every exact tile of the shipped scene.
+
+## doors_always_open_redesign · 2026-07-10 · verdict: exemplar
+links: [[P1]] [[V6]] [[GATE_LOCK]] [[esn_worked_example]] · #design_ruling #bypassable_mechanic
+canvas:
+```
+###########
+#...###...#
+#@..~A~..O#
+#C.1###..2#
+#...###...#
+###########
+```
+lesson: Design ruling (Nadav): doors are ALWAYS open — ruleset v1.1 removed door
+state and altar→door wiring (the engine's door-toggle machinery is dead code:
+`LevelManager.doors` is empty in every shipped level, and 8 of 12 prefabs carry a
+stale `isDoorOpen: 0` that would soft-lock the level if that list were ever
+populated). Lock an exit with a gate in front of the door, never the door itself.
+Redesigning [[esn_worked_example]] under this rule fixed its old [[P1]] bypass
+for free: de-wiring the door forced interior walls, which closed the free rows —
+the witness now fires altar `1` and crosses gate `A` (minCost 4, slack 5,
+6,558 states). When a rule change breaks a level's lock, rebuild the lock from
+gates rather than reaching for a new mechanic.

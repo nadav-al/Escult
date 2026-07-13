@@ -236,7 +236,7 @@ namespace Escult.ProcGen
             rep.TierEstimate = EstimateTier(v);
         }
 
-        /// <summary>Score each tier row of the R§4 calibration table; most matching vector bands wins (ties go harder).</summary>
+        /// <summary>Score each tier row of the Ruleset section 4 calibration table; most matching vector bands wins (ties go harder).</summary>
         static string EstimateTier(Dictionary<string, int> v)
         {
             int d1 = v["D1"], slack = v["D2"], traps = v["D3"], edges = v["D4"], shared = v["D4_shared"],

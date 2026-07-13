@@ -152,6 +152,15 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         currLevelInd = 0;
+#if UNITY_EDITOR
+        // Dev tool (Escult Level Browser): one-shot "play from level N" override, editor only.
+        int dbgStart = PlayerPrefs.GetInt("EscultDebugStartLevel", 0);
+        if (dbgStart > 0)
+        {
+            PlayerPrefs.DeleteKey("EscultDebugStartLevel");
+            if (dbgStart < levels.Count) currLevelInd = dbgStart;
+        }
+#endif
         catAnimator.Rebind();
         girlAnimator.Rebind();
         catAnimator.SetInteger("CatSouls", 9);
