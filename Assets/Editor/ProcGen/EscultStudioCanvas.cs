@@ -7,27 +7,35 @@ using UnityEngine.Tilemaps;
 
 namespace Escult.ProcGen
 {
-    public enum StudioTool { Wall, Ground, Pit, Gate, Altar, Door, Girl, Cat, Wire, Erase }
+    // "Select" is a no-op cursor tool; "Hand" pans the canvas without editing.
+    public enum StudioTool { Select, Hand, Wall, Ground, Pit, Gate, Altar, Door, Girl, Cat, Wire, Erase }
 
-    /// <summary>Lazy cache of the project's real art (BasicTiles + interactable prefabs) for canvas preview.</summary>
+    /// <summary>
+    /// Lazy cache of the project's real art for canvas preview. Terrain uses the shipped
+    /// "Tiles Final" tileset (tile sheet.psd) — the same tiles the released levels render —
+    /// not the early BasicTiles placeholders.
+    /// </summary>
     public static class EscultArtCache
     {
+        const string FinalDir = "Assets/Prefabs/TileMaps/Tiles Final/";
+
         static bool loaded;
-        public static Sprite Floor, Pit, Wall, Gate, Bridge, Altar, Door, Girl, Cat;
+        public static Sprite Floor, Pit, Wall, WallTop, Gate, Bridge, Altar, Door, Girl, Cat;
 
         public static void EnsureLoaded()
         {
             if (loaded) return;
             loaded = true;
-            Floor  = TileSprite("Assets/Sprites/BasicTiles/floor.asset");
-            Pit    = TileSprite("Assets/Sprites/BasicTiles/pit.asset");
-            Wall   = TileSprite("Assets/Sprites/BasicTiles/walls.asset");
-            Gate   = TileSprite("Assets/Sprites/BasicTiles/gate.asset");
-            Bridge = TileSprite("Assets/Sprites/BasicTiles/cat blood bridge.asset");
-            Altar  = PrefabSprite("Assets/Prefabs/Alter.prefab");
-            Girl   = PrefabSprite("Assets/Prefabs/Girl.prefab");
-            Cat    = PrefabSprite("Assets/Prefabs/Cat.prefab");
-            Door   = PrefabSprite("Assets/Prefabs/Door.prefab", "DoorOpened");
+            Floor   = TileSprite(FinalDir + "tile sheet_5.asset")  ?? TileSprite("Assets/Sprites/BasicTiles/floor.asset");
+            Pit     = TileSprite(FinalDir + "Hell Tile 1.asset")   ?? TileSprite("Assets/Sprites/BasicTiles/pit.asset");
+            Wall    = TileSprite(FinalDir + "tile sheet_60.asset") ?? TileSprite("Assets/Sprites/BasicTiles/walls.asset");
+            WallTop = TileSprite(FinalDir + "tile sheet_9.asset");
+            Gate    = TileSprite(FinalDir + "tile sheet_42.asset") ?? TileSprite("Assets/Sprites/BasicTiles/gate.asset");
+            Bridge  = TileSprite("Assets/Sprites/BasicTiles/cat blood bridge.asset");
+            Altar   = PrefabSprite("Assets/Prefabs/Alter.prefab");
+            Girl    = PrefabSprite("Assets/Prefabs/Girl.prefab");
+            Cat     = PrefabSprite("Assets/Prefabs/Cat.prefab");
+            Door    = PrefabSprite("Assets/Prefabs/Door.prefab", "DoorOpened");
         }
 
         static Sprite TileSprite(string path)
@@ -76,13 +84,13 @@ namespace Escult.ProcGen
 
     /// <summary>
     /// The Studio's interactive level canvas: IMGUI grid with drag painting, wiring clicks,
-    /// art or schematic rendering, and solver-witness replay overlay.
+    /// coordinate rulers, art or schematic rendering, and solver-witness replay overlay.
     /// </summary>
     public class EscultStudioCanvas
     {
         public EscultStudioDoc Doc;
-        public StudioTool Tool = StudioTool.Wall;
-        public char GateLetter = '\0';        // '\0' = auto (next free)
+        public StudioTool Tool = StudioTool.Select;
+        public char GateLetter = '\0';        // '\0' = new/auto gate
         public char AltarDigit = '\0';
         public bool ArtMode = true;
         public float Zoom = 26f;
@@ -93,13 +101,19 @@ namespace Escult.ProcGen
 
         public Action<string> OnStatus;       // hover / feedback line
         public Action StructureMaybeChanged;  // notify window (legend rebuild, resync)
+        public Action<char> OnGatePicked;      // active gate changed via canvas (sync the picker)
+        public Action<StudioTool> OnPickTool;  // tool hotkey pressed while the canvas has focus
+        public Action OnUndo, OnRedo;          // undo/redo hotkeys while the canvas has focus
+        public Action<Vector2> OnPan;          // hand-drag / middle-drag pan delta (pixels)
 
-        const float Pad = 8f;
-        bool stroking;
+        const float Pad = 6f;
+        const float Ruler = 17f;              // coordinate gutter (top + left)
+        bool stroking, panning;
         int strokeButton;
         char strokeGate;
 
-        // palette (shared with the old preview so it feels familiar)
+        GUIStyle cellLabel, rulerLabel, rulerHot;
+
         static readonly Color ColWall = new Color(0.24f, 0.24f, 0.29f);
         static readonly Color ColGround = new Color(0.79f, 0.75f, 0.68f);
         static readonly Color ColPit = new Color(0.36f, 0.08f, 0.13f);
@@ -109,70 +123,96 @@ namespace Escult.ProcGen
         static readonly Color ColDoor = new Color(0.54f, 0.35f, 0.24f);
         static readonly Color ColGirl = new Color(0.88f, 0.48f, 0.60f);
         static readonly Color ColCat = new Color(0.55f, 0.60f, 0.68f);
+        static readonly Color Accent = new Color(1f, 0.82f, 0.28f);
 
         public Vector2 DesiredSize
         {
             get
             {
                 if (Doc == null) return new Vector2(200, 200);
-                return new Vector2(Doc.W * Zoom + Pad * 2, Doc.H * Zoom + Pad * 2);
+                return new Vector2(Doc.W * Zoom + Pad * 2 + Ruler, Doc.H * Zoom + Pad * 2 + Ruler);
             }
+        }
+
+        void EnsureStyles()
+        {
+            if (cellLabel != null) return;
+            cellLabel = new GUIStyle(EditorStyles.miniBoldLabel) { alignment = TextAnchor.MiddleCenter };
+            cellLabel.normal.textColor = Color.white;
+            rulerLabel = new GUIStyle(EditorStyles.miniLabel) { alignment = TextAnchor.MiddleCenter, fontSize = 9 };
+            rulerLabel.normal.textColor = new Color(0.75f, 0.75f, 0.8f);
+            rulerHot = new GUIStyle(rulerLabel);
+            rulerHot.normal.textColor = Accent;
+            rulerHot.fontStyle = FontStyle.Bold;
         }
 
         public void OnGUI(Rect area)
         {
             if (Doc == null) return;
             EscultArtCache.EnsureLoaded();
+            EnsureStyles();
 
-            float ox = area.x + Pad, oy = area.y + Pad;
+            float ox = area.x + Pad + Ruler, oy = area.y + Pad + Ruler;
             var e = Event.current;
 
+            HandleKeys(e);
             HandleInput(e, ox, oy);
 
             if (e.type != EventType.Repaint) return;
 
             EditorGUI.DrawRect(area, new Color(0.13f, 0.13f, 0.16f));
-            var label = new GUIStyle(EditorStyles.miniBoldLabel) { alignment = TextAnchor.MiddleCenter };
-            label.normal.textColor = Color.white;
 
             var replayFrame = (Replay != null && ReplayStep >= 0 && ReplayStep < Replay.Frames.Count)
                 ? Replay.Frames[ReplayStep] : null;
+
+            var hover = CellAt(e.mousePosition, ox, oy);
+
+            DrawRulers(ox, oy, hover);
 
             for (int r = 0; r < Doc.H; r++)
             {
                 for (int c = 0; c < Doc.W; c++)
                 {
                     var rect = new Rect(ox + c * Zoom, oy + r * Zoom, Zoom - 1, Zoom - 1);
-                    char ch = Doc.Get(c, r);
-                    DrawCell(rect, ch, c, r, label, replayFrame);
+                    DrawCell(rect, Doc.Get(c, r), c, r, replayFrame);
                 }
             }
 
-            if (replayFrame != null) DrawReplayActors(replayFrame, ox, oy, label);
+            if (replayFrame != null) DrawReplayActors(replayFrame, ox, oy);
 
-            // hover cursor
-            var hover = CellAt(e.mousePosition, ox, oy);
             if (hover.x >= 0)
             {
                 var hr = new Rect(ox + hover.x * Zoom, oy + hover.y * Zoom, Zoom - 1, Zoom - 1);
-                var outline = new Color(1f, 1f, 1f, 0.35f);
-                EditorGUI.DrawRect(new Rect(hr.x, hr.y, hr.width, 1.5f), outline);
-                EditorGUI.DrawRect(new Rect(hr.x, hr.yMax - 1.5f, hr.width, 1.5f), outline);
-                EditorGUI.DrawRect(new Rect(hr.x, hr.y, 1.5f, hr.height), outline);
-                EditorGUI.DrawRect(new Rect(hr.xMax - 1.5f, hr.y, 1.5f, hr.height), outline);
+                DrawBorder(hr, new Color(1f, 1f, 1f, 0.55f), 1.5f);
             }
         }
 
-        void DrawCell(Rect rect, char ch, int c, int r, GUIStyle label, EscultReplay.Frame frame)
+        void DrawRulers(float ox, float oy, Vector2Int hover)
+        {
+            // step so labels never overlap when zoomed out
+            int step = Zoom >= 16 ? 1 : Zoom >= 11 ? 2 : 5;
+            for (int c = 0; c < Doc.W; c++)
+            {
+                if (c % step != 0 && c != Doc.W - 1 && c != hover.x) continue;
+                var r = new Rect(ox + c * Zoom, oy - Ruler, Zoom - 1, Ruler - 2);
+                GUI.Label(r, c.ToString(), c == hover.x ? rulerHot : rulerLabel);
+            }
+            for (int r = 0; r < Doc.H; r++)
+            {
+                if (r % step != 0 && r != Doc.H - 1 && r != hover.y) continue;
+                var rr = new Rect(ox - Ruler, oy + r * Zoom, Ruler - 2, Zoom - 1);
+                GUI.Label(rr, r.ToString(), r == hover.y ? rulerHot : rulerLabel);
+            }
+        }
+
+        void DrawCell(Rect rect, char ch, int c, int r, EscultReplay.Frame frame)
         {
             bool isGate = EscultStudioDoc.GateLetters.IndexOf(ch) >= 0;
             bool isAltar = ch >= '1' && ch <= '9';
 
-            // ---- base terrain ----
             char terrain = ch == '#' ? '#' : ch == '~' ? '~' : '.';
             if (isGate && Doc.GateOverPit.TryGetValue(ch, out var op) && op) terrain = '~';
 
-            // replay: bridges turn pit into blood bridge
             bool bridged = false;
             if (frame != null && Topology != null && Topology.W == Doc.W && Topology.H == Doc.H)
                 bridged = frame.Bridges.Contains(Topology.Idx(c, r));
@@ -190,7 +230,6 @@ namespace Escult.ProcGen
                 EditorGUI.DrawRect(rect, col);
             }
 
-            // ---- overlays ----
             if (isGate)
             {
                 bool open = Doc.GateInitialOpen.TryGetValue(ch, out var o) && o;
@@ -203,42 +242,43 @@ namespace Escult.ProcGen
                 if (ArtMode) EscultArtCache.Draw(Inset(rect, 1), EscultArtCache.Gate, open ? ColGateO : ColGateC, tint);
                 else EditorGUI.DrawRect(Inset(rect, 1), open ? ColGateO : ColGateC);
                 bool wired = SelectedAltar != '\0' && Doc.IsWired(SelectedAltar, ch.ToString());
-                if (wired) DrawBorder(rect, new Color(1f, 0.85f, 0.2f), 2.5f);
-                if (Zoom >= 13) GUI.Label(rect, ch.ToString(), label);
+                if (wired) DrawBorder(rect, Accent, 2.5f);
+                else if (ch == GateLetter && Tool == StudioTool.Gate) DrawBorder(rect, new Color(0.4f, 0.8f, 1f, 0.9f), 2f);
+                if (Zoom >= 13) GUI.Label(rect, ch.ToString(), cellLabel);
             }
             else if (isAltar)
             {
                 if (ArtMode) EscultArtCache.Draw(Inset(rect, 1), EscultArtCache.Altar, ColAltar);
                 else EditorGUI.DrawRect(Inset(rect, 1), ColAltar);
-                if (ch == SelectedAltar) DrawBorder(rect, new Color(1f, 0.85f, 0.2f), 2.5f);
-                if (Zoom >= 13) GUI.Label(rect, ch.ToString(), label);
+                if (ch == SelectedAltar) DrawBorder(rect, Accent, 2.5f);
+                if (Zoom >= 13) GUI.Label(rect, ch.ToString(), cellLabel);
             }
             else if (ch == 'O' || ch == 'X')
             {
                 if (ArtMode) EscultArtCache.Draw(Inset(rect, 1), EscultArtCache.Door, ColDoor);
                 else EditorGUI.DrawRect(Inset(rect, 1), ch == 'O' ? new Color(0.50f, 0.65f, 0.42f) : ColDoor);
-                if (Zoom >= 13) GUI.Label(rect, ch.ToString(), label);
+                if (Zoom >= 13) GUI.Label(rect, ch.ToString(), cellLabel);
             }
             else if (ch == '@' && frame == null)
             {
                 if (ArtMode) EscultArtCache.Draw(Inset(rect, 1), EscultArtCache.Girl, ColGirl);
                 else EditorGUI.DrawRect(Inset(rect, 2), ColGirl);
-                if (Zoom >= 13 && !ArtMode) GUI.Label(rect, "@", label);
+                if (Zoom >= 13 && !ArtMode) GUI.Label(rect, "@", cellLabel);
             }
             else if (ch == 'C' && frame == null)
             {
                 if (ArtMode) EscultArtCache.Draw(Inset(rect, 1), EscultArtCache.Cat, ColCat);
                 else EditorGUI.DrawRect(Inset(rect, 2), ColCat);
-                if (Zoom >= 13 && !ArtMode) GUI.Label(rect, "C", label);
+                if (Zoom >= 13 && !ArtMode) GUI.Label(rect, "C", cellLabel);
             }
             else if (ch == '=')
             {
                 if (ArtMode) EscultArtCache.Draw(Inset(rect, 1), EscultArtCache.Bridge, ColGround);
-                else GUI.Label(rect, "=", label);
+                else GUI.Label(rect, "=", cellLabel);
             }
         }
 
-        void DrawReplayActors(EscultReplay.Frame f, float ox, float oy, GUIStyle label)
+        void DrawReplayActors(EscultReplay.Frame f, float ox, float oy)
         {
             var t = Replay.T;
             Rect CellRect(int idx) { return new Rect(ox + t.Col(idx) * Zoom, oy + t.Row(idx) * Zoom, Zoom - 1, Zoom - 1); }
@@ -279,7 +319,42 @@ namespace Escult.ProcGen
         }
 
         // ------------------------------------------------------------------
-        //  input
+        //  keyboard (fires when the canvas IMGUIContainer has focus)
+        // ------------------------------------------------------------------
+
+        void HandleKeys(Event e)
+        {
+            if (e.type != EventType.KeyDown) return;
+            if (e.control || e.command)
+            {
+                if (e.keyCode == KeyCode.Z) { if (e.shift) OnRedo?.Invoke(); else OnUndo?.Invoke(); e.Use(); }
+                else if (e.keyCode == KeyCode.Y) { OnRedo?.Invoke(); e.Use(); }
+                return;
+            }
+            if (e.shift || e.alt) return;
+            StudioTool tool;
+            switch (e.keyCode)
+            {
+                case KeyCode.V: case KeyCode.Escape: tool = StudioTool.Select; break;
+                case KeyCode.H: tool = StudioTool.Hand; break;
+                case KeyCode.B: tool = StudioTool.Wall; break;
+                case KeyCode.G: tool = StudioTool.Ground; break;
+                case KeyCode.R: tool = StudioTool.Pit; break;
+                case KeyCode.T: tool = StudioTool.Gate; break;
+                case KeyCode.A: tool = StudioTool.Altar; break;
+                case KeyCode.D: tool = StudioTool.Door; break;
+                case KeyCode.F: tool = StudioTool.Girl; break;
+                case KeyCode.C: tool = StudioTool.Cat; break;
+                case KeyCode.Q: tool = StudioTool.Wire; break;
+                case KeyCode.X: tool = StudioTool.Erase; break;
+                default: return;
+            }
+            OnPickTool?.Invoke(tool);
+            e.Use();
+        }
+
+        // ------------------------------------------------------------------
+        //  mouse
         // ------------------------------------------------------------------
 
         void HandleInput(Event e, float ox, float oy)
@@ -291,6 +366,11 @@ namespace Escult.ProcGen
                 case EventType.MouseDown:
                 {
                     var cell = CellAt(e.mousePosition, ox, oy);
+                    if (e.button == 2 || Tool == StudioTool.Hand)      // pan (middle mouse anywhere, or Hand tool)
+                    {
+                        GUIUtility.hotControl = id; panning = true; e.Use(); break;
+                    }
+                    if (Tool == StudioTool.Select) { break; }          // no-op cursor
                     if (cell.x < 0 || (e.button != 0 && e.button != 1)) break;
                     GUIUtility.hotControl = id;
                     stroking = true;
@@ -303,7 +383,9 @@ namespace Escult.ProcGen
                 }
                 case EventType.MouseDrag:
                 {
-                    if (GUIUtility.hotControl != id || !stroking) break;
+                    if (GUIUtility.hotControl != id) break;
+                    if (panning) { OnPan?.Invoke(e.delta); e.Use(); break; }
+                    if (!stroking) break;
                     var cell = CellAt(e.mousePosition, ox, oy);
                     if (cell.x >= 0) ApplyAt(cell, isDown: false);
                     e.Use();
@@ -313,6 +395,7 @@ namespace Escult.ProcGen
                 {
                     if (GUIUtility.hotControl != id) break;
                     GUIUtility.hotControl = 0;
+                    if (panning) { panning = false; e.Use(); break; }
                     stroking = false;
                     Doc.Commit();
                     StructureMaybeChanged?.Invoke();
@@ -331,7 +414,7 @@ namespace Escult.ProcGen
                     if (!e.control) break;
                     Zoom = Mathf.Clamp(Zoom - e.delta.y * 1.4f, 10f, 48f);
                     e.Use();
-                    StructureMaybeChanged?.Invoke();   // window resyncs container size
+                    StructureMaybeChanged?.Invoke();
                     break;
                 }
             }
@@ -355,11 +438,14 @@ namespace Escult.ProcGen
                     if (strokeGate == '\0')
                     {
                         char existing = Doc.Get(c, r);
-                        // continue an existing gate when starting the stroke on one
-                        strokeGate = (isDown && EscultStudioDoc.GateLetters.IndexOf(existing) >= 0) ? existing
-                                   : GateLetter != '\0' ? GateLetter
-                                   : Doc.NextFreeGate();
+                        if (GateLetter != '\0')
+                            strokeGate = GateLetter;                          // an explicit gate is picked → always add to it
+                        else if (isDown && EscultStudioDoc.GateLetters.IndexOf(existing) >= 0)
+                            strokeGate = existing;                            // started on a gate → extend it
+                        else
+                            strokeGate = Doc.NextFreeGate();                  // brand-new gate
                         if (strokeGate == '\0') { OnStatus?.Invoke("no free gate letters left"); return; }
+                        OnGatePicked?.Invoke(strokeGate);                     // make the choice sticky in the picker
                     }
                     Doc.SetCell(c, r, strokeGate);
                     break;

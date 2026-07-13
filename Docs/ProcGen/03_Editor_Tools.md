@@ -27,25 +27,55 @@ The design docs, library, and reference solver stay in `Docs/ProcGen/`.
 The designer-facing level editor that replaces the old ESN Workbench window.
 
 - **Interactive canvas** — paint terrain by dragging (wall `#`, ground `.`, pit `~`),
-  drop gates/altars/door/spawns with a click, right-drag always erases. Tool hotkeys:
-  `Q` wire, `W` wall, `E` ground, `R` pit, `T` gate, `A` altar, `D` door, `F` girl,
-  `C` cat, `X` erase. Ctrl+wheel or the toolbar slider zooms.
+  drop gates/altars/door/spawns with a click, right-drag always erases. The default
+  **Select** tool is a pure cursor: hovering shows coordinates, clicking never changes
+  anything, so you can inspect freely. The **Hand** tool (or a middle-mouse drag with
+  any tool) pans the canvas. Tool hotkeys: `V`/`Esc` select, `H` hand, `B` wall,
+  `G` ground, `R` pit, `T` gate, `A` altar, `D` door, `F` girl, `C` cat, `Q` wire,
+  `X` erase (they fire when the canvas has focus — click it once). Ctrl+wheel or the
+  toolbar slider zooms.
+- **Coordinate rulers** — column indices run along the top and row indices down the
+  left, matching the solver's `(col,row)` output (row 0 = top). The hovered cell's
+  row/column labels highlight, so a witness line like `MOVE CAT (6,3)` is trivial
+  to locate.
+- **Gate tool "Paint gate" picker** — choose which gate the tool paints into: pick an
+  existing letter to **add cells to that gate** (so an accidental erase is refilled,
+  not turned into a new gate), or `＋ new gate` to start a fresh one. Starting a stroke
+  on an existing gate also extends it, and the active gate outlines in blue.
 - **Wire tool** — click an altar, then click gates to connect/disconnect them; wired
   gates highlight. The same wiring is editable as toggle chips in the Legend panel.
-- **Art preview** — the canvas renders with the game's actual tiles and sprites
-  (BasicTiles + Alter/Door/Girl/Cat prefabs); toggle "Art" for schematic colors.
+- **Art preview** — the canvas renders with the game's **shipped tileset**
+  (`Tiles Final/tile sheet.psd`: ground `tile sheet_5`, pit `Hell Tile 1`,
+  wall `tile sheet_60`, gate `tile sheet_42`) plus the Alter/Door/Girl/Cat prefab
+  sprites — the same art the released levels use, not the old BasicTiles placeholders.
+  Toggle "Art" for schematic colors.
 - **Live validation** — with "Auto" on, every edit is linted, solved, and scored after
   ~0.6 s idle; the status bar shows solvable / minCost / slack / tier at all times, and
   the Results tab holds the full V1–V9 + D1–D10 report.
 - **Solution replay** — "Replay ▶" scrubs through the solver's certified witness on the
   canvas: girl/cat move, gates toggle, bridges appear, the soul ledger counts down.
+  The replay bar can **auto-play** the solution as an animation (▶/⏸) at 0.5×–4× speed,
+  plus step (◀ / ▶▌), jump-to-start (⏮), and a scrubber.
 - **Two-way ESN text** — the ESN text tab always mirrors the canvas; edit the text and
-  the canvas follows. Undo/redo (Ctrl+Z / Ctrl+Y) covers canvas, legend, and text edits.
-- **Load/Save** — Load: `.esn.txt` or **any level prefab** (via the reverse converter).
-  Save: ESN file, ESN + all pipeline artifacts, level prefab, or prefab + insert
-  into the open scene.
+  the canvas follows. Undo/redo covers canvas, legend, and text edits, via the toolbar
+  **↶ / ↷** buttons or **Ctrl+Z / Ctrl+Shift+Z** (Ctrl+Y also redoes). The keyboard
+  shortcuts route to the Studio's own history when the canvas has focus; the toolbar
+  buttons always work regardless of focus.
+- **Load/Save** — Load (`Load ▾`): `.esn.txt`, **any level prefab** (via the reverse
+  converter), or a **Recent** submenu of the last levels you opened/saved. The primary
+  **Save** button writes the ESN, emits all pipeline artifacts, *and* (re)builds the
+  level prefab in one click; the `▾` next to it holds the granular options (ESN only,
+  ESN + artifacts, build prefab, build + insert into scene).
+- **Collapsible / dockable panel** — the "Panel" toolbar toggle (or the ✕ on the panel's
+  tab bar) hides the Results / ESN-text panel so the canvas gets the full width on small
+  screens. "Dock: Side / Bottom" moves that panel between the right side and along the
+  bottom of the canvas.
 - Fully resizable UIToolkit layout — all three panes are splitter-dragged and scroll;
   nothing clips on small screens (the old fixed-size window problem).
+
+> Note: changing the converter's tileset only affects **newly built** prefabs. Rebuild
+> any level generated before this update (Studio **Save**, or the Browser's
+> **Rebuild prefab**) to swap its placeholder tiles for the shipped ones.
 
 ## 2. Two-way ESN ⇄ Prefab converter  (`Escult → Convert`, or from the Studio/Browser)
 
@@ -55,7 +85,11 @@ hand-made ones, and reads any level prefab back into ESN.
 **ESN → Prefab** (`ESN File → Level Prefab...`):
 root (inactive, `LevelManager`) → `Grid - <name>` (cell size 0.64, tag Grid) → nested
 instances of `Ground` / `Hell` / `Collision - Walls` tilemap prefabs (cleared of their
-baked example tiles, then painted with BasicTiles: floor/pit/walls), one `Gate` prefab
+baked example tiles, then painted with the shipped `Tiles Final` tileset — ground
+`tile sheet_5`, pit `Hell Tile 1`, wall `tile sheet_60`; falls back to BasicTiles if
+those assets are missing), the decorative **`BestSoulsRemaining`** panel every shipped
+level carries (a `SpriteRenderer` child of the Grid on sorting layer "Props", using a
+`Sprites/Best/` sprite at the standard top-left placement), one `Gate` prefab
 instance per gate id (gate tile cells, `INITIAL_GATE_STATUS` = ESN initial=CLOSED),
 `Alter` instances with `connectedObjects` wired per the legend, and a `Door` (always
 open, per design law). `LevelManager` gets girlPos/catPos (cell centers), isCatInLevel,
@@ -70,7 +104,36 @@ cells sit on both pit and ground is split into co-wired ESN gates — the docume
 one-gate-one-terrain workaround), wiring via `AlterController.connectedObjects`,
 spawns via LevelManager. Emits the ESN plus all artifacts through the standard
 lint/solve pipeline. Round-trip is verified: ESN → prefab → ESN preserves terrain
-cell-for-cell, solvability, and minCost.
+cell-for-cell, solvability, and minCost. Reverse conversion reads the *pre-auto-tile*
+terrain (wall/pit/ground only) — the decoration below is cosmetic and never round-trips.
+
+**Auto-tiling polish** (`EscultAutoTiler`, runs automatically inside `BuildPrefab`):
+there are no RuleTiles in this project, so the shipped levels' wall faces/corners,
+`WallTops` overlay, `Props` wall-shadow decoration, and floor-tile variety are all
+hand-painted per level. `EscultAutoTiler` closes that gap by **learning** the pattern
+from the 9 polished reference prefabs (`Level 3/4 New…`, `…easy 1…`, `ThrowCatOverAltar`,
+`Tutorial 1–4 - Or level Variant`) instead of hand-authoring rules:
+- For each wall/pit cell it records the artist's tile choice against the 8-neighbour
+  wall/pit occupancy pattern (majority vote per pattern, falling back to a coarser
+  4-neighbour vote, then to the flat placeholder tile if a pattern was never seen).
+- It builds a `Grid/JuiceLayers/WallTops` overlay (same child path shipped levels use)
+  the same way, keyed on the wall neighbourhood.
+- It builds a `Grid/JuiceLayers/Props` layer for the wall-contact shadow decoration,
+  including learning *not* to place a shadow on most open cells adjacent to a wall
+  (so it doesn't oversaturate the level with props).
+- Ground tiles get the reference levels' floor-variant mix, picked deterministically
+  per cell (stable across rebuilds, not random noise every time).
+- The learned tables are cached in-memory per editor session; **Escult → Convert →
+  Rebuild Auto-Tiler Cache** forces a relearn (e.g. after editing a reference prefab).
+- Fully generalizes: it is keyed on local neighbourhood shape, not on level identity,
+  so it applies correctly to any generated topology, not just ones matching a
+  reference layout. Verified visually against `Level 3 New - put as lvl 7 Variant`
+  (the source of the polished scene "Level 4") and by re-running the round-trip/solver
+  check on every tracked level after rebuilding — terrain, solvability and minCost are
+  all unchanged, only decoration is added.
+- If a reference prefab goes missing, decoration silently falls back to the flat
+  placeholder tiles (a warning is added to `ConvertResult.Warnings`) rather than failing
+  the build.
 
 **Insert into scene** (`Insert Level Prefab Into Open Scene...`): instantiates the
 prefab under the scene's `GameManager`, injects the scene Girl/Cat into its
@@ -113,9 +176,11 @@ Ranked by expected value for this team:
 4. **Playtest telemetry hook** — GameManager already logs per-level completion times;
    write them to a JSON the Browser can display next to the solver's tier estimate
    (predicted vs actual difficulty).
-5. **Art-pass assistant** — the generated prefabs use BasicTiles; a tool that
-   re-skins a generated level with the `Tiles Final` rule-tile look (walls with
-   proper corners/shadows) would close the gap to shipped-level polish.
+5. **Auto-tiler coverage for gates** — `EscultAutoTiler` currently polishes walls,
+   pit rims, floor variety, wall-tops and wall-shadow props; gate cells still use the
+   single flat `tile sheet_42`. The reference levels don't vary gate tiles by neighbor
+   much (gates are usually 1–4 cells), so this is low priority, but worth a look if a
+   generated level has an unusually large gate.
 6. **Level diff viewer** — two ESN files side by side with cell-level highlighting;
    useful when the agent "repairs" a level and you want to see what changed.
 7. **Record-keeper integration** — a "log this level" button in the Studio that

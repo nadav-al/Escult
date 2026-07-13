@@ -18,6 +18,9 @@ namespace Escult.ProcGen
     /// </summary>
     public class EscultStudioWindow : EditorWindow
     {
+        const string RecentKey = "Escult.Studio.Recent";
+        const string GateNewLabel = "＋ new gate";
+
         EscultStudioDoc doc;
         readonly EscultStudioCanvas canvas = new EscultStudioCanvas();
 
@@ -27,12 +30,16 @@ namespace Escult.ProcGen
         TextField nameField, esnField, resultsField;
         Label statusLeft, statusRight, replayCaption;
         VisualElement legendPane, toolsPane, replayBar;
+        TwoPaneSplitView rightSplit;
+        VisualElement mainHost, canvasPane, rightPane;
         SliderInt replaySlider;
         Slider zoomSlider;
+        Button replayPlayBtn;
+        ToolbarButton dockBtn;
         readonly Dictionary<StudioTool, Button> toolButtons = new Dictionary<StudioTool, Button>();
         PopupField<string> tierPopup, gatePopup, altarPopup;
         IntegerField widthField, heightField, soulsField;
-        ToolbarToggle autoSolveToggle, artToggle, tabEsn, tabResults;
+        ToolbarToggle autoSolveToggle, artToggle, panelToggle, tabEsn, tabResults;
         VisualElement esnTab, resultsTab;
 
         // state
@@ -40,7 +47,10 @@ namespace Escult.ProcGen
         EscultReport lastReport;
         string legendSignature = "";
         bool syncingText;
-        IVisualElementScheduledItem pendingSolve, pendingTextApply;
+        bool rightCollapsed;
+        bool panelBottom;
+        int replayIntervalMs = 480;
+        IVisualElementScheduledItem pendingSolve, pendingTextApply, replayTimer;
 
         static readonly string[] TierOptions = { "(auto tier)", "tutorial", "easy", "medium", "hard", "extreme" };
 
@@ -64,28 +74,36 @@ namespace Escult.ProcGen
         {
             doc = doc ?? EscultStudioDoc.NewDefault();
             HookDoc();
+            panelBottom = EditorPrefs.GetBool("Escult.Studio.DockBottom", false);
 
             var root = rootVisualElement;
             root.Clear();
+            root.focusable = true;
 
             root.Add(BuildToolbar());
             replayBar = BuildReplayBar();
             root.Add(replayBar);
 
-            var split = new TwoPaneSplitView(0, 232, TwoPaneSplitViewOrientation.Horizontal);
+            var split = new TwoPaneSplitView(0, 236, TwoPaneSplitViewOrientation.Horizontal);
             split.style.flexGrow = 1;
             root.Add(split);
 
             split.Add(BuildLeftPane());
 
-            var rightSplit = new TwoPaneSplitView(1, 330, TwoPaneSplitViewOrientation.Horizontal);
-            rightSplit.Add(BuildCanvasPane());
-            rightSplit.Add(BuildRightPane());
-            split.Add(rightSplit);
+            canvasPane = BuildCanvasPane();
+            rightPane = BuildRightPane();
+            mainHost = new VisualElement { style = { flexGrow = 1 } };
+            split.Add(mainHost);
+            RebuildDock();
 
             root.Add(BuildStatusBar());
 
             root.RegisterCallback<KeyDownEvent>(OnKeyDown, TrickleDown.TrickleDown);
+
+            canvas.OnPickTool = SelectTool;
+            canvas.OnUndo = () => doc.Undo();
+            canvas.OnRedo = () => doc.Redo();
+            canvas.OnPan = d => { if (canvasScroll != null) canvasScroll.scrollOffset -= d; };
 
             canvas.ArtMode = EditorPrefs.GetBool("Escult.Studio.Art", true);
             canvas.Zoom = EditorPrefs.GetFloat("Escult.Studio.Zoom", 26f);
@@ -93,7 +111,7 @@ namespace Escult.ProcGen
             zoomSlider.SetValueWithoutNotify(canvas.Zoom);
             autoSolveToggle.SetValueWithoutNotify(EditorPrefs.GetBool("Escult.Studio.AutoSolve", true));
 
-            SelectTool(StudioTool.Wall);
+            SelectTool(StudioTool.Select);
             ShowTab(esn: false);
             OnDocChanged();
         }
@@ -105,6 +123,11 @@ namespace Escult.ProcGen
             canvas.Doc = doc;
             canvas.OnStatus = s => { if (statusRight != null) statusRight.text = s; canvasHost?.MarkDirtyRepaint(); };
             canvas.StructureMaybeChanged = () => { SyncCanvasSize(); RebuildLegendIfNeeded(); canvasHost?.MarkDirtyRepaint(); };
+            canvas.OnGatePicked = g =>
+            {
+                if (gatePopup != null) gatePopup.SetValueWithoutNotify(g.ToString());
+                canvas.GateLetter = g;
+            };
         }
 
         // ==================================================================
@@ -115,22 +138,15 @@ namespace Escult.ProcGen
         {
             var tb = new Toolbar();
 
-            var newBtn = new ToolbarButton(ActionNew) { text = "New" };
-            tb.Add(newBtn);
-
-            var load = new ToolbarMenu { text = "Load" };
-            load.menu.AppendAction("ESN file...", _ => ActionLoadEsn());
-            load.menu.AppendAction("Level prefab...", _ => ActionImportPrefab());
-            tb.Add(load);
-
-            var save = new ToolbarMenu { text = "Save" };
-            save.menu.AppendAction("ESN file", _ => ActionSaveEsn(false));
-            save.menu.AppendAction("ESN + emit all artifacts", _ => ActionSaveEsn(true));
-            save.menu.AppendAction("Build level prefab", _ => ActionBuildPrefab(false));
-            save.menu.AppendAction("Build prefab + insert into scene", _ => ActionBuildPrefab(true));
-            tb.Add(save);
+            tb.Add(new ToolbarButton(ActionNew) { text = "New" });
+            tb.Add(new ToolbarButton(ShowLoadMenu) { text = "Load ▾" });
+            // primary Save: writes ESN + artifacts AND builds the prefab
+            tb.Add(new ToolbarButton(() => ActionSaveBoth()) { text = "Save", tooltip = "Save ESN + emit artifacts + build/refresh the level prefab" });
+            tb.Add(new ToolbarButton(ShowSaveMenu) { text = "▾", tooltip = "Other save options" });
 
             tb.Add(new ToolbarSpacer());
+            tb.Add(new ToolbarButton(() => doc.Undo()) { text = "↶", tooltip = "Undo (Ctrl+Z)" });
+            tb.Add(new ToolbarButton(() => doc.Redo()) { text = "↷", tooltip = "Redo (Ctrl+Shift+Z / Ctrl+Y)" });
             nameField = new TextField { value = doc.Name, tooltip = "Level name (folder + file names)" };
             nameField.style.minWidth = 110;
             nameField.RegisterValueChangedCallback(e => { doc.Name = string.IsNullOrWhiteSpace(e.newValue) ? "level" : e.newValue.Trim(); });
@@ -140,15 +156,13 @@ namespace Escult.ProcGen
             tb.Add(tierPopup);
 
             tb.Add(new ToolbarSpacer());
-            var solveBtn = new ToolbarButton(() => SolveNow()) { text = "Solve ✓", tooltip = "Lint + solve + score right now" };
-            tb.Add(solveBtn);
+            tb.Add(new ToolbarButton(() => SolveNow()) { text = "Solve ✓", tooltip = "Lint + solve + score right now" });
 
             autoSolveToggle = new ToolbarToggle { text = "Auto", value = true, tooltip = "Re-solve automatically after every edit" };
             autoSolveToggle.RegisterValueChangedCallback(e => { EditorPrefs.SetBool("Escult.Studio.AutoSolve", e.newValue); if (e.newValue) ScheduleSolve(); });
             tb.Add(autoSolveToggle);
 
-            var replayBtn = new ToolbarButton(ActionToggleReplay) { text = "Replay ▶", tooltip = "Scrub through the solver's certified solution" };
-            tb.Add(replayBtn);
+            tb.Add(new ToolbarButton(ActionToggleReplay) { text = "Replay ▶", tooltip = "Scrub through the solver's certified solution" });
 
             tb.Add(new ToolbarSpacer());
             artToggle = new ToolbarToggle { text = "Art", value = true, tooltip = "Preview with the game's real tiles/sprites" };
@@ -159,6 +173,20 @@ namespace Escult.ProcGen
                 canvasHost.MarkDirtyRepaint();
             });
             tb.Add(artToggle);
+
+            panelToggle = new ToolbarToggle { text = "Panel", value = true, tooltip = "Show/hide the Results / ESN text panel" };
+            panelToggle.RegisterValueChangedCallback(e => SetRightPaneVisible(e.newValue));
+            tb.Add(panelToggle);
+
+            dockBtn = new ToolbarButton(() =>
+            {
+                panelBottom = !panelBottom;
+                EditorPrefs.SetBool("Escult.Studio.DockBottom", panelBottom);
+                RebuildDock();
+                dockBtn.text = panelBottom ? "Dock: Bottom" : "Dock: Side";
+            })
+            { text = panelBottom ? "Dock: Bottom" : "Dock: Side", tooltip = "Dock the Results / ESN panel on the side or along the bottom" };
+            tb.Add(dockBtn);
 
             zoomSlider = new Slider(10, 48) { value = 26, tooltip = "Zoom (also Ctrl+wheel on the canvas)" };
             zoomSlider.style.width = 90;
@@ -186,13 +214,22 @@ namespace Escult.ProcGen
                     display = DisplayStyle.None,
                 }
             };
-            var prev = new Button(() => SetReplayStep(canvas.ReplayStep - 1)) { text = "◀" };
-            var next = new Button(() => SetReplayStep(canvas.ReplayStep + 1)) { text = "▶" };
+            var toStart = new Button(() => { StopAutoPlay(); SetReplayStep(0); }) { text = "⏮", tooltip = "Jump to start" };
+            var prev = new Button(() => { StopAutoPlay(); SetReplayStep(canvas.ReplayStep - 1); }) { text = "◀", tooltip = "Step back" };
+            replayPlayBtn = new Button(ToggleAutoPlay) { text = "▶", tooltip = "Play / pause the solution animation" };
+            var next = new Button(() => { StopAutoPlay(); SetReplayStep(canvas.ReplayStep + 1); }) { text = "▶▌", tooltip = "Step forward" };
             replaySlider = new SliderInt(0, 1) { style = { flexGrow = 1, marginLeft = 4, marginRight = 4 } };
-            replaySlider.RegisterValueChangedCallback(e => SetReplayStep(e.newValue));
+            replaySlider.RegisterValueChangedCallback(e => { if (e.newValue != canvas.ReplayStep) StopAutoPlay(); SetReplayStep(e.newValue); });
+            var speed = new PopupField<string>(new List<string> { "0.5×", "1×", "2×", "4×" }, 1) { tooltip = "Playback speed" };
+            speed.RegisterValueChangedCallback(e =>
+            {
+                replayIntervalMs = e.newValue == "0.5×" ? 900 : e.newValue == "2×" ? 240 : e.newValue == "4×" ? 110 : 480;
+                if (replayTimer != null) { StopAutoPlay(); ToggleAutoPlay(); }   // restart at new rate
+            });
             replayCaption = new Label("") { style = { minWidth = 220, unityTextAlign = TextAnchor.MiddleLeft } };
-            var close = new Button(ActionToggleReplay) { text = "✕" };
-            bar.Add(prev); bar.Add(next); bar.Add(replaySlider); bar.Add(replayCaption); bar.Add(close);
+            var close = new Button(ActionToggleReplay) { text = "✕", tooltip = "Close replay" };
+            bar.Add(toStart); bar.Add(prev); bar.Add(replayPlayBtn); bar.Add(next);
+            bar.Add(replaySlider); bar.Add(speed); bar.Add(replayCaption); bar.Add(close);
             return bar;
         }
 
@@ -203,10 +240,12 @@ namespace Escult.ProcGen
             scroll.Add(toolsPane);
 
             toolsPane.Add(Header("Tools"));
-            AddToolButton(StudioTool.Wall, "Wall  #", "W — paint solid wall (throw backstop)");
-            AddToolButton(StudioTool.Ground, "Ground  .", "E — paint walkable ground");
+            AddToolButton(StudioTool.Select, "Select  ⭘", "V — cursor only; clicking never changes the map");
+            AddToolButton(StudioTool.Hand, "Hand  ✋", "H — drag to pan the canvas (middle-mouse drag pans with any tool)");
+            AddToolButton(StudioTool.Wall, "Wall  #", "B — paint solid wall (throw backstop)");
+            AddToolButton(StudioTool.Ground, "Ground  .", "G — paint walkable ground");
             AddToolButton(StudioTool.Pit, "Pit  ~", "R — paint hell/pit (bridgeable, costs souls)");
-            AddToolButton(StudioTool.Gate, "Gate  A–Z", "T — drag to paint gate cells");
+            AddToolButton(StudioTool.Gate, "Gate  A–Z", "T — drag to paint gate cells (pick which gate below)");
             AddToolButton(StudioTool.Altar, "Altar  1–9", "A — click to place an altar");
             AddToolButton(StudioTool.Door, "Door  O", "D — click to place the exit door");
             AddToolButton(StudioTool.Girl, "Girl  @", "F — click to move the girl spawn");
@@ -214,15 +253,20 @@ namespace Escult.ProcGen
             AddToolButton(StudioTool.Wire, "Wire  ⚡", "Q — click an altar, then click gates to toggle wiring");
             AddToolButton(StudioTool.Erase, "Erase", "X — set cells back to ground (right-drag does this with any tool)");
 
-            var gateChoices = new List<string> { "auto" };
+            var gateChoices = new List<string> { GateNewLabel };
             gateChoices.AddRange(EscultStudioDoc.GateLetters.Select(c => c.ToString()));
-            gatePopup = new PopupField<string>("Gate id", gateChoices, 0);
-            gatePopup.RegisterValueChangedCallback(e => canvas.GateLetter = e.newValue == "auto" ? '\0' : e.newValue[0]);
+            gatePopup = new PopupField<string>("Paint gate", gateChoices, 0)
+            { tooltip = "Which gate the Gate tool paints into. Pick an existing letter to ADD to that gate; '＋ new gate' starts a fresh one." };
+            gatePopup.RegisterValueChangedCallback(e =>
+            {
+                canvas.GateLetter = e.newValue == GateNewLabel ? '\0' : e.newValue[0];
+                canvasHost?.MarkDirtyRepaint();
+            });
             toolsPane.Add(gatePopup);
 
             var altarChoices = new List<string> { "auto" };
             altarChoices.AddRange("123456789".Select(c => c.ToString()));
-            altarPopup = new PopupField<string>("Altar id", altarChoices, 0);
+            altarPopup = new PopupField<string>("Place altar", altarChoices, 0);
             altarPopup.RegisterValueChangedCallback(e => canvas.AltarDigit = e.newValue == "auto" ? '\0' : e.newValue[0]);
             toolsPane.Add(altarPopup);
 
@@ -273,6 +317,10 @@ namespace Escult.ProcGen
                 canvas.OnGUI(new Rect(0, 0, size.x, size.y));
             });
             canvasHost.style.flexShrink = 0;
+            // Focusing the IMGUIContainer routes key events (tool hotkeys, Ctrl+Z) into the
+            // canvas's own handler instead of Unity's global shortcuts.
+            canvasHost.focusable = true;
+            canvasHost.RegisterCallback<PointerDownEvent>(_ => canvasHost.Focus());
             canvasScroll.Add(canvasHost);
             holder.Add(canvasScroll);
             SyncCanvasSize();
@@ -290,6 +338,9 @@ namespace Escult.ProcGen
             tabEsn.RegisterValueChangedCallback(e => ShowTab(esn: e.newValue));
             tabs.Add(tabResults);
             tabs.Add(tabEsn);
+            var hide = new ToolbarButton(() => SetRightPaneVisible(false)) { text = "✕", tooltip = "Hide this panel" };
+            hide.style.marginLeft = 4;
+            tabs.Add(hide);
             pane.Add(tabs);
 
             resultsTab = new ScrollView { style = { flexGrow = 1 } };
@@ -330,6 +381,32 @@ namespace Escult.ProcGen
             resultsTab.style.display = esn ? DisplayStyle.None : DisplayStyle.Flex;
         }
 
+        void SetRightPaneVisible(bool visible)
+        {
+            if (rightSplit == null) return;
+            if (visible && rightCollapsed) { rightSplit.UnCollapse(); rightCollapsed = false; }
+            else if (!visible && !rightCollapsed) { rightSplit.CollapseChild(1); rightCollapsed = true; }
+            if (panelToggle != null) panelToggle.SetValueWithoutNotify(visible);
+        }
+
+        /// <summary>(Re)build the canvas-vs-panel split, docking the panel on the side or the bottom.</summary>
+        void RebuildDock()
+        {
+            if (mainHost == null) return;
+            bool wasVisible = !rightCollapsed;
+            mainHost.Clear();
+            rightSplit = new TwoPaneSplitView(1,
+                panelBottom ? 220 : 330,
+                panelBottom ? TwoPaneSplitViewOrientation.Vertical : TwoPaneSplitViewOrientation.Horizontal)
+            { style = { flexGrow = 1 } };
+            rightSplit.Add(canvasPane);
+            rightSplit.Add(rightPane);
+            mainHost.Add(rightSplit);
+            rightCollapsed = false;
+            SyncCanvasSize();
+            if (!wasVisible) rootVisualElement.schedule.Execute(() => SetRightPaneVisible(false));
+        }
+
         VisualElement BuildStatusBar()
         {
             var bar = new VisualElement
@@ -364,7 +441,6 @@ namespace Escult.ProcGen
         {
             if (rootVisualElement.panel == null) return;
 
-            // any edit invalidates an active replay
             if (canvas.ReplayStep >= 0) StopReplay();
 
             lastParse = doc.Parse();
@@ -482,14 +558,13 @@ namespace Escult.ProcGen
 
         void RebuildLegendIfNeeded()
         {
-            // deferred one tick: never tear down elements from inside their own callbacks
             rootVisualElement.schedule.Execute(RebuildLegendNow);
         }
 
         void RebuildLegendNow()
         {
             if (legendPane == null) return;
-            string sig = doc.ToEsnText();          // legend UI mirrors wiring/attrs too, so key on full content
+            string sig = doc.ToEsnText();
             if (sig == legendSignature) return;
             legendSignature = sig;
             legendPane.Clear();
@@ -578,7 +653,11 @@ namespace Escult.ProcGen
                 kv.Value.style.backgroundColor = kv.Key == tool
                     ? new Color(0.28f, 0.45f, 0.7f, 0.9f)
                     : new Color(0, 0, 0, 0f);
-            statusRight.text = tool == StudioTool.Wire ? "wiring: click an altar, then click gates" : "";
+            statusRight.text = tool == StudioTool.Wire ? "wiring: click an altar, then click gates"
+                             : tool == StudioTool.Gate ? "gate: pick which gate in 'Paint gate' to add cells to it"
+                             : tool == StudioTool.Select ? "select: cursor only, nothing changes on click"
+                             : tool == StudioTool.Hand ? "hand: drag to pan (middle-drag pans with any tool)"
+                             : "";
             canvasHost?.MarkDirtyRepaint();
         }
 
@@ -591,9 +670,11 @@ namespace Escult.ProcGen
             var focused = rootVisualElement.focusController?.focusedElement as VisualElement;
             bool inText = focused != null && (focused is TextField || focused.GetFirstAncestorOfType<TextField>() != null);
 
+            // Undo / redo work everywhere except while typing in a text field.
             if (e.ctrlKey && e.keyCode == KeyCode.Z && !inText)
             {
-                doc.Undo(); e.StopPropagation();
+                if (e.shiftKey) doc.Redo(); else doc.Undo();
+                e.StopPropagation();
                 return;
             }
             if (e.ctrlKey && e.keyCode == KeyCode.Y && !inText)
@@ -605,9 +686,11 @@ namespace Escult.ProcGen
 
             switch (e.keyCode)
             {
+                case KeyCode.V: case KeyCode.Escape: SelectTool(StudioTool.Select); break;
+                case KeyCode.H: SelectTool(StudioTool.Hand); break;
                 case KeyCode.Q: SelectTool(StudioTool.Wire); break;
-                case KeyCode.W: SelectTool(StudioTool.Wall); break;
-                case KeyCode.E: SelectTool(StudioTool.Ground); break;
+                case KeyCode.B: SelectTool(StudioTool.Wall); break;
+                case KeyCode.G: SelectTool(StudioTool.Ground); break;
                 case KeyCode.R: SelectTool(StudioTool.Pit); break;
                 case KeyCode.T: SelectTool(StudioTool.Gate); break;
                 case KeyCode.A: SelectTool(StudioTool.Altar); break;
@@ -642,10 +725,34 @@ namespace Escult.ProcGen
 
         void StopReplay()
         {
+            StopAutoPlay();
             canvas.ReplayStep = -1;
             canvas.Replay = null;
             if (replayBar != null) replayBar.style.display = DisplayStyle.None;
             canvasHost?.MarkDirtyRepaint();
+        }
+
+        void ToggleAutoPlay()
+        {
+            if (replayTimer != null) { StopAutoPlay(); return; }
+            if (canvas.Replay == null) return;
+            if (canvas.ReplayStep >= canvas.Replay.Frames.Count - 1) SetReplayStep(0);   // restart from the top
+            if (replayPlayBtn != null) replayPlayBtn.text = "⏸";
+            replayTimer = rootVisualElement.schedule.Execute(AutoTick).Every(replayIntervalMs);
+        }
+
+        void AutoTick()
+        {
+            if (canvas.Replay == null) { StopAutoPlay(); return; }
+            if (canvas.ReplayStep >= canvas.Replay.Frames.Count - 1) { StopAutoPlay(); return; }
+            SetReplayStep(canvas.ReplayStep + 1);
+        }
+
+        void StopAutoPlay()
+        {
+            replayTimer?.Pause();
+            replayTimer = null;
+            if (replayPlayBtn != null) replayPlayBtn.text = "▶";
         }
 
         void SetReplayStep(int step)
@@ -657,6 +764,69 @@ namespace Escult.ProcGen
             var f = canvas.Replay.Frames[step];
             replayCaption.text = $"step {step}/{canvas.Replay.Frames.Count - 1} — {f.Caption}   souls: {f.Souls}";
             canvasHost.MarkDirtyRepaint();
+        }
+
+        // ==================================================================
+        //  recent files
+        // ==================================================================
+
+        static List<string> GetRecent()
+        {
+            var raw = EditorPrefs.GetString(RecentKey, "");
+            return raw.Split('\n').Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+        }
+
+        static void AddRecent(string path)
+        {
+            path = Path.GetFullPath(path);
+            var list = GetRecent();
+            list.RemoveAll(p => string.Equals(Path.GetFullPath(p), path, StringComparison.OrdinalIgnoreCase));
+            list.Insert(0, path);
+            if (list.Count > 12) list = list.Take(12).ToList();
+            EditorPrefs.SetString(RecentKey, string.Join("\n", list));
+        }
+
+        void ShowLoadMenu()
+        {
+            var m = new GenericMenu();
+            m.AddItem(new GUIContent("Load ESN file…"), false, ActionLoadEsn);
+            m.AddItem(new GUIContent("Load level prefab…"), false, ActionImportPrefab);
+            var recents = GetRecent();
+            if (recents.Count > 0)
+            {
+                m.AddSeparator("");
+                foreach (var p in recents)
+                {
+                    string cap = "Recent/" + MenuCaption(p);
+                    string path = p;
+                    if (File.Exists(p)) m.AddItem(new GUIContent(cap), false, () => LoadEsnFile(path));
+                    else m.AddDisabledItem(new GUIContent(cap + "  (missing)"));
+                }
+                m.AddSeparator("Recent/");
+                m.AddItem(new GUIContent("Recent/Clear list"), false, () => EditorPrefs.DeleteKey(RecentKey));
+            }
+            m.ShowAsContext();
+        }
+
+        static string MenuCaption(string esnPath)
+        {
+            string fn = Path.GetFileName(esnPath);
+            if (fn.EndsWith(".esn.txt")) fn = fn.Substring(0, fn.Length - ".esn.txt".Length);
+            // disambiguate same-named levels by their parent folder
+            string parent = Path.GetFileName(Path.GetDirectoryName(esnPath) ?? "");
+            string cap = parent.Length > 0 && !string.Equals(parent, fn, StringComparison.OrdinalIgnoreCase)
+                ? $"{fn}  ({parent})" : fn;
+            return cap.Replace('/', '⁄');   // keep GenericMenu from treating it as a submenu
+        }
+
+        void ShowSaveMenu()
+        {
+            var m = new GenericMenu();
+            m.AddItem(new GUIContent("Save ESN only"), false, () => ActionSaveEsn(false));
+            m.AddItem(new GUIContent("Save ESN + emit artifacts"), false, () => ActionSaveEsn(true));
+            m.AddItem(new GUIContent("Build level prefab"), false, () => ActionBuildPrefab(false));
+            m.AddItem(new GUIContent("Build prefab + insert into scene"), false, () => ActionBuildPrefab(true));
+            m.ShowAsContext();
         }
 
         // ==================================================================
@@ -694,6 +864,7 @@ namespace Escult.ProcGen
             doc = d;
             HookDoc();
             legendSignature = "\0invalid";
+            AddRecent(path);
             OnDocChanged();
         }
 
@@ -725,21 +896,52 @@ namespace Escult.ProcGen
             return s.Trim();
         }
 
-        void ActionSaveEsn(bool emitAll)
+        string WriteEsn()
         {
             string folder = LevelFolder();
             Directory.CreateDirectory(folder);
             string esnPath = Path.Combine(folder, Sanitized(doc.Name) + ".esn.txt");
             File.WriteAllText(esnPath, doc.ToEsnText(), new UTF8Encoding(false));
+            AddRecent(esnPath);
+            return esnPath;
+        }
 
+        void ActionSaveEsn(bool emitAll)
+        {
+            string esnPath = WriteEsn();
             if (emitAll)
             {
-                string report = EscultCli.Check(esnPath, RequestedTier());
-                UpdateResults(report);
+                UpdateResults(EscultCli.Check(esnPath, RequestedTier()));
                 ShowTab(esn: false);
             }
-            EscultCli.RefreshIfInsideAssets(folder);
+            EscultCli.RefreshIfInsideAssets(Path.GetDirectoryName(esnPath));
             statusLeft.text = (emitAll ? "artifacts emitted: " : "saved: ") + esnPath;
+        }
+
+        /// <summary>Primary Save: ESN + all artifacts + (re)build the level prefab in one click.</summary>
+        void ActionSaveBoth()
+        {
+            string esnPath = WriteEsn();
+            UpdateResults(EscultCli.Check(esnPath, RequestedTier()));
+            ShowTab(esn: false);
+
+            lastParse = doc.Parse();
+            if (lastParse.HasErrors || lastParse.Topology == null)
+            {
+                statusLeft.text = "saved ESN + artifacts (parse errors — prefab skipped, see Results)";
+                return;
+            }
+            var res = EscultPrefabConverter.BuildPrefab(lastParse.Topology);
+            if (!res.Ok)
+            {
+                statusLeft.text = "saved ESN + artifacts; prefab FAILED: " + res.Error;
+                return;
+            }
+            var asset = AssetDatabase.LoadAssetAtPath<GameObject>(res.PrefabPath);
+            if (asset != null) EditorGUIUtility.PingObject(asset);
+            statusLeft.text = "saved ESN + artifacts + prefab: " + res.PrefabPath
+                            + (res.Warnings.Count > 0 ? "  (" + res.Warnings.Count + " warning(s), see Console)" : "");
+            if (res.Warnings.Count > 0) Debug.Log("Escult Studio prefab warnings:\n- " + string.Join("\n- ", res.Warnings));
         }
 
         void ActionBuildPrefab(bool insertIntoScene)

@@ -1,0 +1,10 @@
+{
+  "name": "level_3_new_-_put_as_lvl_7_variant",
+  "valid": false,
+  "tier": "unrated",
+  "vectors": {  },
+  "checks": { "V2": "FAIL — solver error: state space exceeded 400000 nodes — level too large for exhaustive solve" },
+  "solutionCount": 0,
+  "reachableStates": 0,
+  "deadEndStates": 0
+}

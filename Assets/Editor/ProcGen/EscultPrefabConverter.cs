@@ -23,16 +23,26 @@ namespace Escult.ProcGen
     public static class EscultPrefabConverter
     {
         // ---------- project assets the converter builds from ----------
-        const string FloorTilePath  = "Assets/Sprites/BasicTiles/floor.asset";
-        const string PitTilePath    = "Assets/Sprites/BasicTiles/pit.asset";
-        const string WallTilePath   = "Assets/Sprites/BasicTiles/walls.asset";
-        const string GateTilePath   = "Assets/Sprites/BasicTiles/gate.asset";
+        // Terrain uses the shipped "Tiles Final" tileset (tile sheet.psd) — the same tiles the
+        // released levels render — with a graceful fall back to the old BasicTiles placeholders.
+        const string FloorTilePath  = "Assets/Prefabs/TileMaps/Tiles Final/tile sheet_5.asset";
+        const string PitTilePath    = "Assets/Prefabs/TileMaps/Tiles Final/Hell Tile 1.asset";
+        const string WallTilePath   = "Assets/Prefabs/TileMaps/Tiles Final/tile sheet_60.asset";
+        const string GateTilePath   = "Assets/Prefabs/TileMaps/Tiles Final/tile sheet_42.asset";
+        const string FloorTileFallback = "Assets/Sprites/BasicTiles/floor.asset";
+        const string PitTileFallback   = "Assets/Sprites/BasicTiles/pit.asset";
+        const string WallTileFallback  = "Assets/Sprites/BasicTiles/walls.asset";
+        const string GateTileFallback  = "Assets/Sprites/BasicTiles/gate.asset";
         const string GroundPrefabPath = "Assets/Prefabs/TileMaps/Ground.prefab";
         const string HellPrefabPath   = "Assets/Prefabs/TileMaps/Hell.prefab";
         const string WallsPrefabPath  = "Assets/Prefabs/TileMaps/Collision - Walls.prefab";
         const string GatePrefabPath   = "Assets/Prefabs/TileMaps/Gate.prefab";
         const string AlterPrefabPath  = "Assets/Prefabs/Alter.prefab";
         const string DoorPrefabPath   = "Assets/Prefabs/Door.prefab";
+        // Decorative "souls remaining" panel every shipped level carries (child of the Grid,
+        // sorting layer "Props", fixed top-left placement). Faithfully replicated here.
+        const string BestPanelSpritePath = "Assets/Sprites/Best/Asset 34.png";
+        static readonly Vector3 BestPanelLocalPos = new Vector3(-2.55f, 4.55f, 0f);
 
         public const string GeneratedPrefabFolder = "Assets/Prefabs/Levels/Generated";
         public const float CellSize = 0.64f;   // matches every existing level Grid
@@ -51,6 +61,14 @@ namespace Escult.ProcGen
         {
             var a = AssetDatabase.LoadAssetAtPath<T>(path);
             if (a == null) res.Error = $"required asset missing: {path}";
+            return a;
+        }
+
+        static TileBase LoadTile(string path, string fallback, ConvertResult res)
+        {
+            var a = AssetDatabase.LoadAssetAtPath<TileBase>(path);
+            if (a == null) a = AssetDatabase.LoadAssetAtPath<TileBase>(fallback);
+            if (a == null) res.Error = $"required tile missing: {path} (and fallback {fallback})";
             return a;
         }
 
@@ -75,10 +93,10 @@ namespace Escult.ProcGen
         {
             var res = new ConvertResult { Topology = t };
 
-            var floorTile = LoadRequired<TileBase>(FloorTilePath, res);
-            var pitTile   = LoadRequired<TileBase>(PitTilePath, res);
-            var wallTile  = LoadRequired<TileBase>(WallTilePath, res);
-            var gateTile  = LoadRequired<TileBase>(GateTilePath, res);
+            var floorTile = LoadTile(FloorTilePath, FloorTileFallback, res);
+            var pitTile   = LoadTile(PitTilePath, PitTileFallback, res);
+            var wallTile  = LoadTile(WallTilePath, WallTileFallback, res);
+            var gateTile  = LoadTile(GateTilePath, GateTileFallback, res);
             var groundPrefab = LoadRequired<GameObject>(GroundPrefabPath, res);
             var hellPrefab   = LoadRequired<GameObject>(HellPrefabPath, res);
             var wallsPrefab  = LoadRequired<GameObject>(WallsPrefabPath, res);
@@ -117,6 +135,8 @@ namespace Escult.ProcGen
                 var hell   = NewLayer(hellPrefab);
                 var walls  = NewLayer(wallsPrefab);
 
+                AddBestPanel(gridGo, res);
+
                 // ---- terrain (Topology.Terrain already has over=PIT gates resolved to 'P') ----
                 for (int i = 0; i < t.N; i++)
                 {
@@ -127,6 +147,18 @@ namespace Escult.ProcGen
                         case 'P': hell.SetTile(cell, pitTile); break;
                         case 'W': walls.SetTile(cell, wallTile); break;
                     }
+                }
+
+                // ---- auto-tile polish: replace the flat placeholders above with the same
+                // wall/pit/floor variants + WallTops/Props decoration the shipped levels use,
+                // learned from those levels themselves (there are no RuleTiles in this project) ----
+                try
+                {
+                    EscultAutoTiler.Decorate(t, gridGo, ground, hell, walls, res.Warnings);
+                }
+                catch (Exception ex)
+                {
+                    res.Warnings.Add("auto-tiler polish failed (" + ex.Message + ") — kept flat placeholder tiles");
                 }
 
                 // ---- gates: one Gate prefab instance (tilemap + GateContoller) per id ----
@@ -214,6 +246,20 @@ namespace Escult.ProcGen
             {
                 if (root != null) UnityEngine.Object.DestroyImmediate(root);
             }
+        }
+
+        /// <summary>Add the decorative "BestSoulsRemaining" panel every shipped level has.</summary>
+        static void AddBestPanel(GameObject gridGo, ConvertResult res)
+        {
+            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(BestPanelSpritePath);
+            if (sprite == null) { res.Warnings.Add("Best decoration sprite missing: " + BestPanelSpritePath + " — panel skipped"); return; }
+            var go = new GameObject("BestSoulsRemaining");
+            go.transform.SetParent(gridGo.transform, false);
+            go.transform.localPosition = BestPanelLocalPos;
+            var sr = go.AddComponent<SpriteRenderer>();
+            sr.sprite = sprite;
+            sr.sortingLayerName = "Props";
+            sr.sortingOrder = 0;
         }
 
         static string Sanitize(string name)

@@ -1,13 +1,3 @@
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
-using UnityEngine.Tilemaps;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.IO;
 using Escult.ProcGen;
 
 /// <summary>
@@ -18,6 +8,6 @@ public static class BridgeScratch
 {
     public static string Run()
     {
-        return Escult.ProcGen.EscultCli.CheckAll();
+        return EscultCli.CheckAll();
     }
 }
